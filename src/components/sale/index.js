@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
+import Top from '../partials/top';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const Sale = () => (
-    <RaisedButton label="Default" />
-);
+class Sale extends Component {
+    render (){
+        return (
+            
+            <Top/>
+
+        );
+    }
+}
 
 export default Sale;

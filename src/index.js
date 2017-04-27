@@ -15,15 +15,15 @@ import reducers from './reducers';
 const createStoreWithMiddleware = applyMiddleware()(createStore);
 
 ReactDOM.render(
-  <Provider store={createStoreWithMiddleware(reducers)}>
-    <MuiThemeProvider>
-      <Router history={browserHistory}>
-        <Route >
-          <Route path='/menu' component={Menu} />
-          <Route path='/Shop' component={Shop} />
-          <Route path='/Sale' component={Sale} />
-        </Route>
-      </Router>
-    </MuiThemeProvider>
-  </Provider>
-  , document.querySelector('.container'));
+    <Provider store={createStoreWithMiddleware(reducers)}>
+        <MuiThemeProvider>
+            <Router history={browserHistory}>
+                <Route >
+                    <Route path='/menu' component={Menu} />
+                    <Route path='/Shop' component={Shop} />
+                    <Route path='/Sale' component={Sale} />
+                </Route>
+            </Router>
+        </MuiThemeProvider>
+    </Provider>
+    , document.querySelector('.container'));
