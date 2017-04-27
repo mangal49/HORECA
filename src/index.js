@@ -8,6 +8,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Menu from './components/menu';
 import Shop from './components/shop'
 import Sale from './components/sale'
+import Contact from './components/contact'
 
 
 import reducers from './reducers';
@@ -22,6 +23,7 @@ ReactDOM.render(
           <Route path='/menu' component={Menu} />
           <Route path='/Shop' component={Shop} />
           <Route path='/Sale' component={Sale} />
+          <Route path='/Contact' component={Contact} />
         </Route>
       </Router>
     </MuiThemeProvider>
