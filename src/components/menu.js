@@ -10,7 +10,11 @@ class Header extends Component {
             </li >,
             <li className='nav-item' key='signout'>
                 <Link className='nav-link' to='/Sale'>Sale</Link>
+            </li>,
+            <li className='nav-item' key='contact'>
+                <Link className='nav-link' to='/Contact'>Contact</Link>
             </li>
+
         ];
     }
 
