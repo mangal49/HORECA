@@ -16,6 +16,7 @@ const style = { margin: 5 };
 const styleMenu = { marginLeft: "5px solid #000"/*, textDecorationLine: "underline" */ };
 const styleSelectMenu = { borderLeft: "5px solid rgb(0, 188, 212)" /*3498db*/, /*textDecorationLine: "underline", */backgroundColor: '#FAFAFA' };
 
+
 const styleHr = {
     margin: 0,
     marginTop: "0px",
@@ -25,7 +26,7 @@ const styleHr = {
     border: "none",
     backgroundColor: "#E0E0E0"
 };
-const styleTextMent = { marginLeft: '-15px' };
+const styleTextMenu = { marginLeft: '-15px' };
 
 class DrawerMenu extends React.Component {
     constructor(props) {
@@ -88,7 +89,7 @@ class DrawerMenu extends React.Component {
                 handleClose={this.handleClose}
                 styleMenu={styleMenu}
                 styleSelectMenu={styleSelectMenu}
-                styleTextMenu={styleTextMent}
+                styleTextMenu={styleTextMenu}
                 selectMenu={this.state.selectMenu}
                 onSelectMenu={this.onSelectMenu}
             />;
@@ -97,7 +98,7 @@ class DrawerMenu extends React.Component {
                 handleClose={this.handleClose}
                 styleMenu={styleMenu}
                 styleSelectMenu={styleSelectMenu}
-                styleTextMenu={styleTextMent}
+                styleTextMenu={styleTextMenu}
                 selectMenu={this.state.selectMenu}
                 onSelectMenu={this.onSelectMenu}
             />;
@@ -119,7 +120,7 @@ class DrawerMenu extends React.Component {
                     <SignOUt
                         handleClose={this.handleClose}
                         styleMenu={styleMenu}
-                        styleTextMenu={styleTextMent}
+                        styleTextMenu={styleTextMenu}
                     />
                 </List>
                 {/*<MenuItem onTouchTap={() => this.handleClose()} primaryText="Sale" leftIcon={<Group />} />*/}
