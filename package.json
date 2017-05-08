@@ -31,9 +31,11 @@
     "lodash": "^3.10.1",
     "material-ui": "^0.17.4",
     "react": "^15.4.0",
+    "react-custom-scrollbars": "^4.1.1",
     "react-dom": "^15.4.0",
     "react-redux": "^4.0.0",
     "react-router": "^2.0.1",
+    "react-sticky": "^5.0.8",
     "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.0.4"
   }

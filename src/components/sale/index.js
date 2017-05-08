@@ -6,7 +6,7 @@ class Sale extends Component {
     render (){
         return (
             
-            <Top/>
+            <div>Test Children</div>
 
         );
     }
