@@ -53,7 +53,7 @@ class AvatarShow extends React.Component {
             <div>
                 <ListItem
                     disabled={true}
-                    style={{ textAlign: 'center', height: '71px', backgroundColor: "#D7CCC8"/*"rgb(0, 188, 212)"*/, marginTop: "0px" }}
+                    style={{ textAlign: 'center', height: '71px', backgroundColor: "rgb(0, 188, 212)"/*"rgb(0, 188, 212),#D7CCC8"*/, marginTop: "0px" }}
                 >
                     <div>
                         <Avatar src="../images/uxceo-128.jpg"

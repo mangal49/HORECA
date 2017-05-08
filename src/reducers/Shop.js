@@ -23,6 +23,7 @@ export default (state = initialState, action) => {
             };
         case ADD_TO_INVOICE:
             let order = action.payload;
+            order.amount = 1;
             let index = state.invoiceOrder.findIndex((rs) => { return rs.id == order.id });
             if (index == -1) {
                 return {

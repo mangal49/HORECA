@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
+import Loading from '../Loading';
 
 import { GridList, GridTile } from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
@@ -62,6 +63,7 @@ class OrderList extends React.Component {
         showCol: 4,
         showTileData: [],
         open: false,
+        loading: true
     }
     updateState(width) {
         this.divShowTitle = { ...this.divShowTitle, width: '70%' };
@@ -85,6 +87,7 @@ class OrderList extends React.Component {
     }
     componentDidMount() {
         //this.findOrders(this.props.searchFavorite);
+        setTimeout(() => { this.setState({ loading: false }); }, 500);
     }
     componentWillReceiveProps = (nextProps) => {
         this.updateState(nextProps.width);
@@ -126,6 +129,11 @@ class OrderList extends React.Component {
         this.setState({ open: false });
     };
     render() {
+        if (this.state.loading) {
+            return (
+                <Loading />
+            );
+        }
         let i = 0;
         return (
             <div style={styles.root}>
@@ -172,7 +180,7 @@ class OrderList extends React.Component {
                                         style={styles.divShowTitle}
                                     >
                                         <div style={{
-                                            whiteSpace: 'nowrap', overflow: 'hidden',textOverflow: 'ellipsis',
+                                            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
                                         }}
                                         >
                                             {tile.title}
@@ -186,7 +194,7 @@ class OrderList extends React.Component {
                                     </div>
                                     <div
                                         style={{
-                                            float: 'right', textAlign: 'right',display: 'inline', marginRight: '-10px',
+                                            float: 'right', textAlign: 'right', display: 'inline', marginRight: '-10px',
                                         }}
                                     >
                                         <IconButton

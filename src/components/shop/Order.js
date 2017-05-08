@@ -39,7 +39,7 @@ const styles = {
         fontSize: '17px',
     },
     Scrollbars: {
-        height:0,
+        height: 0,
     },
     divList: {
         position: 'relative',//relative,absolute
@@ -64,25 +64,25 @@ class Order extends React.Component {
         };
     }
 
-    updateStyle(docked,width,height){
+    updateStyle(docked, width, height) {
         if (docked) {
-            styles.container = { ...styles.container , top: '0px'};
+            styles.container = { ...styles.container, top: '0px' };
             styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: width - 255 };
-            styles.Scrollbars = { ...styles.Scrollbars , height: height -110};
+            styles.Scrollbars = { ...styles.Scrollbars, height: height - 110 };
         } else {
-            styles.container = { ...styles.container , top: '56px'};
+            styles.container = { ...styles.container, top: '56px' };
             styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: '100%' };
-            styles.Scrollbars = { ...styles.Scrollbars , height: height -160};
+            styles.Scrollbars = { ...styles.Scrollbars, height: height - 160 };
         }
     }
 
     componentWillMount() {
         this.props.setRole('SHOP');
-        this.updateStyle(this.props.docked,this.props.width,this.props.height);
+        this.updateStyle(this.props.docked, this.props.width, this.props.height);
     }
 
     componentWillReceiveProps(nextProps, nextState) {
-        this.updateStyle(nextProps.docked,nextProps.width,nextProps.height);
+        this.updateStyle(nextProps.docked, nextProps.width, nextProps.height);
     }
 
     handleChange = (value) => {

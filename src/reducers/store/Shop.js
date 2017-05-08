@@ -1,6 +1,32 @@
 export const shopData = {
     showTileData: [],
-    invoiceOrder: [],
+    invoiceOrder: [
+        {
+            id: 0,
+            img: '../images/grid-list/00-52-29-429_640.jpg',
+            title: 'Breakfast',
+            author: 'jill111',
+            favorite: true,
+            amount: 1,
+        },
+        {
+            id: 1,
+            img: '../images/grid-list/burger-827309_640.jpg',
+            title: 'Tasty burger',
+            author: 'pashminu',
+            favorite: true,
+            amount: 2,
+        },
+        {
+            id: 2,
+            img: '../images/grid-list/camera-813814_640.jpg',
+            title: 'Camera',
+            author: 'Danson67',
+            favorite: false,
+            amount: 10,
+        },
+
+    ],
     tilesData: [
         {
             id: 0,
