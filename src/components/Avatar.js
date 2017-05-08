@@ -33,6 +33,10 @@ const styles = {
         height: "1px",
         border: "none",
         backgroundColor: "#BDBDBD"
+    },
+    UserText: {
+        color: 'rgba(0, 138, 255, 0.85)',
+        fontSize: '12px',
     }
 };
 
@@ -53,7 +57,7 @@ class AvatarShow extends React.Component {
             <div>
                 <ListItem
                     disabled={true}
-                    style={{ textAlign: 'center', height: '71px', backgroundColor: "#D7CCC8"/*"rgb(0, 188, 212)"*/, marginTop: "0px" }}
+                    style={{ textAlign: 'center', height: '100px'/*, backgroundColor: "rgb(0, 188, 212)"*/, marginTop: "10px" }}
                 >
                     <div>
                         <Avatar src="../images/uxceo-128.jpg"
@@ -61,11 +65,9 @@ class AvatarShow extends React.Component {
                             style={styles.Avatar}
                         />
                         <div>
-                            <Chip
-                                style={styles.chip}
-                            >
-                                MK Restaurant
-                        </Chip>
+                            MK Restaurant
+                            <br />
+                            <span style={styles.UserText} >Taylor Swift </span>
                         </div>
                     </div>
                 </ListItem>

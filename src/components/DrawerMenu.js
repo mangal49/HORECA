@@ -13,8 +13,8 @@ import SaleMenu from './sale/SaleMenu';
 import ShopMenu from './shop/ShopMenu';
 
 const style = { margin: 5 };
-const styleMenu = { marginLeft: "5px solid #000", textDecorationLine: "underline" };
-const styleSelectMenu = { borderLeft: "5px solid #BDBDBD" /*3498db*/, textDecorationLine: "underline", backgroundColor:'#FAFAFA' };
+const styleMenu = { marginLeft: "5px solid #000"/*, textDecorationLine: "underline" */ };
+const styleSelectMenu = { borderLeft: "5px solid rgb(0, 188, 212)" /*3498db*/, /*textDecorationLine: "underline", */backgroundColor: '#FAFAFA' };
 
 const styleHr = {
     margin: 0,
@@ -103,6 +103,7 @@ class DrawerMenu extends React.Component {
             />;
 
         }
+
 
         return (
             <Drawer
