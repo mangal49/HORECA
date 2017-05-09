@@ -7,7 +7,7 @@ export const shopData = {
             title: 'Breakfast 7777',
             author: 'jill111 XXXXX',
             favorite: true,
-            amount: 1,
+            amount: 19,
         },
         {
             id: 1,
@@ -15,7 +15,7 @@ export const shopData = {
             title: 'Tasty burger',
             author: 'pashminu',
             favorite: true,
-            amount: 2,
+            amount: 298,
         },
         {
             id: 2,
@@ -23,7 +23,7 @@ export const shopData = {
             title: 'Camera',
             author: 'Danson67',
             favorite: false,
-            amount: 10,
+            amount: 100,
         },
 
     ],

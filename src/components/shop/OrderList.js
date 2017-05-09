@@ -18,6 +18,9 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 import Paper from 'material-ui/Paper';
 
+import Add from 'material-ui/svg-icons/content/add-circle';
+import Remove from 'material-ui/svg-icons/content/remove-circle';
+
 const styles = {
     root: {
         display: 'flex',
@@ -38,7 +41,7 @@ const styles = {
         //color: 'rgb(0, 188, 212)',
     },
     Paper: {
-        height: 220,
+        height: 190,
         width: '100%',
         textAlign: 'center',
         display: 'inline-block',
@@ -138,16 +141,68 @@ class OrderList extends React.Component {
         return (
             <div style={styles.root}>
                 <GridList
-                    cellHeight={220}
+                    cellHeight={190}
                     style={styles.gridList}
                     cols={this.state.showCol}
                 >
                     {this.state.showTileData.map((tile, index) => {
                         let key = tile.img + (i++);
                         let checkInvoice = this.props.invoiceOrder.findIndex((rs) => { return rs.id == tile.id });
+                        let invoiceData = this.props.invoiceOrder.find((rs) => { return rs.id == tile.id });
                         let paperBackground = '';
+                        let iconChangeAmount = '';
                         if (checkInvoice > -1) {
                             paperBackground = '#C8E6C9';
+                            //paperBackground = 'white';
+                            iconChangeAmount =
+                                <div>
+                                    <IconButton
+                                        style={{
+                                            padding: 0,
+                                            position: 'absolute',
+                                            top: 35,
+                                            width: 35,
+                                            left: 4,
+                                            background: 'linear-gradient(to left, rgba(0,0,0,1) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)',
+                                        }}
+                                    >
+                                        <Remove
+                                            color="#EF5350"
+                                            style={styles.Icon}
+                                        />
+                                    </IconButton>
+                                    <IconButton
+                                        style={{
+                                            padding: 0,
+                                            position: 'absolute',
+                                            top: 35,
+                                            width: 35,
+                                            right: 4,
+                                            background: 'linear-gradient(to right, rgba(0,0,0,1) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)',
+                                        }}
+                                    >
+                                        <Add
+                                            color="#64DD17"
+                                            style={styles.Icon}
+                                        />
+                                    </IconButton>
+                                    <div
+                                        style={{
+                                            padding: 0,
+                                            position: 'absolute',
+                                            bottom: 40,
+                                            right: '30%',
+                                            color: 'white',//#E0E0E0
+                                            width: '40%',
+                                            height: '35px',
+                                            fontSize: '30px',
+                                            background: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)',
+                                        }}
+                                    >
+                                        {invoiceData.amount}
+                                    </div>
+
+                                </div>;
                         } else {
                             paperBackground = 'white';
                         }
@@ -159,14 +214,14 @@ class OrderList extends React.Component {
                         }
                         return (
                             <Paper
-                                style={{ ...styles.Paper, backgroundColor: paperBackground }}
+                                style={{ ...styles.Paper, backgroundColor: paperBackground, position: 'relative' }}
                                 zDepth={1}
                                 key={key}
                                 ref={key}
                             >
                                 <GridTile
                                     titleStyle={styles.titleStyle}
-                                    style={{ cursor: 'pointer', }}
+                                    style={{ cursor: 'pointer', position: 'relative' }}
                                     onTouchTap={(e) => { this.selectOrder(e, tile.id, tile) }}
                                 >
                                     <img src={tile.img} />
@@ -190,8 +245,12 @@ class OrderList extends React.Component {
                                             whiteSpace: 'nowrap', overflow: 'hidden',
                                             textOverflow: 'ellipsis', marginTop: '-2px'
                                         }}
-                                        >{tile.author}</div>
+                                        >
+                                            {tile.author}
+                                        </div>
                                     </div>
+
+
                                     <div
                                         style={{
                                             float: 'right', textAlign: 'right', display: 'inline', marginRight: '-10px',
@@ -217,6 +276,7 @@ class OrderList extends React.Component {
                                         </Link>
                                     </div>
                                 </div>
+                                {iconChangeAmount}
                             </Paper>
                         );
                     })}
