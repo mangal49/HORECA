@@ -203,7 +203,8 @@ class OrderList extends React.Component {
                                         >
                                             {star}
                                         </IconButton>
-                                        <Link to="/shop/itemdetail">
+
+                                        <Link to="/shop/itemdetail" name="">
                                             <IconButton
                                                 style={{ padding: 0, width: 25, marginRight: 10 }}
                                             >

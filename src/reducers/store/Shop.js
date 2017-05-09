@@ -4,8 +4,8 @@ export const shopData = {
         {
             id: 0,
             img: '../images/grid-list/00-52-29-429_640.jpg',
-            title: 'Breakfast',
-            author: 'jill111',
+            title: 'Breakfast 7777',
+            author: 'jill111 XXXXX',
             favorite: true,
             amount: 1,
         },
@@ -27,11 +27,13 @@ export const shopData = {
         },
 
     ],
+
+
     tilesData: [
         {
             id: 0,
             img: '../images/grid-list/00-52-29-429_640.jpg',
-            title: 'Breakfast',
+            title: 'Breakfast Test',
             author: 'jill111',
             favorite: true,
         },

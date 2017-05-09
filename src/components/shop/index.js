@@ -41,8 +41,8 @@ const styles2 = {
 const tilesData = [
     {
         img: 'images/grid-list/00-52-29-429_640.jpg',
-        title: 'Breakfast',
-        author: 'jill111',
+        title: 'Breakfast 88888',
+        author: 'jill111 DDDD',
     },
     {
         img: 'images/grid-list/burger-827309_640.jpg',
