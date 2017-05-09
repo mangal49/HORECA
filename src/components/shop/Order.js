@@ -61,8 +61,10 @@ class Order extends React.Component {
         super(props);
         this.state = {
             value: 'orderList',
+            invoiceAmount: "",
         };
     }
+
 
     updateStyle(docked, width, height) {
         if (docked) {
@@ -76,13 +78,20 @@ class Order extends React.Component {
         }
     }
 
+    updateShowInvoiceAmount(amount) {
+        if (amount > 0) this.setState({ invoiceAmount: ` (${amount})` });
+        else this.setState({ invoiceAmount: `` });
+    }
+
     componentWillMount() {
         this.props.setRole('SHOP');
         this.updateStyle(this.props.docked, this.props.width, this.props.height);
+        this.updateShowInvoiceAmount(this.props.invoiceOrder.length);
     }
 
     componentWillReceiveProps(nextProps, nextState) {
         this.updateStyle(nextProps.docked, nextProps.width, nextProps.height);
+        this.updateShowInvoiceAmount(nextProps.invoiceOrder.length);
     }
 
     handleChange = (value) => {
@@ -91,21 +100,19 @@ class Order extends React.Component {
         });
     };
 
-    changeView = () => {
+    render() {
         let view = null;
+        let showSearch = null;
         if (this.state.value == 'orderList') {
             view = <OrderList />;
+            showSearch = true;
         } else {
+            //this.setState({ searchShowFavorite: false });
             view = <InvoiceList />;
+            showSearch = false;
         }
-        return view;
-    }
-
-    render() {
-
         return (
             <div style={styles.container}>
-
                 <div style={styles.tabs}>
                     <Tabs
                         value={this.state.value}
@@ -121,22 +128,21 @@ class Order extends React.Component {
                                 //color: 'black'
                             }}
                         />
-                        <Tab label="รายการที่สั่งซื้อ" value="invoiceList"
+                        <Tab label={`รายการที่สั่งซื้อ${this.state.invoiceAmount}`} value="invoiceList"
                             style={{
                                 ...styles.tab,
                                 //color: 'black'
                             }}
                         />
                     </Tabs>
-
-                    <SearchBar />
+                    <SearchBar searchShowFavorite={showSearch} />
                     <div style={{ backgroundColor: '#FFF' /*'#F5F5F5'*/ }}>
                         <Scrollbars
                             style={styles.Scrollbars}
                         >
                             <div style={styles.divList}>
                                 <div style={styles.div} id='detail' ref='detail'>
-                                    {this.changeView()}
+                                    {view}
                                 </div>
                             </div>
                         </Scrollbars>
@@ -154,6 +160,7 @@ function mapStateToProps(state) {
         height: state.navLeftMenu.height,
         open: state.navLeftMenu.open,
         docked: state.navLeftMenu.docked,
+        invoiceOrder: state.shop.invoiceOrder,
     }
 }
 

@@ -6,12 +6,9 @@ import Star from 'material-ui/svg-icons/toggle/star';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import Search from 'material-ui/svg-icons/action/search';
 
-
 import IconButton from 'material-ui/IconButton';
 
 import TextField from 'material-ui/TextField';
-
-
 
 const styles = {
     container: {
@@ -52,9 +49,9 @@ const styles = {
 };
 
 class SearchBar extends React.Component {
-    // state = {
-    //     favorite: false
-    // }
+    constructor(props) {
+        super(props);
+    }
 
     changeFavorite = () => {
         this.props.updateSearchFavorite(!this.props.searchFavorite);
@@ -77,9 +74,10 @@ class SearchBar extends React.Component {
                 hoverColor={"gold"}
             />
         }
+        let displayFavorite = '';
+        if (!this.props.searchShowFavorite) displayFavorite = 'none';
         return (
             <div style={styles.container}>
-
                 <Search style={styles.Search} />
                 <TextField
                     hintText="สินค้า"
@@ -92,9 +90,8 @@ class SearchBar extends React.Component {
                     }}
                     onKeyUp={(e) => { this.updateSearchText(e) }}
                 />
-
                 <IconButton
-                    style={styles.IconButtonLeft}
+                    style={{ ...styles.IconButtonLeft, display: displayFavorite }}
                     onTouchTap={() => { this.changeFavorite() }}
                 >
                     {icon}
@@ -112,5 +109,9 @@ function mapStateToProps(state) {
         searchFavorite: state.search.favorite,
     }
 }
+
+SearchBar.defaultProps = {
+    searchShowFavorite: false,
+};
 
 export default connect(mapStateToProps, actions)(SearchBar);

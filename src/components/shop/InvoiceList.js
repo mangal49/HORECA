@@ -20,11 +20,51 @@ const styles = {
     Icon: {
         cursor: 'pointer',
     },
+    divContent: {
+        float: 'left',
+        width: '40%',
+    },
+    divAmount: {
+        float: 'right',
+        width: '50%',
+        marginRight: '-25px'
+    },
+    divLine: {
+        float: 'right',
+        height: 80,
+        width: 2,
+        marginTop: -10,
+        borderStyle: 'solid', borderColor: '#d9d9d9',
+        borderWidth: '0px 0px 0px 1px',
+        marginRight: -10
+    },
+    avatar: {
+        marginLeft: 20
+    }
 };
 
 class InvoiceList extends React.Component {
     state = {
         loading: true
+    }
+    updateStyle(docked, width, height) {
+        if (docked) {
+            styles.divContent = { ...styles.divContent, marginLeft: 25, width: '50%', };
+            styles.divAmount = { ...styles.divAmount, marginRight: 10, width: '40%', };
+            styles.divLine = { ...styles.divLine, marginRight: 20, };
+            styles.avatar = { ...styles.avatar, marginLeft: 20, };
+        } else {
+            styles.divContent = { ...styles.divContent, marginLeft: 0, width: '30%', };
+            styles.divAmount = { ...styles.divAmount, marginRight: -20, width: '70%', };
+            styles.divLine = { ...styles.divLine, marginRight: 0, };
+            styles.avatar = { ...styles.avatar, marginLeft: 0, };
+        }
+    }
+    componentWillMount() {
+        this.updateStyle(this.props.docked, this.props.width, this.props.height);
+    }
+    componentWillReceiveProps(nextProps, nextState) {
+        this.updateStyle(nextProps.docked, nextProps.width, nextProps.height);
     }
     componentDidMount() {
         setTimeout(() => { this.setState({ loading: false }); }, 500);
@@ -44,11 +84,19 @@ class InvoiceList extends React.Component {
                         return (
                             <div key={index}>
                                 <ListItem
-                                    leftAvatar={<Avatar src={item.img} size={80} />}
-                                    style={{ height: 100 }}
+                                    leftAvatar={<Avatar src={item.img} size={80} style={styles.avatar} />}
+                                    style={{ height: 65 }}
+                                    disabled={true}
                                 >
-                                    <div style={{ float: 'left', width: '40%' }}>
-                                        <div style={{ textAlign: 'left', marginLeft: 35, marginTop: 10, }}>
+                                    <div style={styles.divContent}>
+                                        <div style={{
+                                            textAlign: 'left',
+                                            marginLeft: 35,
+                                            marginTop: 10,
+                                            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                                            width: '100%'
+                                        }}
+                                        >
                                             {item.title}
                                         </div>
                                         <div style={{
@@ -57,13 +105,13 @@ class InvoiceList extends React.Component {
                                             marginLeft: 35,
                                             marginTop: 5,
                                             whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                                            width: '80%'
+                                            width: '100%'
                                         }}
                                         >
                                             {item.author}
                                         </div>
                                     </div>
-                                    <div style={{ float: 'right', width: '50%', marginRight: '-25px' }}>
+                                    <div style={styles.divAmount}>
                                         <IconButton
                                             style={{ float: 'right', marginRight: 0, marginTop: 5 }}
                                         >
@@ -92,20 +140,13 @@ class InvoiceList extends React.Component {
                                             />
                                         </IconButton>
                                         <div
-                                            style={{
-                                                float: 'right',
-                                                height: 80, width: 2,
-                                                marginTop: -10,
-                                                borderStyle: 'solid', borderColor: '#d9d9d9',
-                                                borderWidth: '0px 0px 0px 1px',
-                                                marginRight: -10
-                                            }}
+                                            style={styles.divLine}
                                         >
                                             &nbsp;
                                         </div>
                                     </div>
                                 </ListItem>
-                                <Divider />
+                                <Divider style={{ width: '90%', marginLeft: '5%' }} />
                             </div>
                         );
                     })}
@@ -118,7 +159,9 @@ class InvoiceList extends React.Component {
 function mapStateToProps(state) {
     return {
         invoiceOrder: state.shop.invoiceOrder,
+        docked: state.navLeftMenu.docked,
         width: state.navLeftMenu.width,
+        height: state.navLeftMenu.height,
     }
 }
 
