@@ -21,6 +21,9 @@ import Paper from 'material-ui/Paper';
 import Add from 'material-ui/svg-icons/content/add-circle';
 import Remove from 'material-ui/svg-icons/content/remove-circle';
 
+
+import SearchBar from '../SearchBar';
+
 const styles = {
     root: {
         display: 'flex',
@@ -59,6 +62,32 @@ const styles = {
         width: '98%',
         maxWidth: 'none',
     },
+
+    Scrollbars: {
+        height: 0,
+    },
+    divList: {
+        position: 'relative',//relative,absolute
+        width: '100%',
+        textAlign: 'center',
+        zIndex: 700,
+        overflowX: 'hidden',
+    },
+    div: {
+        position: 'relative',//relative,absolute
+        width: '100%',
+        textAlign: 'center',
+        zIndex: 600,
+    },
+
+    IconButton: {
+        padding: 0,
+        position: 'absolute',
+        top: 35,
+        width: 35,
+        left: 4,
+        background: 'linear-gradient(to left, rgba(0,0,0,1) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)',
+    },
 };
 
 class OrderList extends React.Component {
@@ -67,6 +96,16 @@ class OrderList extends React.Component {
         showTileData: [],
         open: false,
         loading: true
+    }
+
+    updateStyle(docked, width, height) {
+        if (docked) {
+            styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: width - 255 };
+            styles.Scrollbars = { ...styles.Scrollbars, height: height - 110 };
+        } else {
+            styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: '100%' };
+            styles.Scrollbars = { ...styles.Scrollbars, height: height - 160 };
+        }
     }
     updateState(width) {
         this.divShowTitle = { ...this.divShowTitle, width: '70%' };
@@ -87,6 +126,7 @@ class OrderList extends React.Component {
         this.setState({ showTileData: this.props.tilesData });
         this.props.updateShowOrder(this.props.tilesData);
         this.findOrders(this.props.searchFavorite);
+        this.updateStyle(this.props.docked, this.props.width, this.props.height);
     }
     componentDidMount() {
         //this.findOrders(this.props.searchFavorite);
@@ -95,9 +135,13 @@ class OrderList extends React.Component {
     componentWillReceiveProps = (nextProps) => {
         this.updateState(nextProps.width);
         this.findOrders(nextProps.searchFavorite, nextProps.searchText);
+        this.updateStyle(nextProps.docked, nextProps.width, nextProps.height);
     }
     changeFavorite = (id) => {
         this.props.changeFavorite(id);
+    }
+    componentWillUnmount() {
+        this.props.handleTransitionEnd();
     }
     findOrders(favorite = this.props.searchFavorite, searchText = this.props.searchText) {
         let rs = this.props.tilesData.filter((tiles) => {
@@ -132,155 +176,155 @@ class OrderList extends React.Component {
         this.setState({ open: false });
     };
     render() {
-        if (this.state.loading) {
-            return (
-                <Loading />
-            );
-        }
+        // if (this.state.loading) {
+        //     return (
+        //         <Loading />
+        //     );
+        // }
         let i = 0;
         return (
-            <div style={styles.root}>
-                <GridList
-                    cellHeight={190}
-                    style={styles.gridList}
-                    cols={this.state.showCol}
-                >
-                    {this.state.showTileData.map((tile, index) => {
-                        let key = tile.img + (i++);
-                        let checkInvoice = this.props.invoiceOrder.findIndex((rs) => { return rs.id == tile.id });
-                        let invoiceData = this.props.invoiceOrder.find((rs) => { return rs.id == tile.id });
-                        let paperBackground = '';
-                        let iconChangeAmount = '';
-                        if (checkInvoice > -1) {
-                            paperBackground = '#C8E6C9';
-                            //paperBackground = 'white';
-                            iconChangeAmount =
-                                <div>
-                                    <IconButton
-                                        style={{
-                                            padding: 0,
-                                            position: 'absolute',
-                                            top: 35,
-                                            width: 35,
-                                            left: 4,
-                                            background: 'linear-gradient(to left, rgba(0,0,0,1) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)',
-                                        }}
-                                    >
-                                        <Remove
-                                            color="#EF5350"
-                                            style={styles.Icon}
-                                        />
-                                    </IconButton>
-                                    <IconButton
-                                        style={{
-                                            padding: 0,
-                                            position: 'absolute',
-                                            top: 35,
-                                            width: 35,
-                                            right: 4,
-                                            background: 'linear-gradient(to right, rgba(0,0,0,1) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)',
-                                        }}
-                                    >
-                                        <Add
-                                            color="#64DD17"
-                                            style={styles.Icon}
-                                        />
-                                    </IconButton>
-                                    <div
-                                        style={{
-                                            padding: 0,
-                                            position: 'absolute',
-                                            bottom: 40,
-                                            right: '30%',
-                                            color: 'white',//#E0E0E0
-                                            width: '40%',
-                                            height: '35px',
-                                            fontSize: '30px',
-                                            background: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)',
-                                        }}
-                                    >
-                                        {invoiceData.amount}
-                                    </div>
-
-                                </div>;
-                        } else {
-                            paperBackground = 'white';
-                        }
-                        let star = null;
-                        if (tile.favorite) {
-                            star = <Star color={"gold"} style={styles.Icon} />
-                        } else {
-                            star = <StarBorder color="black" style={styles.Icon} />
-                        }
-                        return (
-                            <Paper
-                                style={{ ...styles.Paper, backgroundColor: paperBackground, position: 'relative' }}
-                                zDepth={1}
-                                key={key}
-                                ref={key}
-                            >
-                                <GridTile
-                                    titleStyle={styles.titleStyle}
-                                    style={{ cursor: 'pointer', position: 'relative' }}
-                                    onTouchTap={(e) => { this.selectOrder(e, tile.id, tile) }}
-                                >
-                                    <img src={tile.img} />
-                                </GridTile>
-                                <div
-                                    style={{
-                                        marginTop: '-5px',
-                                    }}
-                                >
-                                    <div
-                                        style={styles.divShowTitle}
-                                    >
-                                        <div style={{
-                                            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                                        }}
-                                        >
-                                            {tile.title}
-                                        </div>
-                                        <div style={{
-                                            fontSize: '12px', color: 'gray',
-                                            whiteSpace: 'nowrap', overflow: 'hidden',
-                                            textOverflow: 'ellipsis', marginTop: '-2px'
-                                        }}
-                                        >
-                                            {tile.author}
-                                        </div>
-                                    </div>
+            <div>
+                <SearchBar searchShowFavorite={true} />
+                <div style={{ backgroundColor: '#FFF' /*'#F5F5F5'*/ }}>
+                    <Scrollbars
+                        style={styles.Scrollbars}
+                    >
+                        <div style={styles.divList}>
+                            <div style={styles.div} id='detail' ref='detail'>
 
 
-                                    <div
-                                        style={{
-                                            float: 'right', textAlign: 'right', display: 'inline', marginRight: '-10px',
-                                        }}
+                                <div style={styles.root}>
+                                    <GridList
+                                        cellHeight={190}
+                                        style={styles.gridList}
+                                        cols={this.state.showCol}
                                     >
-                                        <IconButton
-                                            style={{ padding: 0, width: 25 }}
-                                            onTouchTap={() => { this.changeFavorite(tile.id) }}
-                                        >
-                                            {star}
-                                        </IconButton>
+                                        {this.state.showTileData.map((tile, index) => {
+                                            let key = tile.img + (i++);
+                                            let checkInvoice = this.props.invoiceOrder.findIndex((rs) => { return rs.id == tile.id });
+                                            let invoiceData = this.props.invoiceOrder.find((rs) => { return rs.id == tile.id });
+                                            let paperBackground = '';
+                                            let iconChangeAmount = '';
+                                            if (checkInvoice > -1) {
+                                                paperBackground = '#C8E6C9';
+                                                //paperBackground = 'white';
+                                                iconChangeAmount =
+                                                    <div>
+                                                        <IconButton
+                                                            style={styles.IconButton}
+                                                        >
+                                                            <Remove
+                                                                color="#EF5350"
+                                                                style={styles.Icon}
+                                                            />
+                                                        </IconButton>
+                                                        <IconButton
+                                                            style={styles.IconButton}
+                                                        >
+                                                            <Add
+                                                                color="#64DD17"
+                                                                style={styles.Icon}
+                                                            />
+                                                        </IconButton>
+                                                        <div
+                                                            style={{
+                                                                position: 'absolute',
+                                                                padding: 0, bottom: 40,
+                                                                right: '30%', color: 'white',
+                                                                width: '40%', height: '35px', fontSize: '30px',
+                                                                background: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)',
+                                                            }}
+                                                        >
+                                                            {invoiceData.amount}
+                                                        </div>
 
-                                        <Link to="/shop/itemdetail" name="">
-                                            <IconButton
-                                                style={{ padding: 0, width: 25, marginRight: 10 }}
-                                            >
-                                                <Description
-                                                    color="black"
-                                                    style={styles.Icon}
-                                                    onTouchTap={this.handleOpen}
-                                                />
-                                            </IconButton>
-                                        </Link>
-                                    </div>
+                                                    </div>;
+                                            } else {
+                                                paperBackground = 'white';
+                                            }
+                                            let star = null;
+                                            if (tile.favorite) {
+                                                star = <Star color={"gold"} style={styles.Icon} />
+                                            } else {
+                                                star = <StarBorder color="black" style={styles.Icon} />
+                                            }
+                                            return (
+                                                <Paper
+                                                    style={{ ...styles.Paper, backgroundColor: paperBackground, position: 'relative' }}
+                                                    zDepth={1}
+                                                    key={key}
+                                                    ref={key}
+                                                >
+                                                    <GridTile
+                                                        titleStyle={styles.titleStyle}
+                                                        style={{ cursor: 'pointer', position: 'relative' }}
+                                                        onTouchTap={(e) => { this.selectOrder(e, tile.id, tile) }}
+                                                    >
+                                                        <img src={tile.img} />
+                                                    </GridTile>
+                                                    <div
+                                                        style={{
+                                                            marginTop: '-5px',
+                                                        }}
+                                                    >
+                                                        <div
+                                                            style={styles.divShowTitle}
+                                                        >
+                                                            <div style={{
+                                                                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                                                            }}
+                                                            >
+                                                                {tile.title}
+                                                            </div>
+                                                            <div style={{
+                                                                fontSize: '12px', color: 'gray',
+                                                                whiteSpace: 'nowrap', overflow: 'hidden',
+                                                                textOverflow: 'ellipsis', marginTop: '-2px'
+                                                            }}
+                                                            >
+                                                                {tile.author}
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div
+                                                            style={{
+                                                                float: 'right', textAlign: 'right',
+                                                                display: 'inline', marginRight: '-10px',
+                                                            }}
+                                                        >
+                                                            <IconButton
+                                                                style={{ padding: 0, width: 25 }}
+                                                                onTouchTap={() => { this.changeFavorite(tile.id) }}
+                                                            >
+                                                                {star}
+                                                            </IconButton>
+
+                                                            <Link to="/shop/itemdetail" name="">
+                                                                <IconButton
+                                                                    style={{ padding: 0, width: 25, marginRight: 10 }}
+                                                                >
+                                                                    <Description
+                                                                        color="black"
+                                                                        style={styles.Icon}
+                                                                        onTouchTap={this.handleOpen}
+                                                                    />
+                                                                </IconButton>
+                                                            </Link>
+                                                        </div>
+                                                    </div>
+                                                    {iconChangeAmount}
+                                                </Paper>
+                                            );
+                                        })}
+                                    </GridList>
                                 </div>
-                                {iconChangeAmount}
-                            </Paper>
-                        );
-                    })}
-                </GridList>
+
+
+                            </div>
+                        </div>
+                    </Scrollbars>
+                </div>
             </div>
         );
     }
@@ -301,6 +345,7 @@ function mapStateToProps(state) {
         searchFavorite: state.search.favorite,
         tilesData: state.shop.tilesData,
         invoiceOrder: state.shop.invoiceOrder,
+        docked: state.navLeftMenu.docked,
     }
 }
 
