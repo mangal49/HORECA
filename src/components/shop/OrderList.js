@@ -160,11 +160,12 @@ class OrderList extends React.Component {
         //     paper.style.backgroundColor = 'white';
         // }
     }
-    handleOpen = () => {
-        this.setState({ open: true });
-    };
-    handleClose = () => {
-        this.setState({ open: false });
+    handleOpen = (SelectedTile) => {
+        //save แต่ไม่มีการเรียกใช้ mapStateToProps ก็ได้
+        //ในตัวอย่างนี้เราจะใช้ Props ที่หน้า itemDetai
+        //save in to Redux
+        this.props.UpdateFindItem(SelectedTile);
+
     };
     render() {
         // if (this.state.loading) {
@@ -308,14 +309,14 @@ class OrderList extends React.Component {
                                                                 {star}
                                                             </IconButton>
 
-                                                            <Link to="/shop/itemdetail" name="">
+                                                            <Link to={'/shop/itemdetail/' + tile.id} >
                                                                 <IconButton
                                                                     style={{ padding: 0, width: 25, marginRight: 10 }}
                                                                 >
                                                                     <Description
                                                                         color="black"
                                                                         style={styles.Icon}
-                                                                        onTouchTap={this.handleOpen}
+                                                                        onTouchTap={() => { this.handleOpen(tile) }}
                                                                     />
                                                                 </IconButton>
                                                             </Link>
@@ -326,6 +327,7 @@ class OrderList extends React.Component {
                                             );
                                         })}
                                     </GridList>
+
                                 </div>
 
 

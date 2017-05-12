@@ -44,7 +44,7 @@ ReactDOM.render(
             <Route path='order' component={Order} />
             <Route path='receive' component={Receive} />
             <Route path='oldorder' component={OldOrder} />
-            <Route path='itemdetail' component={ItemDetail} />
+            <Route path='itemdetail/:id' component={ItemDetail} />
           </Route>
           <Route path='sale' component={App}>
             <IndexRoute component={AcceptOrder} />
