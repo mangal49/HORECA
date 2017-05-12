@@ -6,6 +6,7 @@ export const AUTH_USER_ROLE = 'AUTH_USER_ROLE';
 //--------------- Search ------------------//
 export const SEARCH_DATA = 'SEARCH_DATA';
 export const SEARCH_FAVORITE = 'SEARCH_FAVORITE';
+export const FIND_ITEM_DETAIL = 'FIND_ITEM_DETAIL';
 
 //--------------- Shop ------------------//
 export const UPDATE_SHOW_ORDER = 'UPDATE_SHOW_ORDER';

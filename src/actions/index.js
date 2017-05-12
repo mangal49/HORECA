@@ -1,6 +1,7 @@
 import { NAV_LEFT_MENU_RENDER, AUTH_USER_ROLE, NAV_LEFT_MENU_SIZE } from './types';
 import { updateSearchText, updateSearchFavorite } from './Search';
 import { updateShowOrder, changeFavorite, addToInvoice } from './Shop';
+import { UpdateFindItem } from './itemDetail';
 
 export const renderNavLeftMenu = (docked, open) => {
     return {
@@ -25,7 +26,7 @@ export const setRole = (role) => {
 
 exports.updateSearchText = updateSearchText;
 exports.updateSearchFavorite = updateSearchFavorite;
-
+exports.UpdateFindItem = UpdateFindItem;
 
 exports.updateShowOrder = updateShowOrder;
 exports.changeFavorite = changeFavorite;

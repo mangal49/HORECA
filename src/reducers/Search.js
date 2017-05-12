@@ -1,6 +1,6 @@
 import { SEARCH_DATA, SEARCH_FAVORITE } from '../actions/types';
 
-const INITIAL = { text: '', favorite: true };
+const INITIAL = { text: '', favorite: true, findItem: '' };
 
 export default (state = INITIAL, action) => {
     switch (action.type) {

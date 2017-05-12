@@ -14,3 +14,4 @@ export const updateSearchFavorite = (favorite) => {
     };
 }
 
+

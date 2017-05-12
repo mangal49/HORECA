@@ -13,6 +13,9 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import BackIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 
+import Star from 'material-ui/svg-icons/toggle/star';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import Loading from '../Loading';
 
 
 
@@ -53,6 +56,7 @@ const styles = {
         width: '100%',
         //textAlign: 'center',
         zIndex: 700,
+        paddingLeft: '25%'
     },
     div: {
         position: 'relative',//relative,absolute
@@ -65,68 +69,121 @@ const styles = {
 
 
 class ItemDetail extends React.Component {
+
+    state = {
+        showCol: 4,
+        showTileData: [],
+        open: false,
+        loading: true
+    }
+
+
     updateStyle(docked, width, height) {
         if (docked) {
             styles.container = { ...styles.container, top: '0px' };
             styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: width - 255 };
             styles.Scrollbars = { ...styles.Scrollbars, height: height - 110 };
 
-            styles.divList = { ...styles.divList, width: '50%' };
+            styles.divList = { ...styles.divList, width: '50%', paddingLeft: '25%' };
 
         } else {
             styles.container = { ...styles.container, top: '56px' };
             styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: '100%' };
             styles.Scrollbars = { ...styles.Scrollbars, height: height - 160 };
-            styles.divList = { ...styles.divList, width: '100%' };
+            styles.divList = { ...styles.divList, width: '100%', paddingLeft: '0%' };
         }
     }
     componentWillMount() {
         this.props.setRole('SHOP');
         this.updateStyle(this.props.docked, this.props.width, this.props.height);
+
+
+        this.setState({
+            showTileData: this.props.tilesData,
+            item: this.props.findItem,
+        });
+
+
     }
+    componentDidMount() {
+        //this.findOrders(this.props.searchFavorite);
+        setTimeout(() => { this.setState({ loading: false }); }, 500);
+
+
+
+    }
+
     componentWillReceiveProps(nextProps, nextState) {
         this.updateStyle(nextProps.docked, nextProps.width, nextProps.height);
     }
     // componentWillUpdate(nextProps, nextState) {
     //     this.updateStyle(nextProps.docked)
     // }
-    render() {
-        console.log('Render');
-        return (
 
+    changeFavorite = (id) => {
+        this.props.changeFavorite(id);
+    }
+
+
+    render() {
+
+        //console.log(this.props.findItem);
+
+        if (this.state.loading) {
+            return (
+                <Loading />
+            );
+        }
+
+        let star = null;
+        if (this.state.item.favorite == true) {
+            star = <Star color={"gold"} style={styles.Icon} />
+        } else {
+            star = <StarBorder color="black" style={styles.Icon} />
+        }
+
+        return (
 
             <div style={styles.container}>
                 <div style={styles.tabs}>
-
-
                     <AppBar style={{ height: "48px" }}
-                        iconElementLeft={<FlatButton label="Back" href='/shop/order' />}
+                        iconElementLeft={<Link to={'/shop/order'} > <FlatButton label="Back" /> </Link>}
                         iconElementRight={<FlatButton label="Back" href='/shop/order' />}
-                    />
+                    >
 
-
-
+                    </AppBar>
                     <div style={styles.divList}>
+
                         <Card>
-                            <CardHeader
-                                title="URL Avatar"
-                                subtitle="Subtitle"
-                                avatar="../images/jsa-128.jpg"
-                            />
+
                             <CardMedia
-                                overlay={<CardTitle title="Overlay title" subtitle="Overlay subtitle" />}
+                                overlay={<CardTitle title={this.state.item.title} subtitle={this.state.item.author} />}
                             >
-                                <img src="../images/grid-list/00-52-29-429_640.jpg" />
+                                <img src={'../' + this.state.item.img} />
+                                <div
+                                    style={{
+                                        /*float: 'right', display: 'inline',*/ textAlign: 'right', marginRight: '-10px',
+                                    }}
+                                >
+                                    <IconButton
+                                        style={{ padding: 0, width: 25 }}
+                                        onTouchTap={() => { this.changeFavorite(this.state.item.id) }}
+                                    >
+                                        {star}
+                                    </IconButton>
+                                </div>
                             </CardMedia>
 
 
                             <CardTitle title="Card title" subtitle="Card subtitle" />
+
                             <CardText>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                          Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
                          Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
                          Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
                     </CardText>
                         </Card>
+
                     </div>
                 </div>
             </div>
@@ -137,11 +194,15 @@ class ItemDetail extends React.Component {
     }
 }
 
+//หากมีการเรียกใช้ Props จาก Redux ให้ mapStateToProps ด้วย
 function mapStateToProps(state) {
     return {
         width: state.navLeftMenu.width,
         docked: state.navLeftMenu.docked,
         role: state.auth.role,
+        tilesData: state.shop.tilesData,
+        invoiceOrder: state.shop.invoiceOrder,
+        findItem: state.itemDetail.findItem //
     }
 }
 
