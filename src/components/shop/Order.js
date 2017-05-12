@@ -57,21 +57,13 @@ class Order extends React.Component {
     }
 
 
-    updateStyle(docked, width, height, page) {
-        let footerHeight = 0;
-        if (page == 'orderList') footerHeight = 0;
-        else {
-            if (docked) footerHeight = 38 - 55;
-            else footerHeight = 44 - 55;
-        }
+    updateStyle(docked, width, height) {
         if (docked) {
             styles.container = { ...styles.container, top: '0px' };
             styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: width - 255 };
-            styles.Scrollbars = { ...styles.Scrollbars, height: height - 110 - footerHeight };
         } else {
             styles.container = { ...styles.container, top: '56px' };
             styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: '100%' };
-            styles.Scrollbars = { ...styles.Scrollbars, height: height - 160 - footerHeight };
         }
     }
 
@@ -82,17 +74,17 @@ class Order extends React.Component {
 
     componentWillMount() {
         this.props.setRole('SHOP');
-        this.updateStyle(this.props.docked, this.props.width, this.props.height, this.props.value);
+        this.updateStyle(this.props.docked, this.props.width, this.props.height);
         this.updateShowInvoiceAmount(this.props.invoiceOrder.length);
     }
 
     componentWillReceiveProps(nextProps, nextState) {
-        this.updateStyle(nextProps.docked, nextProps.width, nextProps.height, nextState.value);
+        this.updateStyle(nextProps.docked, nextProps.width, nextProps.height);
         this.updateShowInvoiceAmount(nextProps.invoiceOrder.length);
     }
 
     shouldComponentUpdate = (nextProps, nextState) => {
-        this.updateStyle(nextProps.docked, nextProps.width, nextProps.height, nextState.value);
+        this.updateStyle(nextProps.docked, nextProps.width, nextProps.height);
         return true;
     }
 
