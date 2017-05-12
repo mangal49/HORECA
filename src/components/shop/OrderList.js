@@ -79,15 +79,6 @@ const styles = {
         textAlign: 'center',
         zIndex: 600,
     },
-
-    IconButton: {
-        padding: 0,
-        position: 'absolute',
-        top: 35,
-        width: 35,
-        left: 4,
-        background: 'linear-gradient(to left, rgba(0,0,0,1) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)',
-    },
 };
 
 class OrderList extends React.Component {
@@ -211,7 +202,14 @@ class OrderList extends React.Component {
                                                 iconChangeAmount =
                                                     <div>
                                                         <IconButton
-                                                            style={styles.IconButton}
+                                                            style={{
+                                                                padding: 0,
+                                                                position: 'absolute',
+                                                                top: 35,
+                                                                width: 35,
+                                                                left: 4,
+                                                                background: 'linear-gradient(to left, rgba(0,0,0,1) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)',
+                                                            }}
                                                         >
                                                             <Remove
                                                                 color="#EF5350"
@@ -219,7 +217,14 @@ class OrderList extends React.Component {
                                                             />
                                                         </IconButton>
                                                         <IconButton
-                                                            style={styles.IconButton}
+                                                            style={{
+                                                                padding: 0,
+                                                                position: 'absolute',
+                                                                top: 35,
+                                                                width: 35,
+                                                                right: 4,
+                                                                background: 'linear-gradient(to right, rgba(0,0,0,1) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)',
+                                                            }}
                                                         >
                                                             <Add
                                                                 color="#64DD17"
@@ -228,10 +233,14 @@ class OrderList extends React.Component {
                                                         </IconButton>
                                                         <div
                                                             style={{
+                                                                padding: 0,
                                                                 position: 'absolute',
-                                                                padding: 0, bottom: 40,
-                                                                right: '30%', color: 'white',
-                                                                width: '40%', height: '35px', fontSize: '30px',
+                                                                bottom: 40,
+                                                                right: '30%',
+                                                                color: 'white',//#E0E0E0
+                                                                width: '40%',
+                                                                height: '35px',
+                                                                fontSize: '30px',
                                                                 background: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)',
                                                             }}
                                                         >
@@ -289,8 +298,7 @@ class OrderList extends React.Component {
 
                                                         <div
                                                             style={{
-                                                                float: 'right', textAlign: 'right',
-                                                                display: 'inline', marginRight: '-10px',
+                                                                float: 'right', textAlign: 'right', display: 'inline', marginRight: '-10px',
                                                             }}
                                                         >
                                                             <IconButton
