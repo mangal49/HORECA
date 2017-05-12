@@ -28,9 +28,11 @@
   },
   "dependencies": {
     "babel-preset-stage-1": "^6.1.18",
+    "express": "^4.15.2",
     "lodash": "^3.10.1",
     "material-ui": "^0.17.4",
     "react": "^15.4.0",
+    "react-addons-css-transition-group": "^15.5.2",
     "react-custom-scrollbars": "^4.1.1",
     "react-dom": "^15.4.0",
     "react-redux": "^4.0.0",

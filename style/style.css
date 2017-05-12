@@ -5,3 +5,92 @@ body {
 .contacontaineriner {
         overflow:hidden;
 }
+
+.start-enter {
+    opacity: 0;
+    transform:   translate(100%,0);
+    /*transform: translate3d(-250px,0,0);*/
+}
+.start-enter.start-enter-active {
+	opacity: 1;
+	transition: opacity 1s ease;
+	transform:   translate(0,0);
+	transform: translate3d(0,0,0);
+	transition-property: transform, opacity;
+	transition-duration: 500ms;
+	transition-timing-function: cubic-bezier(0.175, 0.665, 0.320, 1), linear;
+}
+.start-leave {
+	opacity: 1;
+	transform:   translate(0,0,0);
+	transform: translate3d(0,0,0);
+        transition-property: transform, opacity;
+	transition-duration: 500ms;
+	transition-timing-function: cubic-bezier(0.175, 0.665, 0.320, 1), linear;
+}
+.start-leave.start-leave-active {
+	opacity: 0;
+	/*transform:   translate(450px,0);
+	transform: translate3d(450px,0,0);*/
+	transform:   translate(-100%,0px);
+}
+
+
+.orderList-enter {
+    opacity: 0;
+    transform:   translate(100%,0);
+    /*transform: translate3d(-250px,0,0);*/
+}
+.orderList-enter.orderList-enter-active {
+	opacity: 1;
+	transition: opacity 1s ease;
+	transform:   translate(0,0);
+	transform: translate3d(0,0,0);
+	transition-property: transform, opacity;
+	transition-duration: 500ms;
+	transition-timing-function: cubic-bezier(0.175, 0.665, 0.320, 1), linear;
+}
+.orderList-leave {
+	opacity: 1;
+	transform:   translate(0,0,0);
+	transform: translate3d(0,0,0);
+        transition-property: transform, opacity;
+	transition-duration: 500ms;
+	transition-timing-function: cubic-bezier(0.175, 0.665, 0.320, 1), linear;
+}
+.orderList-leave.orderList-leave-active {
+	opacity: 0;
+	/*transform:   translate(450px,0);
+	transform: translate3d(450px,0,0);*/
+	transform:   translate(-100%,0px);
+}
+
+.invoiceList-enter {
+    opacity: 0;
+    transform:   translate(-100%,0);
+    /*transform: translate3d(-250px,0,0);*/
+}
+.invoiceList-enter.invoiceList-enter-active {
+	opacity: 1;
+	transition: opacity 1s ease;
+	transform:   translate(0,0);
+	transform: translate3d(0,0,0);
+	transition-property: transform, opacity;
+	transition-duration: 500ms;
+	transition-timing-function: cubic-bezier(0.175, 0.665, 0.320, 1), linear;
+}
+.invoiceList-leave {
+	opacity: 1;
+	transform:   translate(0,0,0);
+	transform: translate3d(0,0,0);
+        transition-property: transform, opacity;
+	transition-duration: 500ms;
+	transition-timing-function: cubic-bezier(0.175, 0.665, 0.320, 1), linear;
+}
+.invoiceList-leave.invoiceList-leave-active {
+	opacity: 0;
+	/*transform:   translate(450px,0);
+	transform: translate3d(450px,0,0);*/
+	transform:   translate(100%,0px);
+}
+

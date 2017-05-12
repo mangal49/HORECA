@@ -4,9 +4,11 @@ import * as actions from '../../actions';
 import { StickyContainer, Sticky } from 'react-sticky';
 
 import { Tabs, Tab } from 'material-ui/Tabs';
-import { Scrollbars } from 'react-custom-scrollbars';
 
+import RaisedButton from 'material-ui/RaisedButton';
+import Save from 'material-ui/svg-icons/content/save';
 
+import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 
 import {
     blue300,
@@ -22,7 +24,6 @@ import {
 
 import OrderList from './OrderList';
 import InvoiceList from './InvoiceList';
-import SearchBar from '../SearchBar';
 
 const styles = {
     container: {
@@ -38,21 +39,6 @@ const styles = {
     tab: {
         fontSize: '17px',
     },
-    Scrollbars: {
-        height: 0,
-    },
-    divList: {
-        position: 'relative',//relative,absolute
-        width: '100%',
-        textAlign: 'center',
-        zIndex: 700,
-    },
-    div: {
-        position: 'relative',//relative,absolute
-        width: '100%',
-        textAlign: 'center',
-        zIndex: 600,
-    },
 };
 
 class Order extends React.Component {
@@ -62,6 +48,11 @@ class Order extends React.Component {
         this.state = {
             value: 'orderList',
             invoiceAmount: "",
+            items: ['Click', 'To', 'Remove', 'An', 'Item'],
+            showTabData: <OrderList />,
+            on: false,
+            transitionEnd: true,
+            transitionName: 'orderList',
         };
     }
 
@@ -70,11 +61,9 @@ class Order extends React.Component {
         if (docked) {
             styles.container = { ...styles.container, top: '0px' };
             styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: width - 255 };
-            styles.Scrollbars = { ...styles.Scrollbars, height: height - 110 };
         } else {
             styles.container = { ...styles.container, top: '56px' };
             styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: '100%' };
-            styles.Scrollbars = { ...styles.Scrollbars, height: height - 160 };
         }
     }
 
@@ -94,23 +83,53 @@ class Order extends React.Component {
         this.updateShowInvoiceAmount(nextProps.invoiceOrder.length);
     }
 
+    shouldComponentUpdate = (nextProps, nextState) => {
+        this.updateStyle(nextProps.docked, nextProps.width, nextProps.height);
+        return true;
+    }
+
     handleChange = (value) => {
         this.setState({
             value: value,
         });
     };
 
-    render() {
-        let view = null;
-        let showSearch = null;
-        if (this.state.value == 'orderList') {
-            view = <OrderList />;
-            showSearch = true;
-        } else {
-            //this.setState({ searchShowFavorite: false });
-            view = <InvoiceList />;
-            showSearch = false;
+    toggle = (view) => {
+        if (view == 'orderList' && this.state.on) {
+            this.setState({
+                on: false,
+                transitionEnd: false,
+                transitionName: 'invoiceList'
+            });
+        } else if (view == 'invoiceList' && !this.state.on) {
+            this.setState({
+                on: true,
+                transitionEnd: false,
+                transitionName: 'orderList'
+            });
         }
+    }
+
+    handleTransitionEnd = () => {
+        this.setState({ transitionEnd: true });
+    }
+
+    renderOff() {
+        if (!this.state.on && this.state.transitionEnd) {
+            return (
+                <OrderList key="off" handleTransitionEnd={this.handleTransitionEnd} />
+            )
+        }
+    }
+
+    renderOn() {
+        if (this.state.on && this.state.transitionEnd) {
+            return (
+                <InvoiceList key="on" handleTransitionEnd={this.handleTransitionEnd} />
+            )
+        }
+    }
+    render() {
         return (
             <div style={styles.container}>
                 <div style={styles.tabs}>
@@ -123,31 +142,28 @@ class Order extends React.Component {
                         }}
                     >
                         <Tab label="รายการสินค้า" value="orderList"
+                            onClick={() => { this.toggle('orderList') }}
                             style={{
                                 ...styles.tab,
                                 //color: 'black'
                             }}
                         />
                         <Tab label={`รายการที่สั่งซื้อ${this.state.invoiceAmount}`} value="invoiceList"
+                            onClick={() => { this.toggle('invoiceList') }}
                             style={{
                                 ...styles.tab,
                                 //color: 'black'
                             }}
                         />
                     </Tabs>
-                    <SearchBar searchShowFavorite={showSearch} />
-                    <div style={{ backgroundColor: '#FFF' /*'#F5F5F5'*/ }}>
-                        <Scrollbars
-                            style={styles.Scrollbars}
-                        >
-                            <div style={styles.divList}>
-                                <div style={styles.div} id='detail' ref='detail'>
-                                    {view}
-                                </div>
-                            </div>
-                        </Scrollbars>
-                    </div>
-
+                    <ReactCSSTransitionGroup
+                        transitionName={this.state.transitionName}
+                        transitionEnterTimeout={500}
+                        transitionLeaveTimeout={500}
+                    >
+                        {this.renderOn()}
+                        {this.renderOff()}
+                    </ReactCSSTransitionGroup>
                 </div>
             </div >
         );
