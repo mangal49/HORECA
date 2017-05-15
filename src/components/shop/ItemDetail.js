@@ -5,13 +5,14 @@ import { Link } from 'react-router';
 
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 
 
 import { Tabs, Tab } from 'material-ui/Tabs';
 
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
-import BackIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
+import Back from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 
 import Star from 'material-ui/svg-icons/toggle/star';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
@@ -96,66 +97,52 @@ class ItemDetail extends React.Component {
     componentWillMount() {
         this.props.setRole('SHOP');
         this.updateStyle(this.props.docked, this.props.width, this.props.height);
-
-
         this.setState({
             showTileData: this.props.tilesData,
             item: this.props.findItem,
         });
-
-
     }
     componentDidMount() {
-        //this.findOrders(this.props.searchFavorite);
-        setTimeout(() => { this.setState({ loading: false }); }, 500);
-
-
-
+        //setTimeout(() => { this.setState({ loading: false }); }, 11500);
     }
-
     componentWillReceiveProps(nextProps, nextState) {
         this.updateStyle(nextProps.docked, nextProps.width, nextProps.height);
     }
-    // componentWillUpdate(nextProps, nextState) {
-    //     this.updateStyle(nextProps.docked)
-    // }
-
     changeFavorite = (id) => {
         this.props.changeFavorite(id);
     }
-
-
     render() {
-
-        //console.log(this.props.findItem);
-
-        if (this.state.loading) {
+        /*if (this.state.loading) {
             return (
-                <Loading />
+                <div style={{ marginTop: 200 }}>
+                    <Loading />
+                </div>
             );
-        }
-
+        }*/
         let star = null;
         if (this.state.item.favorite == true) {
             star = <Star color={"gold"} style={styles.Icon} />
         } else {
             star = <StarBorder color="black" style={styles.Icon} />
         }
-
         return (
-
             <div style={styles.container}>
                 <div style={styles.tabs}>
                     <AppBar style={{ height: "48px" }}
-                        iconElementLeft={<Link to={'/shop/order'} > <FlatButton label="Back" /> </Link>}
-                        iconElementRight={<FlatButton label="Back" href='/shop/order' />}
-                    >
-
-                    </AppBar>
+                        iconElementLeft={
+                            <Link to={'/shop/order'} >
+                                <FlatButton
+                                    style={{ marginTop: -3 }}
+                                    label="Back"
+                                    labelStyle={{ color: 'white' }}
+                                    icon={<Back color={'white'} />}
+                                    primary={true}
+                                />
+                            </Link>
+                        }
+                    />
                     <div style={styles.divList}>
-
                         <Card>
-
                             <CardMedia
                                 overlay={<CardTitle title={this.state.item.title} subtitle={this.state.item.author} />}
                             >
@@ -173,23 +160,17 @@ class ItemDetail extends React.Component {
                                     </IconButton>
                                 </div>
                             </CardMedia>
-
-
                             <CardTitle title="Card title" subtitle="Card subtitle" />
-
-                            <CardText>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                         Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-                         Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-                         Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-                    </CardText>
+                            <CardText>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
+                                Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
+                                Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
+                            </CardText>
                         </Card>
-
                     </div>
                 </div>
             </div>
-
-
-
         );
     }
 }

@@ -6,7 +6,7 @@ body {
         overflow:hidden;
 }
 .orderList-enter {
-    opacity: 0;
+    opacity: 1;/*0*/
     transform:   translate(100%,0);
     /*transform: translate3d(-250px,0,0);*/
 }
@@ -28,14 +28,14 @@ body {
 	transition-timing-function: cubic-bezier(0.175, 0.665, 0.320, 1), linear;
 }
 .orderList-leave.orderList-leave-active {
-	opacity: 0;
+	opacity: 1;/*0*/
 	/*transform:   translate(450px,0);
 	transform: translate3d(450px,0,0);*/
 	transform:   translate(-100%,0px);
 }
 
 .invoiceList-enter {
-    opacity: 0;
+    opacity: 1;/*0*/
     transform:   translate(-100%,0);
     /*transform: translate3d(-250px,0,0);*/
 }
@@ -57,7 +57,7 @@ body {
 	transition-timing-function: cubic-bezier(0.175, 0.665, 0.320, 1), linear;
 }
 .invoiceList-leave.invoiceList-leave-active {
-	opacity: 0;
+	opacity: 1;/*0*/
 	/*transform:   translate(450px,0);
 	transform: translate3d(450px,0,0);*/
 	transform:   translate(100%,0px);

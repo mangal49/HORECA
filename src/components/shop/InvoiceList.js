@@ -45,8 +45,6 @@ const styles = {
     avatar: {
         marginLeft: 20
     },
-
-
     Scrollbars: {
         height: 0,
     },

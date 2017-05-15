@@ -143,17 +143,11 @@ class Order extends React.Component {
                     >
                         <Tab label="รายการสินค้า" value="orderList"
                             onClick={() => { this.toggle('orderList') }}
-                            style={{
-                                ...styles.tab,
-                                //color: 'black'
-                            }}
+                            style={styles.tab}
                         />
                         <Tab label={`รายการที่สั่งซื้อ${this.state.invoiceAmount}`} value="invoiceList"
                             onClick={() => { this.toggle('invoiceList') }}
-                            style={{
-                                ...styles.tab,
-                                //color: 'black'
-                            }}
+                            style={styles.tab}
                         />
                     </Tabs>
                     <ReactCSSTransitionGroup
