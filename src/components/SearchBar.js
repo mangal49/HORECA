@@ -71,7 +71,7 @@ class SearchBar extends React.Component {
         } else {
             icon = <StarBorder
                 style={styles.StarBorder}
-                hoverColor={"gold"}
+            //hoverColor={"gold"}
             />
         }
         let displayFavorite = '';

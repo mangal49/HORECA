@@ -5,8 +5,9 @@ body {
 .contacontaineriner {
         overflow:hidden;
 }
+
 .tabOne-enter {
-    opacity: 0;
+    opacity: 1;
     transform:   translate(100%,0);
     /*transform: translate3d(-250px,0,0);*/
 }
@@ -27,15 +28,16 @@ body {
 	transition-duration: 500ms;
 	transition-timing-function: cubic-bezier(0.175, 0.665, 0.320, 1), linear;
 }
+
 .tabOne-leave.tabOne-leave-active {
-	opacity: 0;
+	opacity: 1;
 	/*transform:   translate(450px,0);
 	transform: translate3d(450px,0,0);*/
 	transform:   translate(-100%,0px);
 }
 
 .tabTwo-enter {
-    opacity: 0;
+    opacity: 1;
     transform:   translate(-100%,0);
     /*transform: translate3d(-250px,0,0);*/
 }
@@ -56,8 +58,10 @@ body {
 	transition-duration: 500ms;
 	transition-timing-function: cubic-bezier(0.175, 0.665, 0.320, 1), linear;
 }
+
 .tabTwo-leave.tabTwo-leave-active {
-	opacity: 0;
+	opacity: 1;
+
 	/*transform:   translate(450px,0);
 	transform: translate3d(450px,0,0);*/
 	transform:   translate(100%,0px);
