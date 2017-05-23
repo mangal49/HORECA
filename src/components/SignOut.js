@@ -4,9 +4,14 @@ import Exit from 'material-ui/svg-icons/action/exit-to-app';
 import { blueA200, red500, greenA200 } from 'material-ui/styles/colors';
 
 class SignOut extends React.Component {
+
+    ToSignOut = (e, id, obj) => {
+        console.log(666666666666);
+    }
+
     render() {
         return (
-            <ListItem
+            <ListItem href='/signin'
                 style={{ ...this.props.styleMenu, /*backgroundColor: '#FFCDD2'*/ }}
                 leftIcon={
                     <Exit color={blueA200} hoverColor={greenA200} />
@@ -14,7 +19,8 @@ class SignOut extends React.Component {
                 //primaryText="ออกจากระบบ"
                 onTouchTap={() => { this.props.handleClose(); }}
             >
-                <div style={this.props.styleTextMenu}>ออกจากระบบ</div>
+                {/*<a href='/shop/order' ></a>*/}
+                <div style={this.props.styleTextMenu} onTouchTap={(e) => { this.ToSignOut() }}>ออกจากระบบ</div>
             </ListItem>
         );
     }

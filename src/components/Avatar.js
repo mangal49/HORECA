@@ -15,8 +15,9 @@ import Chip from 'material-ui/Chip';
 
 const styles = {
     Avatar: {
-        marginTop: '-15px',
+        marginTop: '-5px',
         zIndex: 1000,
+
     },
     chip: {
         textAlign: 'center',
@@ -57,10 +58,10 @@ class AvatarShow extends React.Component {
             <div>
                 <ListItem
                     disabled={true}
-                    style={{ textAlign: 'center', height: '100px'/*, backgroundColor: "rgb(0, 188, 212)"*/, marginTop: "10px" }}
+                    style={{ textAlign: 'center', height: '100px', backgroundColor: "#eeeeee" }}
                 >
                     <div>
-                        <Avatar src="../images/uxceo-128.jpg"
+                        <Avatar src="../images/mk_logo.png"
                             size={85}
                             style={styles.Avatar}
                         />

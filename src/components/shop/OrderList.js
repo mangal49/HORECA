@@ -24,6 +24,9 @@ import Remove from 'material-ui/svg-icons/content/remove-circle';
 
 import SearchBar from '../SearchBar';
 
+//import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+
+
 const styles = {
     root: {
         display: 'flex',
@@ -178,12 +181,9 @@ class OrderList extends React.Component {
             <div>
                 <SearchBar searchShowFavorite={true} />
                 <div style={{ backgroundColor: '#FFF' /*'#F5F5F5'*/ }}>
-                    <Scrollbars
-                        style={styles.Scrollbars}
-                    >
+                    <Scrollbars style={styles.Scrollbars} >
                         <div style={styles.divList}>
                             <div style={styles.div} id='detail' ref='detail'>
-
 
                                 <div style={styles.root}>
                                     <GridList
@@ -333,6 +333,8 @@ class OrderList extends React.Component {
 
                             </div>
                         </div>
+
+
                     </Scrollbars>
                 </div>
             </div>

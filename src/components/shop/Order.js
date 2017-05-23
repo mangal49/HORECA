@@ -52,7 +52,7 @@ class Order extends React.Component {
             showTabData: <OrderList />,
             on: false,
             transitionEnd: true,
-            transitionName: 'orderList',
+            transitionName: 'tabOne', // This is a CSS name
         };
     }
 
@@ -99,13 +99,13 @@ class Order extends React.Component {
             this.setState({
                 on: false,
                 transitionEnd: false,
-                transitionName: 'invoiceList'
+                transitionName: 'tabTwo'
             });
         } else if (view == 'invoiceList' && !this.state.on) {
             this.setState({
                 on: true,
                 transitionEnd: false,
-                transitionName: 'orderList'
+                transitionName: 'tabOne'
             });
         }
     }

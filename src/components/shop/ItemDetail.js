@@ -16,7 +16,8 @@ import BackIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import Star from 'material-ui/svg-icons/toggle/star';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import Loading from '../Loading';
-
+import { Scrollbars } from 'react-custom-scrollbars';
+import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 
 
 import {
@@ -56,7 +57,9 @@ const styles = {
         width: '100%',
         //textAlign: 'center',
         zIndex: 700,
-        paddingLeft: '25%'
+        // paddingLeft: '25%',
+        overflowX: 'hidden',
+        top: '30px'
     },
     div: {
         position: 'relative',//relative,absolute
@@ -84,13 +87,13 @@ class ItemDetail extends React.Component {
             styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: width - 255 };
             styles.Scrollbars = { ...styles.Scrollbars, height: height - 110 };
 
-            styles.divList = { ...styles.divList, width: '50%', paddingLeft: '25%' };
+            styles.divList = { ...styles.divList, /*width: '50%', paddingLeft: '25%',*/ top: '30px' };
 
         } else {
             styles.container = { ...styles.container, top: '56px' };
             styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: '100%' };
             styles.Scrollbars = { ...styles.Scrollbars, height: height - 160 };
-            styles.divList = { ...styles.divList, width: '100%', paddingLeft: '0%' };
+            styles.divList = { ...styles.divList, width: '100%', paddingLeft: '0%', top: '0px' };
         }
     }
     componentWillMount() {
@@ -129,11 +132,11 @@ class ItemDetail extends React.Component {
 
         //console.log(this.props.findItem);
 
-        if (this.state.loading) {
-            return (
-                <Loading />
-            );
-        }
+        // if (this.state.loading) {
+        //     return (
+        //         <Loading />
+        //     );
+        // }
 
         let star = null;
         if (this.state.item.favorite == true) {
@@ -148,45 +151,55 @@ class ItemDetail extends React.Component {
                 <div style={styles.tabs}>
                     <AppBar style={{ height: "48px" }}
                         iconElementLeft={<Link to={'/shop/order'} > <FlatButton label="Back" /> </Link>}
-                        iconElementRight={<FlatButton label="Back" href='/shop/order' />}
+
                     >
 
                     </AppBar>
-                    <div style={styles.divList}>
 
-                        <Card>
+                    <Scrollbars
+                        style={styles.Scrollbars}
+                    >
+                        <div style={styles.divList}>
 
-                            <CardMedia
-                                overlay={<CardTitle title={this.state.item.title} subtitle={this.state.item.author} />}
-                            >
-                                <img src={'../' + this.state.item.img} />
-                                <div
-                                    style={{
-                                        /*float: 'right', display: 'inline',*/ textAlign: 'right', marginRight: '-10px',
-                                    }}
+                            <Card style={{ position: 'relative', boxShadow: 'none' }}>
+
+                                <CardMedia style={{ textAlign: 'center' }}
+                                    overlay={<CardTitle title={this.state.item.title} subtitle={this.state.item.author} />}
                                 >
-                                    <IconButton
-                                        style={{ padding: 0, width: 25 }}
-                                        onTouchTap={() => { this.changeFavorite(this.state.item.id) }}
+
+                                    <img src={'../' + this.state.item.img} style={{ minWidth: '0px', width: 'none' }} />
+
+                                    <div
+                                        style={{
+                                            textAlign: 'right', marginRight: '-10px',
+                                        }}
                                     >
-                                        {star}
-                                    </IconButton>
-                                </div>
-                            </CardMedia>
+                                        <IconButton
+                                            style={{ padding: 0, width: 25, marginRight: 25 }}
+                                            onTouchTap={() => { this.changeFavorite(this.state.item.id) }}
+                                        >
+                                            {star}
+                                        </IconButton>
+                                    </div>
+                                </CardMedia>
 
 
-                            <CardTitle title="Card title" subtitle="Card subtitle" />
+                                <CardTitle title="Card title" subtitle="Card subtitle" />
 
-                            <CardText>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                <CardText>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                          Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
                          Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
                          Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
                     </CardText>
-                        </Card>
+                            </Card>
 
-                    </div>
+                        </div>
+
+                    </Scrollbars>
+
                 </div>
             </div>
+
 
 
 
@@ -202,7 +215,8 @@ function mapStateToProps(state) {
         role: state.auth.role,
         tilesData: state.shop.tilesData,
         invoiceOrder: state.shop.invoiceOrder,
-        findItem: state.itemDetail.findItem //
+        findItem: state.itemDetail.findItem,
+        height: state.navLeftMenu.height
     }
 }
 

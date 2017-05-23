@@ -19,6 +19,8 @@ import Sale from './components/sale'
 import AcceptOrder from './components/sale/AcceptOrder';
 
 
+import Signin from './components/Signin'
+
 // import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 // import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
@@ -38,7 +40,7 @@ ReactDOM.render(
     <MuiThemeProvider >
       <Router history={browserHistory}>
         <Route path='/'>
-
+          <Route path='signin' component={Signin} />
           <Route path='shop' component={App}>
             <IndexRoute component={Order} />
             <Route path='order' component={Order} />

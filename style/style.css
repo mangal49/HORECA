@@ -5,12 +5,12 @@ body {
 .contacontaineriner {
         overflow:hidden;
 }
-.orderList-enter {
+.tabOne-enter {
     opacity: 0;
     transform:   translate(100%,0);
     /*transform: translate3d(-250px,0,0);*/
 }
-.orderList-enter.orderList-enter-active {
+.tabOne-enter.tabOne-enter-active {
 	opacity: 1;
 	transition: opacity 1s ease;
 	transform:   translate(0,0);
@@ -19,7 +19,7 @@ body {
 	transition-duration: 500ms;
 	transition-timing-function: cubic-bezier(0.175, 0.665, 0.320, 1), linear;
 }
-.orderList-leave {
+.tabOne-leave {
 	opacity: 1;
 	transform:   translate(0,0,0);
 	transform: translate3d(0,0,0);
@@ -27,19 +27,19 @@ body {
 	transition-duration: 500ms;
 	transition-timing-function: cubic-bezier(0.175, 0.665, 0.320, 1), linear;
 }
-.orderList-leave.orderList-leave-active {
+.tabOne-leave.tabOne-leave-active {
 	opacity: 0;
 	/*transform:   translate(450px,0);
 	transform: translate3d(450px,0,0);*/
 	transform:   translate(-100%,0px);
 }
 
-.invoiceList-enter {
+.tabTwo-enter {
     opacity: 0;
     transform:   translate(-100%,0);
     /*transform: translate3d(-250px,0,0);*/
 }
-.invoiceList-enter.invoiceList-enter-active {
+.tabTwo-enter.tabTwo-enter-active {
 	opacity: 1;
 	transition: opacity 1s ease;
 	transform:   translate(0,0);
@@ -48,7 +48,7 @@ body {
 	transition-duration: 500ms;
 	transition-timing-function: cubic-bezier(0.175, 0.665, 0.320, 1), linear;
 }
-.invoiceList-leave {
+.tabTwo-leave {
 	opacity: 1;
 	transform:   translate(0,0,0);
 	transform: translate3d(0,0,0);
@@ -56,7 +56,7 @@ body {
 	transition-duration: 500ms;
 	transition-timing-function: cubic-bezier(0.175, 0.665, 0.320, 1), linear;
 }
-.invoiceList-leave.invoiceList-leave-active {
+.tabTwo-leave.tabTwo-leave-active {
 	opacity: 0;
 	/*transform:   translate(450px,0);
 	transform: translate3d(450px,0,0);*/

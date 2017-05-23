@@ -32,7 +32,7 @@ class AppBarMenu extends React.Component {
         super(props);
         this.state = { drawerStatus: false };
     }
-    updateStyle(docked){
+    updateStyle(docked) {
         if (docked) {
             styles.title = { ...styles.title, 'paddingLeft': 0 };
             styles.icon = { ...styles.icon, display: 'none' };
@@ -57,21 +57,21 @@ class AppBarMenu extends React.Component {
         }
         return (
             <div>
-                <div style={{display: showAppBar}}>
-                <AppBar
-                    style={
-                        {
-                            boxShadow: 'rgba(0, 0, 0, 0) 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px', 
-                            height: '57px', 
-                            position: 'fixed',
-                            width:'100%',
+                <div style={{ display: showAppBar }}>
+                    <AppBar
+                        style={
+                            {
+                                boxShadow: 'rgba(0, 0, 0, 0) 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px',
+                                height: '57px',
+                                position: 'fixed',
+                                width: '100%',
+                            }
                         }
-                    }
-                    title={<span style={styles.title}>Horeca</span>}
-                    //onTitleTouchTap={handleTouchTap}
-                    /*iconElementRight={<FlatButton label="Save" />}*/
-                    iconElementLeft={<IconButton style={styles.icon}><NavigationMenu onTouchTap={() => this.handleToggle()} /></IconButton>}
-                />
+                        title={<span style={styles.title}>Horeca</span>}
+                        //onTitleTouchTap={handleTouchTap}
+                        /*iconElementRight={<FlatButton label="Save" />}*/
+                        iconElementLeft={<IconButton style={styles.icon}><NavigationMenu onTouchTap={() => this.handleToggle()} /></IconButton>}
+                    />
                 </div>
                 <DrawerMenu
                     open={this.props.drawerOpen}
