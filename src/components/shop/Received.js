@@ -33,11 +33,12 @@ import {
     deepOrange300,
     pink400,
     purple500,
+    grey50,
     grey500,
     deepOrange700,
-    grey50,
     darkBlack,
-    lightBlue400
+    lightBlue400,
+    lightGreen300
 } from 'material-ui/styles/colors';
 
 const styles = {
@@ -179,8 +180,8 @@ class Received extends React.Component {
                                                                 </p>
                                                             }
                                                             leftAvatar={
-                                                                <Avatar color={deepOrange300}
-                                                                    backgroundColor={blue50}
+                                                                <Avatar color={grey50}
+                                                                    backgroundColor={lightGreen300}
                                                                 >{orders.createBy.substring(0, 1)}</Avatar>}
 
                                                             rightAvatar={<Avatar size={30} style={styles.ListStyle}>{orders.amount}</Avatar>}

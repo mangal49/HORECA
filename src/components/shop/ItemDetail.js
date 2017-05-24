@@ -67,6 +67,9 @@ const styles = {
         width: '100%',
         textAlign: 'center',
         zIndex: 600,
+    },
+    labelColor: {
+        color: 'white'
     }
 };
 
@@ -126,7 +129,7 @@ class ItemDetail extends React.Component {
             <div style={styles.container}>
                 <div style={styles.tabs}>
                     <AppBar style={{ height: "48px" }}
-                        iconElementLeft={<Link to={'/shop/order'} > <FlatButton label="Back" /> </Link>}
+                        iconElementLeft={<Link to={'/shop/order'} > <FlatButton label="Back" labelStyle={styles.labelColor} /> </Link>}
 
                     >
 

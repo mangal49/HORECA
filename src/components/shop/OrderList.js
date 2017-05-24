@@ -178,8 +178,6 @@ class OrderList extends React.Component {
                 <div style={{ backgroundColor: '#FFF' /*'#F5F5F5'*/ }}>
                     <Scrollbars style={styles.Scrollbars} >
                         <div style={styles.divList}>
-
-
                             <div style={styles.root}>
                                 <GridList
                                     cellHeight={190}
@@ -282,8 +280,6 @@ class OrderList extends React.Component {
                                 </GridList>
                             </div>
                         </div>
-
-
                     </Scrollbars>
                 </div>
             </div>

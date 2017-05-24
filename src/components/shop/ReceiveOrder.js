@@ -40,7 +40,8 @@ import {
     deepOrange700,
     grey50,
     darkBlack,
-    lightBlue400
+    lightBlue400,
+    lightGreen500
 } from 'material-ui/styles/colors';
 
 const styles = {
@@ -80,7 +81,6 @@ const styles = {
 
 
 class ReceiveOrder extends React.Component {
-
 
     state = {
         showOrderData: [],
@@ -140,7 +140,10 @@ class ReceiveOrder extends React.Component {
         //this.setState({ showTileData: rs2 });
     }
     selectOrder = (e, id, obj) => {
-        this.props.addToInvoice(obj);
+
+        console.log(id);
+        console.log(obj);
+        //this.props.addToInvoice(obj);
     }
     handleOpen = (SelectedTile) => {
         //save แต่ไม่มีการเรียกใช้ mapStateToProps ก็ได้
@@ -188,11 +191,12 @@ class ReceiveOrder extends React.Component {
                                                                 </p>
                                                             }
                                                             leftAvatar={
-                                                                <Avatar color={deepOrange300}
+                                                                <Avatar color={blue300}
                                                                     backgroundColor={status_color}
                                                                 >{orders.createBy.substring(0, 1)}</Avatar>}
 
                                                             rightAvatar={<Avatar size={30} style={styles.ListStyle}>{orders.amount}</Avatar>}
+                                                            onTouchTap={(e) => { this.selectOrder(e, orders.orderNumber, orders) }}
                                                         />
                                                         <Divider />
                                                     </div>
