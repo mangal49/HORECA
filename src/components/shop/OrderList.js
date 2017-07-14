@@ -51,7 +51,7 @@ const styles = {
         textAlign: 'center',
         display: 'inline-block',
         padding: 5,
-        overFlow: 'hidden',
+        //overFlow: 'hidden',
         paddingBottom: 40,
         backgroundColor: "white",
     },
@@ -68,7 +68,7 @@ const styles = {
         width: '100%',
         textAlign: 'center',
         zIndex: 700,
-        overflow: 'hidden',
+        //overflow: 'hidden',
     },
     IconAmount: {
         position: 'absolute',
