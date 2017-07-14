@@ -141,9 +141,9 @@ class ReceiveOrder extends React.Component {
     }
     selectOrder = (e, id, obj) => {
 
-        console.log(id);
         console.log(obj);
-        //this.props.addToInvoice(obj);
+        this.props.selectOrder(obj);
+
     }
     handleOpen = (SelectedTile) => {
         //save แต่ไม่มีการเรียกใช้ mapStateToProps ก็ได้
@@ -181,23 +181,25 @@ class ReceiveOrder extends React.Component {
                                                 return (
 
                                                     <div key={key}>
-                                                        <ListItem key={key} style={{ color: blue300 }}
-                                                            primaryText={orders.orderNumber}
-                                                            secondaryTextLines={2}
-                                                            secondaryText={
-                                                                <p>
-                                                                    <span style={{ color: darkBlack }}> Create By {orders.createBy}</span><br />
-                                                                    Lasted order {orders.lastUpdate}
-                                                                </p>
-                                                            }
-                                                            leftAvatar={
-                                                                <Avatar color={blue300}
-                                                                    backgroundColor={status_color}
-                                                                >{orders.createBy.substring(0, 1)}</Avatar>}
+                                                        <Link to={'/shop/receiveOrderDetail/' + orders.orderNumber} style={{ textDecorationLine: 'none' }}  >
+                                                            <ListItem key={key} style={{ color: blue300 }}
+                                                                primaryText={orders.orderNumber}
+                                                                secondaryTextLines={2}
+                                                                secondaryText={
+                                                                    <p>
+                                                                        <span style={{ color: darkBlack }}> Create By {orders.createBy}</span><br />
+                                                                        Lasted order {orders.lastUpdate}
+                                                                    </p>
+                                                                }
+                                                                leftAvatar={
+                                                                    <Avatar color={blue300}
+                                                                        backgroundColor={status_color}
+                                                                    >{orders.createBy.substring(0, 1)}</Avatar>}
 
-                                                            rightAvatar={<Avatar size={30} style={styles.ListStyle}>{orders.amount}</Avatar>}
-                                                            onTouchTap={(e) => { this.selectOrder(e, orders.orderNumber, orders) }}
-                                                        />
+                                                                rightAvatar={<Avatar size={30} style={styles.ListStyle}>{orders.amount}</Avatar>}
+                                                                onTouchTap={(e) => { this.selectOrder(e, orders.orderNumber, orders) }}
+                                                            />
+                                                        </Link>
                                                         <Divider />
                                                     </div>
                                                 )

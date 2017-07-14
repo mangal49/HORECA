@@ -368,6 +368,8 @@ export const shopData = {
         },
 
     ],
+    orderObj: '',
+
     orderNumbers: [
         {
             id: 0,

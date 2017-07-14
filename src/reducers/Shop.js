@@ -1,4 +1,4 @@
-import { UPDATE_SHOW_ORDER, CHANGE_FAVORITE_ORDER, ADD_TO_INVOICE } from '../actions/types';
+import { UPDATE_SHOW_ORDER, CHANGE_FAVORITE_ORDER, ADD_TO_INVOICE, SELECT_ORDER } from '../actions/types';
 import { shopData as initialState } from './store/Shop';
 
 export default (state = initialState, action) => {
@@ -39,6 +39,8 @@ export default (state = initialState, action) => {
                     ]
                 }
             }
+        case SELECT_ORDER:
+            return { ...state, orderObj: action.payload };
         default:
             return state;
     }

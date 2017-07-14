@@ -107,9 +107,13 @@ class ItemDetail extends React.Component {
             showTileData: this.props.tilesData,
             item: this.props.findItem,
         });
+
+
     }
     componentDidMount() {
         //setTimeout(() => { this.setState({ loading: false }); }, 11500);
+
+
     }
     componentWillReceiveProps(nextProps, nextState) {
         this.updateStyle(nextProps.docked, nextProps.width, nextProps.height);
@@ -119,6 +123,7 @@ class ItemDetail extends React.Component {
     }
     render() {
 
+
         let star = null;
         if (this.state.item.favorite == true) {
             star = <Star color={"gold"} style={styles.Icon} />
@@ -126,7 +131,7 @@ class ItemDetail extends React.Component {
             star = <StarBorder color="black" style={styles.Icon} />
         }
         return (
-            <div style={styles.container}>
+            <div style={styles.container}> title={}
                 <div style={styles.tabs}>
                     <AppBar style={{ height: "48px" }}
                         iconElementLeft={<Link to={'/shop/order'} > <FlatButton label="Back" labelStyle={styles.labelColor} /> </Link>}
