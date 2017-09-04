@@ -1,6 +1,6 @@
 import { NAV_LEFT_MENU_RENDER, AUTH_USER_ROLE, NAV_LEFT_MENU_SIZE } from './types';
 import { updateSearchText, updateSearchFavorite } from './Search';
-import { updateShowOrder, changeFavorite, addToInvoice } from './Shop';
+import { updateShowOrder, changeFavorite, addToInvoice, selectOrder } from './Shop';
 import { UpdateFindItem } from './itemDetail';
 
 export const renderNavLeftMenu = (docked, open) => {
@@ -31,3 +31,4 @@ exports.UpdateFindItem = UpdateFindItem;
 exports.updateShowOrder = updateShowOrder;
 exports.changeFavorite = changeFavorite;
 exports.addToInvoice = addToInvoice;
+exports.selectOrder = selectOrder;

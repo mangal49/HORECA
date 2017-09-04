@@ -14,6 +14,7 @@ import Order from './components/shop/Order'
 import Receive from './components/shop/Receive'
 import ItemDetail from './components/shop/ItemDetail'
 import OldOrder from './components/shop/OldOrder'
+import receiveOrderDetail from './components/shop/receiveOrderDetail'
 
 import Sale from './components/sale'
 import AcceptOrder from './components/sale/AcceptOrder';
@@ -47,6 +48,7 @@ ReactDOM.render(
             <Route path='receive' component={Receive} />
             <Route path='oldorder' component={OldOrder} />
             <Route path='itemdetail/:id' component={ItemDetail} />
+            <Route path='receiveOrderDetail/:id' component={receiveOrderDetail} />
           </Route>
           <Route path='sale' component={App}>
             <IndexRoute component={AcceptOrder} />
