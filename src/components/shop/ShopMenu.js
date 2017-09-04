@@ -27,7 +27,7 @@ class ShopMenu extends React.Component {
                 >
                     <div style={this.props.styleTextMenu}>สั่งซื้อสินค้า</div>
                 </ListItem>
-                <ListItem
+                {/* <ListItem
                     style={(this.props.selectMenu == 2) ? this.props.styleSelectMenu : this.props.styleMenu}
                     leftIcon={
                         <Store color={blueA200} hoverColor={greenA200} />
@@ -48,7 +48,7 @@ class ShopMenu extends React.Component {
                     }
                 >
                     <div style={this.props.styleTextMenu}>รับสินค้า</div>
-                </ListItem>
+                </ListItem> */}
                 <ListItem
                     style={(this.props.selectMenu == 3) ? this.props.styleSelectMenu : this.props.styleMenu}
                     leftIcon={
@@ -58,7 +58,7 @@ class ShopMenu extends React.Component {
                     onTouchTap={() => { this.props.handleClose(); this.props.onSelectMenu(3); }}
                     containerElement={<Link to="/shop/oldorder" />}
                 >
-                    <div style={this.props.styleTextMenu}>สินค้าที่เคยสั่งซื้อ</div>
+                    <div style={this.props.styleTextMenu}>ประวัติการสั่งซื้อ</div>
                 </ListItem>
             </div >
         );

@@ -57,8 +57,8 @@ const styles = {
     },
     divShowTitle: {
         float: 'left', textAlign: 'left',
-        display: 'inline', width: '60%',
-        marginTop: '8px', marginLeft: '7px',
+        display: 'inline', width: '75%',
+        marginTop: '5px', 
     },
     Scrollbars: {
         height: 0,
@@ -83,6 +83,15 @@ const styles = {
         top: 35,
         width: 35,
         background: 'linear-gradient(to right, rgba(0,0,0,1) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)',
+    },
+    line :{
+        margin: 0,
+        marginTop: "0px",
+        marginBottom: "0px",
+        marginLeft: 0,
+        height: "1px",
+        border: "none",
+        backgroundColor: "#E0E0E0"
     }
 };
 
@@ -104,7 +113,7 @@ class OrderList extends React.Component {
         }
     }
     updateState(width) {
-        this.divShowTitle = { ...this.divShowTitle, width: '60%' };
+        //this.divShowTitle = { ...this.divShowTitle, width: '80%' };
         if (width <= this.props.widthCol_1) {
             this.setState({ showCol: 1 });
         } else if (width > this.props.widthCol_1 && width <= this.props.widthCol_2) {
@@ -210,9 +219,9 @@ class OrderList extends React.Component {
                                                     <div
                                                         style={{
                                                             position: 'absolute',
-                                                            bottom: 40, right: '30%',
-                                                            width: '40%', height: '35px',
-                                                            padding: 0, color: 'white', fontSize: '30px',
+                                                            bottom: 40, right: '32.5%',
+                                                            width: '35%', height: '25px',
+                                                            padding: 0, color: 'white', fontSize: '22px',
                                                             background: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)',
                                                         }}
                                                     >
@@ -238,7 +247,8 @@ class OrderList extends React.Component {
                                                 >
                                                     <img src={tile.img} />
                                                 </GridTile>
-                                                <div style={{ marginTop: '-5px', }} >
+                                                <hr style={styles.line} />
+                                                <div style={{ marginTop: '-5px' }} >
                                                     <div style={styles.divShowTitle} >
                                                         <div style={{
                                                             whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
@@ -248,12 +258,22 @@ class OrderList extends React.Component {
                                                             <strong>{tile.sku_name}</strong>
                                                         </div>
                                                         <div style={{
-                                                            fontSize: '12px', color: 'gray',
+                                                            fontSize: '10px', color: 'gray',
                                                             whiteSpace: 'nowrap', overflow: 'hidden',
-                                                            textOverflow: 'ellipsis', marginTop: '-2px'
+                                                            textOverflow: 'ellipsis', marginTop: '-2px',
+                                                            marginLeft:5,
                                                         }}
                                                         >
-                                                            {tile.sku_price.toLocaleString()}/{tile.sku_unit}
+                                                            {tile.sku_price.toLocaleString()} บาท / {tile.sku_unit}
+                                                        </div>
+                                                        <div style={{
+                                                            fontSize: '10px', color: 'gray',
+                                                            whiteSpace: 'nowrap', overflow: 'hidden',
+                                                            textOverflow: 'ellipsis', marginTop: '-2px',
+                                                            marginLeft:5,
+                                                        }}
+                                                        >
+                                                            {tile.min_weight} - {tile.max_weight} {tile.sku_unit}
                                                         </div>
                                                     </div>
                                                     <div
@@ -261,13 +281,14 @@ class OrderList extends React.Component {
                                                             float: 'right', textAlign: 'right', display: 'inline', marginRight: '-10px',
                                                         }}
                                                     >
+                                                        
                                                         <IconButton
-                                                            style={{ padding: 0, width: 25 }}
+                                                            style={{ padding: 0, width: 25, marginRight: 10 }}
                                                             onTouchTap={() => { this.changeFavorite(tile.id) }}
-                                                        >
+                                                        >{/* style={{ padding: 0, width: 25 }} */}
                                                             {star}
                                                         </IconButton>
-                                                        <Link to={'/shop/itemdetail/' + tile.id} >
+                                                        {/* <Link to={'/shop/itemdetail/' + tile.id} >
                                                             <IconButton
                                                                 style={{ padding: 0, width: 25, marginRight: 10 }}
                                                             >
@@ -277,7 +298,7 @@ class OrderList extends React.Component {
                                                                     onTouchTap={() => { this.handleOpen(tile) }}
                                                                 />
                                                             </IconButton>
-                                                        </Link>
+                                                        </Link> */}
                                                     </div>
                                                 </div>
                                                 {iconChangeAmount}

@@ -18,6 +18,8 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import RaisedButton from 'material-ui/RaisedButton';
 import Save from 'material-ui/svg-icons/content/save';
 
+import Toggle from 'material-ui/Toggle';
+
 import { grey400, darkBlack, lightBlack } from 'material-ui/styles/colors';
 
 const styles = {
@@ -27,6 +29,8 @@ const styles = {
     divContent: {
         float: 'left',
         width: '40%',
+        marginTop:-20,
+        marginLeft:-20,
     },
     divAmount: {
         float: 'right',
@@ -61,11 +65,20 @@ const styles = {
         textAlign: 'center',
         zIndex: 600,
     },
+    balance:{
+        color: darkBlack,
+        float: 'right',
+        marginTop: "50px",
+        width: '50%',
+        fontSize: '14px',
+        whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+    }
 };
 
 class InvoiceList extends React.Component {
     state = {
-        loading: true
+        loading: true,
+        serviceCharge: false,
     }
     updateStyle(docked, width, height) {
         if (docked) {
@@ -76,16 +89,22 @@ class InvoiceList extends React.Component {
 
             let footerHeight = 38 - 55;
             styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: width - 255 };
-            styles.Scrollbars = { ...styles.Scrollbars, height: height - 110 - footerHeight };
+            styles.Scrollbars = { ...styles.Scrollbars, height: height - 163 - footerHeight };
+
+            styles.balance = {...styles.balance,width:'50%',marginRight:'-41%'};
+
         } else {
-            styles.divContent = { ...styles.divContent, marginLeft: 0, width: '30%', };
-            styles.divAmount = { ...styles.divAmount, marginRight: -20, width: '70%', };
+            styles.divContent = { ...styles.divContent, marginLeft: -10, width: '61%', };
+            styles.divAmount = { ...styles.divAmount, marginRight: -20, width: '49%', };
             styles.divLine = { ...styles.divLine, marginRight: 0, };
-            styles.avatar = { ...styles.avatar, marginLeft: 0, };
+            styles.avatar = { ...styles.avatar, marginLeft: -15, };
 
             let footerHeight = 44 - 55;
             styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: '100%' };
-            styles.Scrollbars = { ...styles.Scrollbars, height: height - 160 - footerHeight };
+            styles.Scrollbars = { ...styles.Scrollbars, height: height - 157 - footerHeight };
+
+            
+            styles.balance = {...styles.balance,width:'50%',marginRight:'-71%'};
         }
     }
     componentWillMount() {
@@ -100,6 +119,13 @@ class InvoiceList extends React.Component {
     componentWillUnmount() {
         this.props.handleTransitionEnd();
     }
+
+    handleToggle = (event, toggled) => {
+        this.setState({
+            [event.target.name]: toggled,
+        });
+    };
+
     render() {
         // if (this.state.loading) {
         //     return (
@@ -122,35 +148,52 @@ class InvoiceList extends React.Component {
                                     >
                                         {this.props.invoiceOrder.map((item, index) => {
                                             balance += (item.amount * item.sku_price);
+                                            let showService = item.service_price > 0 && <div style={{
+                                                                                            color: lightBlack,
+                                                                                            textAlign: 'left',width: '100%',
+                                                                                            marginLeft: 10, marginTop: 5,
+                                                                                            fontSize:'14px',
+                                                                                            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                                                                                        }}
+                                                                                        >
+                                                                                            <Toggle
+                                                                                                name="serviceCharge"
+                                                                                                value="serviceCharge"
+                                                                                                label={`Slice ${item.service_price} บาท / ${item.sku_unit}`}
+                                                                                                toggled={this.state.serviceCharge}
+                                                                                                onToggle={this.handleToggle}
+                                                                                                style={{width:'30%',color: lightBlack,fontSize:'12px'}}
+                                                                                            />
+                                                                                        </div>
                                             return (
                                                 <div key={index}>
                                                     <ListItem
-                                                        leftAvatar={<Avatar src={item.img} size={80} style={styles.avatar} />}
-                                                        style={{ height: 65 }}
+                                                        leftAvatar={<Avatar src={item.img} size={60} style={styles.avatar} />}
+                                                        style={{ height: 50 }}
                                                         disabled={true}
                                                     >
                                                         <div style={styles.divContent}>
                                                             <div style={{
-                                                                textAlign: 'left',
-                                                                marginLeft: 35,
-                                                                marginTop: 10,
+                                                                textAlign: 'left',width: '100%',
+                                                                marginLeft: 10,marginTop: 10,
                                                                 whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                                                                width: '100%'
                                                             }}
                                                             >
                                                                 {item.sku_name}
                                                             </div>
                                                             <div style={{
                                                                 color: lightBlack,
-                                                                textAlign: 'left',
-                                                                marginLeft: 35,
-                                                                marginTop: 5,
+                                                                textAlign: 'left',width: '100%',
+                                                                marginLeft: 10, marginTop: 10,
+                                                                fontSize:'11px',
                                                                 whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                                                                width: '100%'
                                                             }}
                                                             >
-                                                                {item.sku_price.toLocaleString()}/{item.sku_unit}
+                                                                {item.sku_price.toLocaleString()} บาท / {item.sku_unit}
+                                                                &nbsp;
+                                                                ( {item.min_weight} - {item.max_weight} {item.sku_unit}/ชิ้น )
                                                             </div>
+                                                            {showService}
                                                         </div>
                                                         <div style={styles.divAmount}>
                                                             <div style={{ marginTop: -10 }} >
@@ -181,20 +224,10 @@ class InvoiceList extends React.Component {
                                                                         onTouchTap={this.handleOpen}
                                                                     />
                                                                 </IconButton>
-                                                            </div>
-                                                            <div style={{
-                                                                color: lightBlack,
-                                                                float: 'right',
-                                                                marginTop: "50px",
-                                                                marginRight: "-41%",
-                                                                width: '50%',
-                                                                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                                                            }}>{(item.amount * item.sku_price).toLocaleString()} บาท</div>
-                                                            <div
-                                                                style={styles.divLine}
-                                                            >
-                                                                &nbsp;
-                                                            </div>
+                                                                <div style={styles.balance}>
+                                                                    {(item.amount * item.sku_price).toLocaleString()} บาท
+                                                                </div>  
+                                                            </div>                                                          
                                                         </div>
                                                     </ListItem>
                                                     <Divider style={{ width: '100%' }} />
@@ -211,7 +244,7 @@ class InvoiceList extends React.Component {
                 <div
                     style={{
                         positiion: 'fixed',
-                        bottom: 0, zIndex: 900,
+                        bottom: -200, zIndex: 900,
                         //borderStyle: 'solid', borderColor: '#d9d9d9',
                         //borderWidth: '1px 0px 0px 0px',
                         paddingTop: 3,
