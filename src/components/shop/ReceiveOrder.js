@@ -135,7 +135,7 @@ class ReceiveOrder extends React.Component {
             }
         });
         let rs2 = rs.filter((tiles) => {
-            return tiles.title.indexOf(searchText) > -1;
+            return tiles.sku_name.indexOf(searchText) > -1;
         });
         //this.setState({ showTileData: rs2 });
     }

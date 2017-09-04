@@ -1,6 +1,291 @@
 export const shopData = {
     showTileData: [],
+
     invoiceOrder: [
+        {
+            id: 0,
+            img: '../images/meat/chuck_roast.jpg',
+            favorite: true,
+            amount: 15,
+            sku_name: "Chuck Roast",
+            sku_price_show: "1,250/Kg.",
+            sku_price: 1250,
+            sku_unit: "Kg."
+        },
+        {
+            id: 4,
+            img: '../images/meat/wagyu_slice.jpg',
+            favorite: true,
+            amount: 25,
+            sku_name: "Wagyu A5 Slice",
+            sku_price_show: "11,850/Kg.",
+            sku_price: 11850,
+            sku_unit: "Kg."
+        },
+        {
+            id: 5,
+            img: '../images/meat/rbeye.jpg',
+            favorite: true,
+            amount: 15,
+            sku_name: "Ribeye Steak",
+            sku_price_show: "3,340/Kg.",
+            sku_price: 3340,
+            sku_unit: "Kg."
+        },
+        /*{
+            id: 6,
+            img: '../images/meat/sirloin-steak.jpg',
+            favorite: true,
+            amount: 15,
+            sku_name: "Sirloin Steak",
+            sku_price_show: "1,300/Kg.",
+            sku_price: 1300,
+            sku_unit: "Kg."
+        },
+        {
+            id: 7,
+            img: '../images/meat/t_bone_steak.jpg',
+            favorite: true,
+            amount: 15,
+            sku_name: "T-Bone Steak",
+            sku_price_show: "2,040/Kg.",
+            sku_price: 2040,
+            sku_unit: "Kg."
+        },
+        {
+            id: 8,
+            img: '../images/meat/beef-ternderloin.jpg',
+            favorite: true,
+            amount: 15,
+            sku_name: "Ternderloin Steak",
+            sku_price_show: "3,940/Kg.",
+            sku_price: 3940,
+            sku_unit: "Kg."
+        },
+        {
+            id: 9,
+            img: '../images/meat/top_round_steak.jpg',
+            favorite: true,
+            amount: 15,
+            sku_name: "Top Round Steak",
+            sku_price_show: "1,050/Kg.",
+            sku_price: 1050,
+            sku_unit: "Kg."
+        },
+        {
+            id: 10,
+            img: '../images/meat/beef-for-kabobs.jpg',
+            favorite: true,
+            amount: 15,
+            sku_name: "BEEF FOR KABOBS",
+            sku_price_show: "750/Kg.",
+            sku_price: 750,
+            sku_unit: "Kg."
+        },*/
+    ],
+
+    tilesData: [
+        {
+            id: 0,
+            img: '../images/meat/chuck_roast.jpg',
+            favorite: true,
+            sku_name: "Chuck Roast",
+            sku_price_show: "1,250/Kg.",
+            sku_price: 1250,
+            sku_unit: "Kg."
+        },
+        {
+            id: 1,
+            img: '../images/meat/top_blade_steak.jpg',
+            favorite: true,
+            sku_name: "Shoulder top blad",
+            sku_price_show: "850/Kg.",
+            sku_price: 850,
+            sku_unit: "Kg."
+        },
+        {
+            id: 2,
+            img: '../images/meat/wagyu1.jpg',
+            favorite: true,
+            sku_name: "Wagyu A5",
+            sku_price_show: "9,850/Kg.",
+            sku_price: 9850,
+            sku_unit: "Kg."
+        },
+        {
+            id: 3,
+            img: '../images/meat/wagyu2.jpg',
+            favorite: true,
+            sku_name: "Wagyu A3",
+            sku_price_show: "5,850/Kg.",
+            sku_price: 5850,
+            sku_unit: "Kg."
+        },
+        {
+            id: 4,
+            img: '../images/meat/wagyu_slice.jpg',
+            favorite: true,
+            sku_name: "Wagyu A5 Slice",
+            sku_price_show: "11,850/Kg.",
+            sku_price: 11850,
+            sku_unit: "Kg."
+        },
+        {
+            id: 5,
+            img: '../images/meat/rbeye.jpg',
+            favorite: true,
+            sku_name: "Ribeye Steak",
+            sku_price_show: "3,340/Kg.",
+            sku_price: 3340,
+            sku_unit: "Kg."
+        },
+        {
+            id: 6,
+            img: '../images/meat/sirloin-steak.jpg',
+            favorite: true,
+            sku_name: "Sirloin Steak",
+            sku_price_show: "1,300/Kg.",
+            sku_price: 1300,
+            sku_unit: "Kg."
+        },
+        {
+            id: 7,
+            img: '../images/meat/t_bone_steak.jpg',
+            favorite: true,
+            sku_name: "T-Bone Steak",
+            sku_price_show: "2,040/Kg.",
+            sku_price: 2040,
+            sku_unit: "Kg."
+        },
+        {
+            id: 8,
+            img: '../images/meat/beef-ternderloin.jpg',
+            favorite: true,
+            sku_name: "Ternderloin Steak",
+            sku_price_show: "3,940/Kg.",
+            sku_price: 3940,
+            sku_unit: "Kg."
+        },
+        {
+            id: 9,
+            img: '../images/meat/top_round_steak.jpg',
+            favorite: true,
+            sku_name: "Top Round Steak",
+            sku_price_show: "1,050/Kg.",
+            sku_price: 1050,
+            sku_unit: "Kg."
+        },
+        {
+            id: 10,
+            img: '../images/meat/beef-for-kabobs.jpg',
+            favorite: true,
+            sku_name: "BEEF FOR KABOBS",
+            sku_price_show: "750/Kg.",
+            sku_price: 750,
+            sku_unit: "Kg."
+        },
+        {
+            id: 11,
+            img: '../images/meat/chuck_roast.jpg',
+            favorite: false,
+            sku_name: "Chuck Roast",
+            sku_price_show: "1,250/Kg.",
+            sku_price: 1250,
+            sku_unit: "Kg."
+        },
+        {
+            id: 12,
+            img: '../images/meat/top_blade_steak.jpg',
+            favorite: false,
+            sku_name: "Shoulder top blad",
+            sku_price_show: "850/Kg.",
+            sku_price: 850,
+            sku_unit: "Kg."
+        },
+        {
+            id: 13,
+            img: '../images/meat/wagyu1.jpg',
+            favorite: false,
+            sku_name: "Wagyu A5",
+            sku_price_show: "9,850/Kg.",
+            sku_price: 9850,
+            sku_unit: "Kg."
+        },
+        {
+            id: 14,
+            img: '../images/meat/wagyu2.jpg',
+            favorite: false,
+            sku_name: "Wagyu A3",
+            sku_price_show: "5,850/Kg.",
+            sku_price: 5850,
+            sku_unit: "Kg."
+        },
+        {
+            id: 15,
+            img: '../images/meat/wagyu_slice.jpg',
+            favorite: false,
+            sku_name: "Wagyu A5 Slice",
+            sku_price_show: "11,850/Kg.",
+            sku_price: 11850,
+            sku_unit: "Kg."
+        },
+        {
+            id: 16,
+            img: '../images/meat/rbeye.jpg',
+            favorite: false,
+            sku_name: "Ribeye Steak",
+            sku_price_show: "3,340/Kg.",
+            sku_price: 3340,
+            sku_unit: "Kg."
+        },
+        {
+            id: 17,
+            img: '../images/meat/sirloin-steak.jpg',
+            favorite: false,
+            sku_name: "Sirloin Steak",
+            sku_price_show: "1,300/Kg.",
+            sku_price: 1300,
+            sku_unit: "Kg."
+        },
+        {
+            id: 18,
+            img: '../images/meat/t_bone_steak.jpg',
+            favorite: false,
+            sku_name: "T-Bone Steak",
+            sku_price_show: "2,040/Kg.",
+            sku_price: 2040,
+            sku_unit: "Kg."
+        },
+        {
+            id: 19,
+            img: '../images/meat/beef-ternderloin.jpg',
+            favorite: false,
+            sku_name: "Ternderloin Steak",
+            sku_price_show: "3,940/Kg.",
+            sku_price: 3940,
+            sku_unit: "Kg."
+        },
+        {
+            id: 20,
+            img: '../images/meat/top_round_steak.jpg',
+            favorite: false,
+            sku_name: "Top Round Steak",
+            sku_price_show: "1,050/Kg.",
+            sku_price: 1050,
+            sku_unit: "Kg."
+        },
+        {
+            id: 21,
+            img: '../images/meat/beef-for-kabobs.jpg',
+            favorite: false,
+            sku_name: "BEEF FOR KABOBS",
+            sku_price_show: "750/Kg.",
+            sku_price: 7750,
+            sku_unit: "Kg."
+        },
+    ],
+
+    invoiceOrder_xxx: [
         {
             id: 0,
             img: '../images/grid-list/00-52-29-429_640.jpg',
@@ -28,8 +313,7 @@ export const shopData = {
 
     ],
 
-
-    tilesData: [
+    tilesData_xxx: [
         {
             id: 0,
             img: '../images/grid-list/00-52-29-429_640.jpg',

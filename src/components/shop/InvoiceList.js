@@ -106,6 +106,7 @@ class InvoiceList extends React.Component {
         //         <Loading />
         //     );
         // }
+        let balance = 0;
         return (
             <div>
                 <div style={{ backgroundColor: '#FFF' /*'#F5F5F5'*/ }}>
@@ -120,6 +121,7 @@ class InvoiceList extends React.Component {
                                         style={{ textAlign: 'center', }}
                                     >
                                         {this.props.invoiceOrder.map((item, index) => {
+                                            balance += (item.amount * item.sku_price);
                                             return (
                                                 <div key={index}>
                                                     <ListItem
@@ -136,7 +138,7 @@ class InvoiceList extends React.Component {
                                                                 width: '100%'
                                                             }}
                                                             >
-                                                                {item.title}
+                                                                {item.sku_name}
                                                             </div>
                                                             <div style={{
                                                                 color: lightBlack,
@@ -147,37 +149,47 @@ class InvoiceList extends React.Component {
                                                                 width: '100%'
                                                             }}
                                                             >
-                                                                {item.author}
+                                                                {item.sku_price.toLocaleString()}/{item.sku_unit}
                                                             </div>
                                                         </div>
                                                         <div style={styles.divAmount}>
-                                                            <IconButton
-                                                                style={{ float: 'right', marginRight: 0, marginTop: 5 }}
-                                                            >
-                                                                <Add
-                                                                    color="green"
-                                                                    style={{ ...styles.Icon }}
-                                                                    onTouchTap={this.handleOpen}
-                                                                    viewBox="0 0 24 24"
+                                                            <div style={{ marginTop: -10 }} >
+                                                                <IconButton
+                                                                    style={{ float: 'right', marginRight: 0, marginTop: 5 }}
+                                                                >
+                                                                    <Add
+                                                                        color="green"
+                                                                        style={{ ...styles.Icon }}
+                                                                        onTouchTap={this.handleOpen}
+                                                                        viewBox="0 0 24 24"
+                                                                    />
+                                                                </IconButton>
+                                                                <TextField
+                                                                    defaultValue={item.amount.toLocaleString()}
+                                                                    floatingLabelText="จำนวน"
+                                                                    style={{ width: 40, float: 'right', marginTop: -20, marginRight: -5 }}
+                                                                    inputStyle={{
+                                                                        textAlign: 'center'
+                                                                    }}
                                                                 />
-                                                            </IconButton>
-                                                            <TextField
-                                                                defaultValue={item.amount}
-                                                                floatingLabelText="จำนวน"
-                                                                style={{ width: 40, float: 'right', marginTop: -20, marginRight: -5 }}
-                                                                inputStyle={{
-                                                                    textAlign: 'center'
-                                                                }}
-                                                            />
-                                                            <IconButton
-                                                                style={{ float: 'right', marginRight: -5, marginTop: 5 }}
-                                                            >
-                                                                <Remove
-                                                                    color="red"
-                                                                    style={styles.Icon}
-                                                                    onTouchTap={this.handleOpen}
-                                                                />
-                                                            </IconButton>
+                                                                <IconButton
+                                                                    style={{ float: 'right', marginRight: -5, marginTop: 5 }}
+                                                                >
+                                                                    <Remove
+                                                                        color="red"
+                                                                        style={styles.Icon}
+                                                                        onTouchTap={this.handleOpen}
+                                                                    />
+                                                                </IconButton>
+                                                            </div>
+                                                            <div style={{
+                                                                color: lightBlack,
+                                                                float: 'right',
+                                                                marginTop: "50px",
+                                                                marginRight: "-41%",
+                                                                width: '50%',
+                                                                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                                                            }}>{(item.amount * item.sku_price).toLocaleString()} บาท</div>
                                                             <div
                                                                 style={styles.divLine}
                                                             >
@@ -215,7 +227,7 @@ class InvoiceList extends React.Component {
                     //backgroundColor="#a4c639"
                     />
                 </div>
-            </div>
+            </div >
         );
     }
 }

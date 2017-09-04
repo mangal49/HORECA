@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import AppBar from './AppBar';
 import { connect } from 'react-redux';
 
-// import ScrollArea from 'react-scrollbar';
+//import ScrollArea from 'react-scrollbar';
 
 import { Scrollbars } from 'react-custom-scrollbars';
 

@@ -9,7 +9,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import App from './components/app';
 
-import Shop from './components/shop'
+//import Shop from './components/shop'
 import Order from './components/shop/Order'
 import Receive from './components/shop/Receive'
 import ItemDetail from './components/shop/ItemDetail'

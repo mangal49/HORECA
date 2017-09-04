@@ -57,7 +57,7 @@ const styles = {
     },
     divShowTitle: {
         float: 'left', textAlign: 'left',
-        display: 'inline', width: '50%',
+        display: 'inline', width: '60%',
         marginTop: '8px', marginLeft: '7px',
     },
     Scrollbars: {
@@ -70,12 +70,19 @@ const styles = {
         zIndex: 700,
         //overflow: 'hidden',
     },
-    IconAmount: {
+    IconAdd: {
         position: 'absolute',
         padding: 0,
         top: 35,
         width: 35,
         background: 'linear-gradient(to left, rgba(0,0,0,1) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)',
+    },
+    IconRemove: {
+        position: 'absolute',
+        padding: 0,
+        top: 35,
+        width: 35,
+        background: 'linear-gradient(to right, rgba(0,0,0,1) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)',
     }
 };
 
@@ -97,7 +104,7 @@ class OrderList extends React.Component {
         }
     }
     updateState(width) {
-        this.divShowTitle = { ...this.divShowTitle, width: '70%' };
+        this.divShowTitle = { ...this.divShowTitle, width: '60%' };
         if (width <= this.props.widthCol_1) {
             this.setState({ showCol: 1 });
         } else if (width > this.props.widthCol_1 && width <= this.props.widthCol_2) {
@@ -141,7 +148,7 @@ class OrderList extends React.Component {
             }
         });
         let rs2 = rs.filter((tiles) => {
-            return tiles.title.indexOf(searchText) > -1;
+            return tiles.sku_name.indexOf(searchText) > -1;
         });
         this.setState({ showTileData: rs2 });
     }
@@ -194,10 +201,10 @@ class OrderList extends React.Component {
                                             paperBackground = '#C8E6C9';
                                             iconChangeAmount =
                                                 <div>
-                                                    <IconButton style={{ ...styles.IconAmount, left: 4, }} >
+                                                    <IconButton style={{ ...styles.IconRemove, left: 5, }} >
                                                         <Remove color="#EF5350" style={styles.Icon} />
                                                     </IconButton>
-                                                    <IconButton style={{ ...styles.IconAmount, right: 4, }} >
+                                                    <IconButton style={{ ...styles.IconAdd, right: 5, }} >
                                                         <Add color="#64DD17" style={styles.Icon} />
                                                     </IconButton>
                                                     <div
@@ -235,10 +242,10 @@ class OrderList extends React.Component {
                                                     <div style={styles.divShowTitle} >
                                                         <div style={{
                                                             whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                                                            fontSize: '13px',
                                                         }}
-
                                                         >
-                                                            {tile.title}
+                                                            <strong>{tile.sku_name}</strong>
                                                         </div>
                                                         <div style={{
                                                             fontSize: '12px', color: 'gray',
@@ -246,7 +253,7 @@ class OrderList extends React.Component {
                                                             textOverflow: 'ellipsis', marginTop: '-2px'
                                                         }}
                                                         >
-                                                            {tile.author}
+                                                            {tile.sku_price.toLocaleString()}/{tile.sku_unit}
                                                         </div>
                                                     </div>
                                                     <div

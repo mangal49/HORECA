@@ -143,7 +143,7 @@ class ItemDetail extends React.Component {
                             <Card style={{ position: 'relative', boxShadow: 'none' }}>
 
                                 <CardMedia style={{ textAlign: 'center' }}
-                                    overlay={<CardTitle title={this.state.item.title} subtitle={this.state.item.author} />}
+                                    overlay={<CardTitle title={this.state.item.sku_name} subtitle={this.state.item.sku_price.toLocaleString() + "/" + this.state.item.sku_unit} />}
 
                                 >
 

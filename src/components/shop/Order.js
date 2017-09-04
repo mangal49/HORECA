@@ -59,7 +59,8 @@ class Order extends React.Component {
 
     updateStyle(docked, width, height) {
         if (docked) {
-            styles.container = { ...styles.container, top: '0px' };
+            //styles.container = { ...styles.container, top: '0px' };
+            styles.container = { ...styles.container, top: '56px' };
             styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: width - 255 };
         } else {
             styles.container = { ...styles.container, top: '56px' };

@@ -58,11 +58,11 @@ class AvatarShow extends React.Component {
             <div>
                 <ListItem
                     disabled={true}
-                    style={{ textAlign: 'center', height: '100px', backgroundColor: "#eeeeee" }}
+                    style={{ textAlign: 'center', height: '71px', backgroundColor: "#eeeeee" }}
                 >
                     <div>
                         <Avatar src="../images/mk_logo.png"
-                            size={85}
+                            size={45}
                             style={styles.Avatar}
                         />
                         <div>
