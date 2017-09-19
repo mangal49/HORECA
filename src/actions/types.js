@@ -13,6 +13,8 @@ export const ADD_TO_ORDER = 'ADD_TO_ORDER';
 export const SELECT_ORDER = 'SELECT_ORDER';
 export const CLEAR_ORDER = 'CLEAR_ORDER';
 export const FETCH_SKU = 'FETCH_SKU';
+export const SHOW_ORDER_BALANCE = 'SHOW_ORDER_BALANCE';
+export const NOT_SHOW_ORDER_BALANCE = 'NOT_SHOW_ORDER_BALANCE';
 
 //--------------- Auth ------------------//
 export const AUTH_USER_ROLE = 'AUTH_USER_ROLE';

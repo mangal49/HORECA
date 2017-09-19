@@ -2,13 +2,14 @@ import {
     UPDATE_SHOW_ORDER, CHANGE_FAVORITE_ORDER,
     ADD_TO_ORDER, SELECT_ORDER, CLEAR_ORDER,
     FIND_ITEM_DETAIL, FETCH_SKU,
+    SHOW_ORDER_BALANCE, NOT_SHOW_ORDER_BALANCE,
 } from '../actions/types';
 //import { shopData as initialState } from './store/Shop';
 
 const initialState = {
-    invoiceOrder: [],
+    allOrder: [],
     allSKU: [],
-    
+    showCartBalance: 0
 };
 
 export default (state = initialState, action) => {
@@ -33,28 +34,31 @@ export default (state = initialState, action) => {
         case ADD_TO_ORDER:
             let order = action.payload;
             order.amount = 1;
-            let index = state.invoiceOrder.findIndex((rs) => { return rs.id == order.id });
+            let index = state.allOrder.findIndex((rs) => { return rs.id == order.id });
             if (index == -1) {
                 return {
                     ...state,
-                    invoiceOrder: [...state.invoiceOrder, order]
+                    allOrder: [...state.allOrder, order]
                 }
             } else {
                 return {
                     ...state,
-                    invoiceOrder: [
-                        ...state.invoiceOrder.slice(0, index),
-                        ...state.invoiceOrder.slice(index + 1)
+                    allOrder: [
+                        ...state.allOrder.slice(0, index),
+                        ...state.allOrder.slice(index + 1)
                     ]
                 }
             }
         case SELECT_ORDER:
             return { ...state, orderObj: action.payload };
         case CLEAR_ORDER:
-            return {
-                ...state,
-                invoiceOrder: []
-            }
+            return { ...state, allOrder: [] }
+        case SHOW_ORDER_BALANCE:
+            console.log(state);
+            return { ...state, showCartBalance: true };
+            console.log(state);
+        case NOT_SHOW_ORDER_BALANCE:
+            return { ...state, showCartBalance: false };
         default:
             return state;
     }

@@ -80,11 +80,9 @@ const styles = {
 
 class OrderList extends React.Component {
     state = {
-        loading: true,
         serviceCharge: false,
         dialogOpen: false,
     }
-
     handleOpenDialog = () => {
         this.setState({ dialogOpen: true });
     };
@@ -126,7 +124,7 @@ class OrderList extends React.Component {
         this.updateStyle(nextProps.docked, nextProps.width, nextProps.height);
     }
     componentDidMount() {
-        setTimeout(() => { this.setState({ loading: false }); }, 500);
+        // setTimeout(() => { this.setState({ loading: false }); }, 500);
     }
     componentWillUnmount() {
         this.props.handleTransitionEnd();
@@ -139,11 +137,6 @@ class OrderList extends React.Component {
     };
 
     render() {
-        // if (this.state.loading) {
-        //     return (
-        //         <Loading />
-        //     );
-        // }
         let balance = 0;
         return (
             <div>
@@ -158,7 +151,7 @@ class OrderList extends React.Component {
                                     <List
                                         style={{ textAlign: 'center', }}
                                     >
-                                        {this.props.invoiceOrder.map((item, index) => {
+                                        {this.props.allOrder.map((item, index) => {
                                             balance += (item.amount * item.sku_price);
                                             let showService = item.service_price > 0 && <div style={{
                                                 color: lightBlack,
@@ -311,7 +304,7 @@ class OrderList extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        invoiceOrder: state.shop.invoiceOrder,
+        allOrder: state.shop.allOrder,
         docked: state.navLeftMenu.docked,
         width: state.navLeftMenu.width,
         height: state.navLeftMenu.height,

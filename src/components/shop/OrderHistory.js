@@ -172,7 +172,7 @@ function mapStateToProps(state) {
         height: state.navLeftMenu.height,
         open: state.navLeftMenu.open,
         docked: state.navLeftMenu.docked,
-        invoiceOrder: state.shop.invoiceOrder,
+        allOrder: state.shop.allOrder,
     }
 }
 

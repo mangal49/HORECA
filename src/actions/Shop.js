@@ -1,7 +1,7 @@
 import {
     UPDATE_SHOW_ORDER, CHANGE_FAVORITE_ORDER,
     ADD_TO_ORDER, SELECT_ORDER, CLEAR_ORDER,
-    FETCH_SKU
+    FETCH_SKU, SHOW_ORDER_BALANCE, NOT_SHOW_ORDER_BALANCE,
 } from './types';
 import { API_URL } from '../config'
 import axios from 'axios';
@@ -67,20 +67,34 @@ export const addToOrder = (order) => {
     return {
         type: ADD_TO_ORDER,
         payload: order
-    }
+    };
 };
 
 export const selectOrder = (order) => {
     return {
         type: SELECT_ORDER,
         payload: order
-    }
+    };
+};
+
+export const showOrderBalance = () => {
+    return {
+        type: SHOW_ORDER_BALANCE,
+        payload: true
+    };
+};
+
+export const notShowOrderBalance = () => {
+    return {
+        type: NOT_SHOW_ORDER_BALANCE,
+        payload: false
+    };
 };
 
 export const clearOrder = () => {
     return {
         type: CLEAR_ORDER,
-    }
+    };
 };
 
 

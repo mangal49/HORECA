@@ -98,8 +98,6 @@ class CatalogList extends React.Component {
     state = {
         showCol: 4,
         showSKU: [],
-        open: false,
-        loading: true
     }
 
     updateStyle(docked, width, height) {
@@ -205,8 +203,8 @@ class CatalogList extends React.Component {
                                 >
                                     {this.state.showSKU.map((sku, index) => {
                                         let key = sku.img + (i++);
-                                        let checkInvoice = this.props.invoiceOrder.findIndex((rs) => { return rs.id == sku.id });
-                                        let invoiceData = this.props.invoiceOrder.find((rs) => { return rs.id == sku.id });
+                                        let checkInvoice = this.props.allOrder.findIndex((rs) => { return rs.id == sku.id });
+                                        let invoiceData = this.props.allOrder.find((rs) => { return rs.id == sku.id });
                                         let paperBackground = '';
                                         let iconChangeAmount = '';
                                         if (checkInvoice > -1) {
@@ -354,7 +352,7 @@ function mapStateToProps(state) {
         searchText: state.search.text,
         searchFavorite: state.search.favorite,
         allSKU: state.shop.allSKU,
-        invoiceOrder: state.shop.invoiceOrder,
+        allOrder: state.shop.allOrder,
         docked: state.navLeftMenu.docked,
         displayLoading: state.common.displayLoading,
     }

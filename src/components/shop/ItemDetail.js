@@ -195,7 +195,7 @@ function mapStateToProps(state) {
         docked: state.navLeftMenu.docked,
         role: state.auth.role,
         tilesData: state.shop.tilesData,
-        invoiceOrder: state.shop.invoiceOrder,
+        allOrder: state.shop.allOrder,
         findItem: state.itemDetail.findItem,
         height: state.navLeftMenu.height
     }

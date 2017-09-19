@@ -89,10 +89,10 @@ class AppBarMenu extends React.Component {
             //showAppBar = 'none';
         }
         let balance = null;
-        balance = this.props.invoiceOrder.reduce((sum, sku) => {
+        balance = this.props.allOrder.reduce((sum, sku) => {
             return sum + (sku.amount * sku.sku_price)
         }, 0);
-        let showBalance = balance > 0 && <span style={styles.showSum}>
+        let showBalance = this.props.showCartBalance && balance > 0 && <span style={styles.showSum}>
             <ShoppingCart color={"gold"} style={{ marginBottom: -5, marginRight: 5 }} />
             {balance > 0 && ` ${balance.toLocaleString()}`}
         </span>
@@ -127,7 +127,11 @@ function mapStateToProps(state) {
         drawerOpen: state.navLeftMenu.open,
         drawerDocked: state.navLeftMenu.docked,
         width: state.navLeftMenu.width,
-        invoiceOrder: state.shop.invoiceOrder,
+        allOrder: state.shop.allOrder,
+
+        showCartBalance: state.shop.showCartBalance,
+
+        authenticated: state.auth.authenticated,
     }
 }
 

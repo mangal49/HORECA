@@ -36,16 +36,16 @@ const styles = {
 };
 
 class Order extends React.Component {
+    state = {
+        value: 'CatalogList',
+        numberOfPieces: "",
+        on: 1,
+        transitionEnd: true,
+        transitionName: 'tabOne', // This is a CSS name
+    }
 
     constructor(props) {
         super(props);
-        this.state = {
-            value: 'CatalogList',
-            invoiceAmount: "",
-            on: 1,
-            transitionEnd: true,
-            transitionName: 'tabOne', // This is a CSS name
-        };
     }
 
 
@@ -60,19 +60,22 @@ class Order extends React.Component {
         }
     }
 
-    updateShowInvoiceAmount(amount) {
-        if (amount > 0) this.setState({ invoiceAmount: ` (${amount})` });
-        else this.setState({ invoiceAmount: `` });
+    updateShowNumberOfPieces(amount) {
+        if (amount > 0) this.setState({ numberOfPieces: ` (${amount})` });
+        else this.setState({ numberOfPieces: `` });
     }
 
     componentWillMount() {
+        this.props.showOrderBalance();
+        //this.props.notShowOrderBalance();
+
         this.updateStyle(this.props.docked, this.props.width, this.props.height);
-        this.updateShowInvoiceAmount(this.props.invoiceOrder.length);
+        this.updateShowNumberOfPieces(this.props.allOrder.length);
     }
 
     componentWillReceiveProps(nextProps, nextState) {
         this.updateStyle(nextProps.docked, nextProps.width, nextProps.height);
-        this.updateShowInvoiceAmount(nextProps.invoiceOrder.length);
+        this.updateShowNumberOfPieces(nextProps.allOrder.length);
     }
 
     shouldComponentUpdate = (nextProps, nextState) => {
@@ -164,7 +167,7 @@ class Order extends React.Component {
                             onClick={() => { this.toggle('FavoriteList') }}
                             style={styles.tab}
                         />
-                        <Tab label={`สั่งซื้อ${this.state.invoiceAmount}`} value="OrderList"
+                        <Tab label={`สั่งซื้อ${this.state.numberOfPieces}`} value="OrderList"
                             onClick={() => { this.toggle('OrderList') }}
                             style={styles.tab}
                         />
@@ -190,7 +193,7 @@ function mapStateToProps(state) {
         height: state.navLeftMenu.height,
         open: state.navLeftMenu.open,
         docked: state.navLeftMenu.docked,
-        invoiceOrder: state.shop.invoiceOrder,
+        allOrder: state.shop.allOrder,
     }
 }
 
