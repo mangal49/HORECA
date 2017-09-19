@@ -25,14 +25,10 @@ export const fetchSKU = () => {
         dispatch(statusLoading());
         axios.post(`/getSKU`, {}, { headers: { 'Authorization': "Bearer " + localStorage.getItem('token') } }).then(res => {
             localStorage.setItem('token', res.data.token);
-            //console.log(res.data.allSKU);
             dispatch({ type: FETCH_SKU, payload: res.data.allSKU });
             dispatch(statusLoaded());
         }).catch(function (err) {
             // If request is bad
-            // - Show an error to the user
-            //console.log(err.response.status);
-            //console.log(err.response.data);
             alert(err.response.data);
             dispatch(signoutUser());
         });
@@ -46,11 +42,25 @@ export const fetchSKU = () => {
 //     };
 // };
 
-export const changeFavorite = (id) => {
-    return {
-        type: CHANGE_FAVORITE_ORDER,
-        payload: id
-    };
+export const changeFavorite = (id, sku_code, favorite) => {
+    return function (dispatch) {
+        dispatch(statusLoading());
+        axios.post(`/changeFavorite`,
+            { sku_code, favorite: Number(!Number(favorite)) },
+            { headers: { 'Authorization': "Bearer " + localStorage.getItem('token') } }
+        ).then(res => {
+            localStorage.setItem('token', res.data.token);
+            dispatch(fetchSKU());
+            //dispatch({ type: CHANGE_FAVORITE_ORDER, payload: id });
+        }).catch(function (err) {
+            alert(err.response.data);
+            dispatch(signoutUser());
+        });
+    }
+    // return {
+    //     type: CHANGE_FAVORITE_ORDER,
+    //     payload: id
+    // };
 };
 
 export const addToOrder = (order) => {

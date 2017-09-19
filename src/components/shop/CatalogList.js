@@ -126,9 +126,7 @@ class CatalogList extends React.Component {
         }
     }
     componentWillMount() {
-        if (!this.props.favorite) {
-            this.props.fetchSKU();
-        }
+        this.props.fetchSKU();
         this.updateState(this.props.width);
         this.updateStyle(this.props.docked, this.props.width, this.props.height);
         this.props.updateSearchFavorite(this.props.favorite);
@@ -146,7 +144,7 @@ class CatalogList extends React.Component {
         this.findOrders(nextProps.searchFavorite, nextProps.searchText);
     }
     changeFavorite = (sku) => {
-        this.props.changeFavorite(sku.id);
+        this.props.changeFavorite(sku.id, sku.sku_code, sku.favorite);
         this.findOrders(this.props.searchFavorite, this.props.searchText);
     }
     componentWillUnmount() {

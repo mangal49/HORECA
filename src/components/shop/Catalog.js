@@ -31,7 +31,7 @@ const styles = {
         zIndex: 900,
     },
     tab: {
-        fontSize: '15px',
+        fontSize: '16px',
     },
 };
 
