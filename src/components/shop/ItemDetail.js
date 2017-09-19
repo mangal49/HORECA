@@ -36,7 +36,7 @@ import {
 const styles = {
     container: {
         position: 'relative',
-        top: '0px',
+        top: '56px',
     },
     content: {
         position: 'relative',
@@ -87,16 +87,13 @@ class ItemDetail extends React.Component {
 
     updateStyle(docked, width, height) {
         if (docked) {
-            styles.container = { ...styles.container, top: '0px' };
             styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: width - 255 };
-            styles.Scrollbars = { ...styles.Scrollbars, height: height - 110 };
-
+            styles.Scrollbars = { ...styles.Scrollbars, height: height - 130 };
             styles.divList = { ...styles.divList, /*width: '50%', paddingLeft: '25%',*/ top: '30px' };
 
         } else {
-            styles.container = { ...styles.container, top: '56px' };
             styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: '100%' };
-            styles.Scrollbars = { ...styles.Scrollbars, height: height - 160 };
+            styles.Scrollbars = { ...styles.Scrollbars, height: height - 130 };
             styles.divList = { ...styles.divList, width: '100%', paddingLeft: '0%', top: '0px' };
         }
     }
@@ -131,10 +128,10 @@ class ItemDetail extends React.Component {
             star = <StarBorder color="black" style={styles.Icon} />
         }
         return (
-            <div style={styles.container}> title={}
+            <div style={styles.container}>
                 <div style={styles.tabs}>
                     <AppBar style={{ height: "48px" }}
-                        iconElementLeft={<Link to={'/shop/order'} > <FlatButton label="Back" labelStyle={styles.labelColor} /> </Link>}
+                        iconElementLeft={<Link to={'/catalog'} > <FlatButton label="Back" labelStyle={styles.labelColor} /> </Link>}
 
                     >
 

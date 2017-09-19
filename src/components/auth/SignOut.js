@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../../actions';
+
 import ListItem from 'material-ui/List/ListItem';
 import Exit from 'material-ui/svg-icons/action/exit-to-app';
 import { blueA200, red500, greenA200 } from 'material-ui/styles/colors';
@@ -6,12 +9,12 @@ import { blueA200, red500, greenA200 } from 'material-ui/styles/colors';
 class SignOut extends React.Component {
 
     ToSignOut = (e, id, obj) => {
-        console.log(666666666666);
+        this.props.signoutUser();
     }
 
     render() {
         return (
-            <ListItem href='/signin'
+            <ListItem
                 style={{ ...this.props.styleMenu, /*backgroundColor: '#FFCDD2'*/ }}
                 leftIcon={
                     <Exit color={blueA200} hoverColor={greenA200} />
@@ -26,4 +29,4 @@ class SignOut extends React.Component {
     }
 }
 
-export default SignOut;
+export default connect(null, actions)(SignOut);

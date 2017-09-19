@@ -9,6 +9,10 @@ import { connect } from 'react-redux';
 import { grey400, darkBlack, lightBlack } from 'material-ui/styles/colors';
 
 
+import AttachMoney from 'material-ui/svg-icons/editor/attach-money';
+import ShoppingCart from 'material-ui/svg-icons/action/shopping-cart';
+
+
 // function handleTouchTap() {
 //     alert('onTouchTap triggered on the title component');
 // }
@@ -18,28 +22,29 @@ const styles = {
         cursor: 'pointer',
         paddingLeft: '0px',
         width: '100%',
-        textAlign:'center',
+        textAlign: 'center',
     },
     icon: {
         display: 'none'
     },
-    appBar:{
+    appBar: {
         boxShadow: 'rgba(0, 0, 0, 0) 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px',
         height: '57px',
         position: 'fixed',
         width: '100%',
     },
-    titleStyle:{
+    titleStyle: {
         width: '100%',
     },
-    showText:{
+    showText: {
         textAlign: 'center',
     },
-    showSum:{
-        marginRight: 30,
-        float:'right',
-        fontSize:"16px",
-        color: lightBlack,
+    showSum: {
+        marginRight: 40,
+        float: 'right',
+        fontSize: "16px",
+        color: "gold",
+        marginBottom: -16,
     },
 };
 
@@ -52,28 +57,28 @@ class AppBarMenu extends React.Component {
         super(props);
         this.state = { drawerStatus: false };
     }
-    updateStyle(docked,width) {
+    updateStyle(docked, width) {
         if (docked) {
             styles.title = { ...styles.title, 'paddingLeft': 0 };
             styles.icon = { ...styles.icon, display: 'none' };
 
-            styles.titleStyle = { ...styles.titleStyle, textAlign: "center", width: width - 255};
-            styles.showText = { ...styles.showText, textAlign: "center"};
-            styles.showSum = { ...styles.showSum, marginRight: 30};
+            styles.titleStyle = { ...styles.titleStyle, textAlign: "center", width: width - 255 };
+            styles.showText = { ...styles.showText, textAlign: "center" };
+            styles.showSum = { ...styles.showSum, marginRight: 60 };
         } else {
             styles.title = { ...styles.title, 'paddingLeft': 0 };
             styles.icon = { ...styles.icon, display: '' };
 
-            styles.titleStyle = { ...styles.titleStyle, textAlign: "left", width: '100%'};
-            styles.showText = { ...styles.showText, textAlign: "left"};
-            styles.showSum = { ...styles.showSum, marginRight: 0};
+            styles.titleStyle = { ...styles.titleStyle, textAlign: "left", width: '100%' };
+            styles.showText = { ...styles.showText, textAlign: "left" };
+            styles.showSum = { ...styles.showSum, marginRight: 0 };
         }
     }
     componentWillMount() {
-        this.updateStyle(this.props.drawerDocked,this.props.width);
+        this.updateStyle(this.props.drawerDocked, this.props.width);
     }
     componentWillReceiveProps(nextProps) {
-        this.updateStyle(nextProps.drawerDocked,nextProps.width);
+        this.updateStyle(nextProps.drawerDocked, nextProps.width);
     }
     handleToggle = () => {
         this.props.renderNavLeftMenu(false, !this.props.drawerOpen);
@@ -85,21 +90,24 @@ class AppBarMenu extends React.Component {
         }
         let balance = null;
         balance = this.props.invoiceOrder.reduce((sum, sku) => {
-            return sum + (sku.amount*sku.sku_price)
-        },0);
-
+            return sum + (sku.amount * sku.sku_price)
+        }, 0);
+        let showBalance = balance > 0 && <span style={styles.showSum}>
+            <ShoppingCart color={"gold"} style={{ marginBottom: -5, marginRight: 5 }} />
+            {balance > 0 && ` ${balance.toLocaleString()}`}
+        </span>
         return (
             <div>
                 <div style={{ display: showAppBar }}>
                     <AppBar
                         style={styles.appBar}
                         title={
-                                
-                                <div style={styles.titleStyle}>
-                                    <span style={styles.showText}>Horeca</span>
-                                    <span style={styles.showSum}>{ balance > 0 && `( ${balance.toLocaleString()} บาท )`}</span>
-                                </div>
-                            }
+
+                            <div style={styles.titleStyle}>
+                                <span style={styles.showText}>Horeca</span>
+                                {showBalance}
+                            </div>
+                        }
                         titleStyle={styles.titleStyle}
                         //onTitleTouchTap={handleTouchTap}
                         /*iconElementRight={<FlatButton label="Save" />}*/

@@ -2,21 +2,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
+import IconButton from 'material-ui/IconButton';
+import TextField from 'material-ui/TextField';
+
 import Star from 'material-ui/svg-icons/toggle/star';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import Search from 'material-ui/svg-icons/action/search';
-
-import IconButton from 'material-ui/IconButton';
-
-import TextField from 'material-ui/TextField';
 
 const styles = {
     container: {
         paddingTop: 0,
         width: '100%',
         textAlign: 'center',
-        zIndex: 800,
-        marginTop: '-14px'
+        zIndex: 300,
+        //marginTop: '-14px',
         //backgroundColor: 'white',
     },
     TextField: {
@@ -88,6 +87,7 @@ class SearchBar extends React.Component {
                     inputStyle={{
                         ...styles.textPadding,
                     }}
+                    defaultValue={this.props.searchText}
                     onKeyUp={(e) => { this.updateSearchText(e) }}
                 />
                 <IconButton

@@ -23,7 +23,7 @@ class ShopMenu extends React.Component {
                     }
                     //primaryText="สั่งซื้อสินค้า"
                     onTouchTap={() => { this.props.handleClose(); this.props.onSelectMenu(1); }}
-                    containerElement={<Link to="/shop/order" />}
+                    containerElement={<Link to="/catalog" />}
                 >
                     <div style={this.props.styleTextMenu}>สั่งซื้อสินค้า</div>
                 </ListItem>
@@ -56,7 +56,7 @@ class ShopMenu extends React.Component {
                     }
                     //primaryText="สินค้าที่เคยสั่งซื้อ"
                     onTouchTap={() => { this.props.handleClose(); this.props.onSelectMenu(3); }}
-                    containerElement={<Link to="/shop/oldorder" />}
+                    containerElement={<Link to="/orderHistory" />}
                 >
                     <div style={this.props.styleTextMenu}>ประวัติการสั่งซื้อ</div>
                 </ListItem>

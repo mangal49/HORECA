@@ -16,11 +16,17 @@ import TextField from 'material-ui/TextField';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import RaisedButton from 'material-ui/RaisedButton';
-import Save from 'material-ui/svg-icons/content/save';
+import Cancel from 'material-ui/svg-icons/navigation/cancel';
+import Backspace from 'material-ui/svg-icons/content/backspace';
+import AddShoppingCart from 'material-ui/svg-icons/action/add-shopping-cart';
 
 import Toggle from 'material-ui/Toggle';
 
+import Subheader from 'material-ui/Subheader';
+
 import { grey400, darkBlack, lightBlack } from 'material-ui/styles/colors';
+
+import DialogCancel from './DialogCancel'
 
 const styles = {
     Icon: {
@@ -29,8 +35,8 @@ const styles = {
     divContent: {
         float: 'left',
         width: '40%',
-        marginTop:-20,
-        marginLeft:-20,
+        marginTop: -20,
+        marginLeft: -20,
     },
     divAmount: {
         float: 'right',
@@ -65,7 +71,7 @@ const styles = {
         textAlign: 'center',
         zIndex: 600,
     },
-    balance:{
+    balance: {
         color: darkBlack,
         float: 'right',
         marginTop: "50px",
@@ -75,10 +81,10 @@ const styles = {
     }
 };
 
-class InvoiceList extends React.Component {
+class OrderDetailHistory extends React.Component {
     state = {
         loading: true,
-        serviceCharge: false,
+        serviceCharge: true,
     }
     updateStyle(docked, width, height) {
         if (docked) {
@@ -91,11 +97,13 @@ class InvoiceList extends React.Component {
             styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: width - 255 };
             styles.Scrollbars = { ...styles.Scrollbars, height: height - 163 - footerHeight };
 
-            styles.balance = {...styles.balance,width:'50%',marginRight:'-41%'};
+            styles.balance = { ...styles.balance, width: '50%', marginRight: '-30%', marginTop: "50px", };
 
         } else {
-            styles.divContent = { ...styles.divContent, marginLeft: -10, width: '61%', };
-            styles.divAmount = { ...styles.divAmount, marginRight: -20, width: '49%', };
+            // styles.divContent = { ...styles.divContent, marginLeft: -10, width: '54%', };
+            // styles.divAmount = { ...styles.divAmount, marginRight: -0, width: '49%', };
+            styles.divContent = { ...styles.divContent, marginLeft: -0, width: '52%', };
+            styles.divAmount = { ...styles.divAmount, marginRight: -0, width: '48%', };
             styles.divLine = { ...styles.divLine, marginRight: 0, };
             styles.avatar = { ...styles.avatar, marginLeft: -15, };
 
@@ -103,8 +111,9 @@ class InvoiceList extends React.Component {
             styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: '100%' };
             styles.Scrollbars = { ...styles.Scrollbars, height: height - 157 - footerHeight };
 
-            
-            styles.balance = {...styles.balance,width:'50%',marginRight:'-71%'};
+            // styles.balance = { ...styles.balance, width: '50%', marginRight: '-30%' };
+
+            styles.balance = { ...styles.balance, width: '100%', marginRight: '-30px', marginTop: 0, };
         }
     }
     componentWillMount() {
@@ -116,10 +125,6 @@ class InvoiceList extends React.Component {
     componentDidMount() {
         setTimeout(() => { this.setState({ loading: false }); }, 500);
     }
-    componentWillUnmount() {
-        this.props.handleTransitionEnd();
-    }
-
     handleToggle = (event, toggled) => {
         this.setState({
             [event.target.name]: toggled,
@@ -146,25 +151,32 @@ class InvoiceList extends React.Component {
                                     <List
                                         style={{ textAlign: 'center', }}
                                     >
+                                        <Subheader style={{ textAlign: 'left', fontSize: 14, width: '100%' }}>
+                                            <div style={{ float: 'left' }}>Order No. : <span style={{ color: darkBlack }}>Order-00001</span></div>
+                                            <div style={{ float: 'right', marginRight: 20 }}>Balance : <span style={{ color: darkBlack }}>12,394 Bath</span></div>
+                                        </Subheader>
+                                        {/* <Subheader style={{ textAlign: 'right', fontSize: 20, marginLeft: 20, width: '50%' }}>Balance : 12,394 Bath</Subheader> */}
+                                        <Divider style={{ width: '100%', backgroundColor: 'black' }} />
                                         {this.props.invoiceOrder.map((item, index) => {
                                             balance += (item.amount * item.sku_price);
                                             let showService = item.service_price > 0 && <div style={{
-                                                                                            color: lightBlack,
-                                                                                            textAlign: 'left',width: '100%',
-                                                                                            marginLeft: 10, marginTop: 5,
-                                                                                            fontSize:'14px',
-                                                                                            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                                                                                        }}
-                                                                                        >
-                                                                                            <Toggle
-                                                                                                name="serviceCharge"
-                                                                                                value="serviceCharge"
-                                                                                                label={`Slice ${item.service_price} บาท / ${item.sku_unit}`}
-                                                                                                toggled={this.state.serviceCharge}
-                                                                                                onToggle={this.handleToggle}
-                                                                                                style={{width:'30%',color: lightBlack,fontSize:'12px'}}
-                                                                                            />
-                                                                                        </div>
+                                                color: lightBlack,
+                                                textAlign: 'left', width: '100%',
+                                                marginLeft: 10, marginTop: 5,
+                                                fontSize: '14px',
+                                                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                                            }}
+                                            >
+                                                <Toggle
+                                                    name="serviceCharge"
+                                                    value="serviceCharge"
+                                                    label={`Slice ${item.service_price} บาท / ${item.sku_unit}`}
+                                                    toggled={this.state.serviceCharge}
+                                                    //onToggle={this.handleToggle}
+                                                    //disabled={true}
+                                                    style={{ width: '30%', color: lightBlack, fontSize: '12px' }}
+                                                />
+                                            </div>
                                             return (
                                                 <div key={index}>
                                                     <ListItem
@@ -174,8 +186,8 @@ class InvoiceList extends React.Component {
                                                     >
                                                         <div style={styles.divContent}>
                                                             <div style={{
-                                                                textAlign: 'left',width: '100%',
-                                                                marginLeft: 10,marginTop: 10,
+                                                                textAlign: 'left', width: '100%',
+                                                                marginLeft: 10, marginTop: 10,
                                                                 whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
                                                             }}
                                                             >
@@ -183,9 +195,9 @@ class InvoiceList extends React.Component {
                                                             </div>
                                                             <div style={{
                                                                 color: lightBlack,
-                                                                textAlign: 'left',width: '100%',
+                                                                textAlign: 'left', width: '100%',
                                                                 marginLeft: 10, marginTop: 10,
-                                                                fontSize:'11px',
+                                                                fontSize: '11px',
                                                                 whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
                                                             }}
                                                             >
@@ -197,16 +209,6 @@ class InvoiceList extends React.Component {
                                                         </div>
                                                         <div style={styles.divAmount}>
                                                             <div style={{ marginTop: -10 }} >
-                                                                <IconButton
-                                                                    style={{ float: 'right', marginRight: 0, marginTop: 5 }}
-                                                                >
-                                                                    <Add
-                                                                        color="green"
-                                                                        style={{ ...styles.Icon }}
-                                                                        onTouchTap={this.handleOpen}
-                                                                        viewBox="0 0 24 24"
-                                                                    />
-                                                                </IconButton>
                                                                 <TextField
                                                                     defaultValue={item.amount.toLocaleString()}
                                                                     floatingLabelText="จำนวน"
@@ -214,20 +216,12 @@ class InvoiceList extends React.Component {
                                                                     inputStyle={{
                                                                         textAlign: 'center'
                                                                     }}
+                                                                    disabled={true}
                                                                 />
-                                                                <IconButton
-                                                                    style={{ float: 'right', marginRight: -5, marginTop: 5 }}
-                                                                >
-                                                                    <Remove
-                                                                        color="red"
-                                                                        style={styles.Icon}
-                                                                        onTouchTap={this.handleOpen}
-                                                                    />
-                                                                </IconButton>
                                                                 <div style={styles.balance}>
                                                                     {(item.amount * item.sku_price).toLocaleString()} บาท
-                                                                </div>  
-                                                            </div>                                                          
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </ListItem>
                                                     <Divider style={{ width: '100%' }} />
@@ -252,14 +246,36 @@ class InvoiceList extends React.Component {
                     }}
                 >
                     <RaisedButton
-                        label="ยืนยันการสั่งซื้อ"
-                        style={{ width: '99%' }}
+                        label="Back"
+                        style={{ width: '25%', margin: '0px 10px 0px 10%', }}
                         primary={true}
-                        labelStyle={{ fontSize: '17px', color: 'white' }}
-                        icon={<Save color={"white"} style={{ marginTop: -5 }} />}
+                        labelStyle={{ fontSize: '11px', color: 'white' }}
+                        //icon={<Backspace color={"white"} style={{ marginTop: -5 }} />}
+                        onClick={this.props.handleCloseOrderDetail}
+                    //backgroundColor="#a4c639"
+                    />
+                    <RaisedButton
+                        label="Cancel"
+                        style={{ width: '25%', margin: '0px 10px 0px 10px', }}
+                        primary={true}
+                        labelStyle={{ fontSize: '11px', color: 'white' }}
+                        //icon={<Cancel color={"white"} style={{ marginTop: -5 }} />}
+                        onClick={this.props.handleOpen}
+                    //backgroundColor="#a4c639"
+                    />
+                    <RaisedButton
+                        label="Re order"
+                        style={{ width: '25%', margin: '0px 10px 0px 10px', }}
+                        primary={true}
+                        labelStyle={{ fontSize: '11px', color: 'white' }}
+                    //icon={<AddShoppingCart color={"white"} style={{ marginTop: -5 }} />}
                     //backgroundColor="#a4c639"
                     />
                 </div>
+                <DialogCancel
+                    dialogCancelOpen={this.props.dialogCancelOpen}
+                    handleClose={this.props.handleClose}
+                />
             </div >
         );
     }
@@ -274,4 +290,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(InvoiceList);
+export default connect(mapStateToProps)(OrderDetailHistory);

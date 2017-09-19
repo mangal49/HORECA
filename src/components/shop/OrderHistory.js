@@ -1,29 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
-import { StickyContainer, Sticky } from 'react-sticky';
-
 import { Tabs, Tab } from 'material-ui/Tabs';
-
-import RaisedButton from 'material-ui/RaisedButton';
-import Save from 'material-ui/svg-icons/content/save';
-
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 
-import {
-    blue300,
-    indigo900,
-    orange200,
-    deepOrange300,
-    pink400,
-    purple500,
-    grey500,
-    deepOrange700,
-    grey50
-} from 'material-ui/styles/colors';
-
-import OrderList from './OrderList';
-import InvoiceList from './InvoiceList';
+import SaleOrderHistory from './SaleOrderHistory';
+import InvoiceHistory from './InvoiceHistory';
+import DeliveredHistory from './DeliveredHistory';
 
 const styles = {
     container: {
@@ -37,7 +20,7 @@ const styles = {
         zIndex: 900,
     },
     tab: {
-        fontSize: '17px',
+        fontSize: '14px',
     },
 };
 
@@ -46,11 +29,8 @@ class Order extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: 'orderList',
-            invoiceAmount: "",
-            items: ['Click', 'To', 'Remove', 'An', 'Item'],
-            showTabData: <OrderList />,
-            on: false,
+            value: 'SaleOrderHistory',
+            on: 1,
             transitionEnd: true,
             transitionName: 'tabOne', // This is a CSS name
         };
@@ -68,20 +48,13 @@ class Order extends React.Component {
         }
     }
 
-    updateShowInvoiceAmount(amount) {
-        if (amount > 0) this.setState({ invoiceAmount: ` (${amount})` });
-        else this.setState({ invoiceAmount: `` });
-    }
-
     componentWillMount() {
-        this.props.setRole('SHOP');
+        //this.props.clearOrder();
         this.updateStyle(this.props.docked, this.props.width, this.props.height);
-        this.updateShowInvoiceAmount(this.props.invoiceOrder.length);
     }
 
     componentWillReceiveProps(nextProps, nextState) {
         this.updateStyle(nextProps.docked, nextProps.width, nextProps.height);
-        this.updateShowInvoiceAmount(nextProps.invoiceOrder.length);
     }
 
     shouldComponentUpdate = (nextProps, nextState) => {
@@ -96,15 +69,29 @@ class Order extends React.Component {
     };
 
     toggle = (view) => {
-        if (view == 'orderList' && this.state.on) {
+        if (view == 'SaleOrderHistory' && this.state.on != 1 /*&& this.state.on*/) {
             this.setState({
-                on: false,
+                on: 1,
                 transitionEnd: false,
                 transitionName: 'tabTwo'
             });
-        } else if (view == 'invoiceList' && !this.state.on) {
+        } else if (view == 'InvoiceHistory' && this.state.on != 2 /*&& !this.state.on*/) {
+            if (this.state.on == 1) {
+                this.setState({
+                    on: 2,
+                    transitionEnd: false,
+                    transitionName: 'tabOne'
+                });
+            } else if (this.state.on == 3) {
+                this.setState({
+                    on: 2,
+                    transitionEnd: false,
+                    transitionName: 'tabTwo'
+                });
+            }
+        } else if (view == 'DeliveredHistory' && this.state.on != 3 /*&& !this.state.on*/) {
             this.setState({
-                on: true,
+                on: 3,
                 transitionEnd: false,
                 transitionName: 'tabOne'
             });
@@ -115,21 +102,30 @@ class Order extends React.Component {
         this.setState({ transitionEnd: true });
     }
 
-    renderOff() {
-        if (!this.state.on && this.state.transitionEnd) {
+    render_Tab1() {
+        if (this.state.on == 1 && this.state.transitionEnd) {
             return (
-                <OrderList key="off" handleTransitionEnd={this.handleTransitionEnd} />
+                <SaleOrderHistory key="off" handleTransitionEnd={this.handleTransitionEnd} />
             )
         }
     }
 
-    renderOn() {
-        if (this.state.on && this.state.transitionEnd) {
+    render_Tab2() {
+        if (this.state.on == 2 && this.state.transitionEnd) {
             return (
-                <InvoiceList key="on" handleTransitionEnd={this.handleTransitionEnd} />
+                <InvoiceHistory key="on" handleTransitionEnd={this.handleTransitionEnd} />
             )
         }
     }
+
+    render_Tab3() {
+        if (this.state.on == 3 && this.state.transitionEnd) {
+            return (
+                <DeliveredHistory key="on" handleTransitionEnd={this.handleTransitionEnd} />
+            )
+        }
+    }
+
     render() {
         return (
             <div style={styles.container}>
@@ -142,12 +138,16 @@ class Order extends React.Component {
                             //backgroundColor: '#FFF',
                         }}
                     >
-                        <Tab label="รายการสินค้า" value="orderList"
-                            onClick={() => { this.toggle('orderList') }}
+                        <Tab label="Sale Order" value="SaleOrderHistory"
+                            onClick={() => { this.toggle('SaleOrderHistory') }}
                             style={styles.tab}
                         />
-                        <Tab label={`รายการที่สั่งซื้อ${this.state.invoiceAmount}`} value="invoiceList"
-                            onClick={() => { this.toggle('invoiceList') }}
+                        <Tab label="Invoice" value="InvoiceHistory"
+                            onClick={() => { this.toggle('InvoiceHistory') }}
+                            style={styles.tab}
+                        />
+                        <Tab label="Delivered" value="DeliveredHistory"
+                            onClick={() => { this.toggle('DeliveredHistory') }}
                             style={styles.tab}
                         />
                     </Tabs>
@@ -156,8 +156,9 @@ class Order extends React.Component {
                         transitionEnterTimeout={500}
                         transitionLeaveTimeout={500}
                     >
-                        {this.renderOn()}
-                        {this.renderOff()}
+                        {this.render_Tab1()}
+                        {this.render_Tab2()}
+                        {this.render_Tab3()}
                     </ReactCSSTransitionGroup>
                 </div>
             </div >

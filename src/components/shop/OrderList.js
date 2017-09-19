@@ -1,64 +1,56 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Link } from 'react-router';
 import Loading from '../Loading';
-
-import { GridList, GridTile } from 'material-ui/GridList';
-import IconButton from 'material-ui/IconButton';
-import Subheader from 'material-ui/Subheader';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
-import Star from 'material-ui/svg-icons/toggle/star';
-
-import Check from 'material-ui/svg-icons/action/check-circle';
-import Description from 'material-ui/svg-icons/action/description';
-
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
-import { Scrollbars } from 'react-custom-scrollbars';
 
-import Paper from 'material-ui/Paper';
+import MobileTearSheet from './MobileTearSheet';
+import Avatar from 'material-ui/Avatar';
+import { List, ListItem } from 'material-ui/List';
+import Divider from 'material-ui/Divider';
 
+import IconButton from 'material-ui/IconButton';
 import Add from 'material-ui/svg-icons/content/add-circle';
 import Remove from 'material-ui/svg-icons/content/remove-circle';
+import NoteAdd from 'material-ui/svg-icons/action/note-add';
 
+import TextField from 'material-ui/TextField';
+import { Scrollbars } from 'react-custom-scrollbars';
 
-import SearchBar from '../SearchBar';
+import RaisedButton from 'material-ui/RaisedButton';
+import Save from 'material-ui/svg-icons/content/save';
 
-//import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+import Toggle from 'material-ui/Toggle';
 
+import { grey400, darkBlack, lightBlack } from 'material-ui/styles/colors';
+
+import DialogOrderDescription from './DialogOrderDescription'
 
 const styles = {
-    root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-        paddingTop: '5px',
-    },
-    gridList: {
-        width: '95%',
-        height: '100%',
-        paddingBottom: '10px'
-    },
     Icon: {
         cursor: 'pointer',
     },
-    titleStyle: {
-        //color: 'rgb(0, 188, 212)',
+    divContent: {
+        float: 'left',
+        width: '40%',
+        marginTop: -20,
+        marginLeft: -20,
     },
-    Paper: {
-        height: 190,
-        width: '100%',
-        textAlign: 'center',
-        display: 'inline-block',
-        padding: 5,
-        //overFlow: 'hidden',
-        paddingBottom: 40,
-        backgroundColor: "white",
+    divAmount: {
+        float: 'right',
+        width: '50%',
+        marginRight: '-25px'
     },
-    divShowTitle: {
-        float: 'left', textAlign: 'left',
-        display: 'inline', width: '75%',
-        marginTop: '5px', 
+    divLine: {
+        float: 'right',
+        height: 80,
+        width: 2,
+        marginTop: -10,
+        borderStyle: 'solid', borderColor: '#d9d9d9',
+        borderWidth: '0px 0px 0px 1px',
+        marginRight: -10
+    },
+    avatar: {
+        marginLeft: 20
     },
     Scrollbars: {
         height: 0,
@@ -68,270 +60,262 @@ const styles = {
         width: '100%',
         textAlign: 'center',
         zIndex: 700,
-        //overflow: 'hidden',
+        overflowX: 'hidden',
     },
-    IconAdd: {
-        position: 'absolute',
-        padding: 0,
-        top: 35,
-        width: 35,
-        background: 'linear-gradient(to left, rgba(0,0,0,1) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)',
+    div: {
+        position: 'relative',//relative,absolute
+        width: '100%',
+        textAlign: 'center',
+        zIndex: 600,
     },
-    IconRemove: {
-        position: 'absolute',
-        padding: 0,
-        top: 35,
-        width: 35,
-        background: 'linear-gradient(to right, rgba(0,0,0,1) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)',
-    },
-    line :{
-        margin: 0,
-        marginTop: "0px",
-        marginBottom: "0px",
-        marginLeft: 0,
-        height: "1px",
-        border: "none",
-        backgroundColor: "#E0E0E0"
+    balance: {
+        color: darkBlack,
+        float: 'right',
+        marginTop: "50px",
+        width: '50%',
+        fontSize: '14px',
+        whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
     }
 };
 
 class OrderList extends React.Component {
     state = {
-        showCol: 4,
-        showTileData: [],
-        open: false,
-        loading: true
+        loading: true,
+        serviceCharge: false,
+        dialogOpen: false,
     }
 
+    handleOpenDialog = () => {
+        this.setState({ dialogOpen: true });
+    };
+    handleCloseDialog = () => {
+        this.setState({ dialogOpen: false });
+    };
     updateStyle(docked, width, height) {
         if (docked) {
+            styles.divContent = { ...styles.divContent, marginLeft: 25, width: '50%', };
+            styles.divAmount = { ...styles.divAmount, marginRight: 10, width: '40%', };
+            styles.divLine = { ...styles.divLine, marginRight: 20, };
+            styles.avatar = { ...styles.avatar, marginLeft: 20, };
+
+            let footerHeight = 38 - 55;
             styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: width - 255 };
-            styles.Scrollbars = { ...styles.Scrollbars, height: height - 110 };
+            styles.Scrollbars = { ...styles.Scrollbars, height: height - 163 - footerHeight };
+
+            styles.balance = { ...styles.balance, width: '50%', marginRight: '-41%', marginTop: "50px", };
         } else {
+            styles.divContent = { ...styles.divContent, marginLeft: -10, width: '60%', };
+            styles.divAmount = { ...styles.divAmount, marginRight: -20, width: '48%', };
+            // styles.divContent = { ...styles.divContent, marginLeft: -0, width: '52%', };
+            // styles.divAmount = { ...styles.divAmount, marginRight: -0, width: '48%', };
+            styles.divLine = { ...styles.divLine, marginRight: 0, };
+            styles.avatar = { ...styles.avatar, marginLeft: -15, };
+
+            let footerHeight = 44 - 55;
             styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: '100%' };
-            styles.Scrollbars = { ...styles.Scrollbars, height: height - 160 };
-        }
-    }
-    updateState(width) {
-        //this.divShowTitle = { ...this.divShowTitle, width: '80%' };
-        if (width <= this.props.widthCol_1) {
-            this.setState({ showCol: 1 });
-        } else if (width > this.props.widthCol_1 && width <= this.props.widthCol_2) {
-            this.setState({ showCol: 2 });
-        } else if (width > this.props.widthCol_2 && width <= this.props.widthCol_3) {
-            this.setState({ showCol: 3 });
-        } else if (width > this.props.widthCol_3 && width <= this.props.widthCol_4) {
-            this.setState({ showCol: 4 });
-        } else if (width > this.props.widthCol_4) {
-            this.setState({ showCol: 5 });
+            styles.Scrollbars = { ...styles.Scrollbars, height: height - 157 - footerHeight };
+
+            styles.balance = { ...styles.balance, width: '50%', marginRight: '-71%' };
+            //styles.balance = { ...styles.balance, width: '100%', marginRight: '-30px', marginTop: 0, };
         }
     }
     componentWillMount() {
-        this.updateState(this.props.width);
-        this.setState({ showTileData: this.props.tilesData });
-        this.props.updateShowOrder(this.props.tilesData);
-        this.findOrders(this.props.searchFavorite);
         this.updateStyle(this.props.docked, this.props.width, this.props.height);
     }
-    componentDidMount() {
-        //this.findOrders(this.props.searchFavorite);
-        setTimeout(() => { this.setState({ loading: false }); }, 500);
-    }
-    componentWillReceiveProps = (nextProps) => {
-        this.updateState(nextProps.width);
-        this.findOrders(nextProps.searchFavorite, nextProps.searchText);
+    componentWillReceiveProps(nextProps, nextState) {
         this.updateStyle(nextProps.docked, nextProps.width, nextProps.height);
     }
-    changeFavorite = (id) => {
-        this.props.changeFavorite(id);
+    componentDidMount() {
+        setTimeout(() => { this.setState({ loading: false }); }, 500);
     }
     componentWillUnmount() {
         this.props.handleTransitionEnd();
     }
-    findOrders(favorite = this.props.searchFavorite, searchText = this.props.searchText) {
-        let rs = this.props.tilesData.filter((tiles) => {
-            if (favorite) {
-                return tiles.favorite;
-            } else {
-                return true;
-            }
+
+    handleToggle = (event, toggled) => {
+        this.setState({
+            [event.target.name]: toggled,
         });
-        let rs2 = rs.filter((tiles) => {
-            return tiles.sku_name.indexOf(searchText) > -1;
-        });
-        this.setState({ showTileData: rs2 });
-    }
-    selectOrder = (e, id, obj) => {
-        this.props.addToInvoice(obj);
-        //e.currentTarget.style.backgroundColor;
-        //this.refs[key]
-        // var img = e.target;
-        // var gridTile = img.parentElement;
-        // var paper = gridTile.parentElement;
-        // if (paper.style.backgroundColor == 'white') {
-        //     paper.style.backgroundColor = '#C8E6C9'
-        // } else {
-        //     paper.style.backgroundColor = 'white';
-        // }
-    }
-    handleOpen = (SelectedTile) => {
-        //save แต่ไม่มีการเรียกใช้ mapStateToProps ก็ได้
-        //ในตัวอย่างนี้เราจะใช้ Props ที่หน้า itemDetai
-        //save in to Redux
-        this.props.UpdateFindItem(SelectedTile);
     };
+
     render() {
         // if (this.state.loading) {
         //     return (
         //         <Loading />
         //     );
         // }
-        //console.log(this.props.location.pathname);
-        let i = 0;
+        let balance = 0;
         return (
             <div>
-                <SearchBar searchShowFavorite={true} />
                 <div style={{ backgroundColor: '#FFF' /*'#F5F5F5'*/ }}>
-                    <Scrollbars style={styles.Scrollbars} >
+                    <Scrollbars
+                        style={styles.Scrollbars}
+                    >
                         <div style={styles.divList}>
-                            <div style={styles.root}>
-                                <GridList
-                                    cellHeight={190}
-                                    style={styles.gridList}
-                                    cols={this.state.showCol}
-                                >
-                                    {this.state.showTileData.map((tile, index) => {
-                                        let key = tile.img + (i++);
-                                        let checkInvoice = this.props.invoiceOrder.findIndex((rs) => { return rs.id == tile.id });
-                                        let invoiceData = this.props.invoiceOrder.find((rs) => { return rs.id == tile.id });
-                                        let paperBackground = '';
-                                        let iconChangeAmount = '';
-                                        if (checkInvoice > -1) {
-                                            paperBackground = '#C8E6C9';
-                                            iconChangeAmount =
-                                                <div>
-                                                    <IconButton style={{ ...styles.IconRemove, left: 5, }} >
-                                                        <Remove color="#EF5350" style={styles.Icon} />
-                                                    </IconButton>
-                                                    <IconButton style={{ ...styles.IconAdd, right: 5, }} >
-                                                        <Add color="#64DD17" style={styles.Icon} />
-                                                    </IconButton>
-                                                    <div
-                                                        style={{
-                                                            position: 'absolute',
-                                                            bottom: 40, right: '32.5%',
-                                                            width: '35%', height: '25px',
-                                                            padding: 0, color: 'white', fontSize: '22px',
-                                                            background: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%,rgba(0,0,0,0.3) 70%,rgba(0,0,0,0) 100%)',
-                                                        }}
-                                                    >
-                                                        {invoiceData.amount}
-                                                    </div>
-                                                </div>;
-                                        } else {
-                                            paperBackground = 'white';
-                                        }
-                                        let star = null;
-                                        if (tile.favorite) star = <Star color={"gold"} style={styles.Icon} />
-                                        else star = <StarBorder color={"black"} style={styles.Icon} />
+                            <div style={styles.div} id='detail' ref='detail'>
 
-                                        return (
-                                            <Paper
-                                                style={{ ...styles.Paper, backgroundColor: paperBackground, position: 'relative' }}
-                                                zDepth={1} key={key}
+                                <MobileTearSheet>
+                                    <List
+                                        style={{ textAlign: 'center', }}
+                                    >
+                                        {this.props.invoiceOrder.map((item, index) => {
+                                            balance += (item.amount * item.sku_price);
+                                            let showService = item.service_price > 0 && <div style={{
+                                                color: lightBlack,
+                                                fontSize: '11px',
+                                                textAlign: 'left', width: '100%',
+                                                marginLeft: 10, marginTop: 8,
+                                                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                                            }}
                                             >
-                                                <GridTile
-                                                    titleStyle={styles.titleStyle}
-                                                    style={{ cursor: 'pointer', position: 'relative' }}
-                                                    onTouchTap={(e) => { this.selectOrder(e, tile.id, tile) }}
-                                                >
-                                                    <img src={tile.img} />
-                                                </GridTile>
-                                                <hr style={styles.line} />
-                                                <div style={{ marginTop: '-5px' }} >
-                                                    <div style={styles.divShowTitle} >
-                                                        <div style={{
-                                                            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                                                            fontSize: '13px',
-                                                        }}
-                                                        >
-                                                            <strong>{tile.sku_name}</strong>
-                                                        </div>
-                                                        <div style={{
-                                                            fontSize: '10px', color: 'gray',
-                                                            whiteSpace: 'nowrap', overflow: 'hidden',
-                                                            textOverflow: 'ellipsis', marginTop: '-2px',
-                                                            marginLeft:5,
-                                                        }}
-                                                        >
-                                                            {tile.sku_price.toLocaleString()} บาท / {tile.sku_unit}
-                                                        </div>
-                                                        <div style={{
-                                                            fontSize: '10px', color: 'gray',
-                                                            whiteSpace: 'nowrap', overflow: 'hidden',
-                                                            textOverflow: 'ellipsis', marginTop: '-2px',
-                                                            marginLeft:5,
-                                                        }}
-                                                        >
-                                                            {tile.min_weight} - {tile.max_weight} {tile.sku_unit}
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        style={{
-                                                            float: 'right', textAlign: 'right', display: 'inline', marginRight: '-10px',
-                                                        }}
+                                                {/* <Toggle
+                                                    name="serviceCharge"
+                                                    value="serviceCharge"
+                                                    label={`Slice ${item.service_price} บาท / ${item.sku_unit}`}
+                                                    toggled={this.state.serviceCharge}
+                                                    onToggle={this.handleToggle}
+                                                    style={{ width: '30%', color: lightBlack, fontSize: '12px' }}
+                                                /> */}
+                                                Slice Shabu 10Kg. , Steak 5Kg.
+                                            </div>
+                                            return (
+                                                <div key={index}>
+                                                    <ListItem
+                                                        leftAvatar={
+                                                            <div>
+                                                                <Avatar src={item.img} size={60} style={styles.avatar} />
+                                                                <IconButton
+                                                                    style={{
+                                                                        position: 'absolute',
+                                                                        padding: 0,
+                                                                        bottom: 0,
+                                                                        width: 22,
+                                                                        height: 27,
+                                                                        background: 'white',
+                                                                        right: 0,
+                                                                    }}
+                                                                >
+                                                                    <NoteAdd
+                                                                        onTouchTap={this.handleOpenDialog}
+                                                                        color={'black'}
+                                                                        hoverColor="gold"
+                                                                        style={{
+                                                                            cursor: 'pointer',
+                                                                            fontSize: 5,
+                                                                        }}
+                                                                        size={10}
+                                                                    />
+                                                                </IconButton>
+                                                            </div>
+                                                        }
+                                                        style={{ height: 50 }}
+                                                        disabled={true}
                                                     >
-                                                        
-                                                        <IconButton
-                                                            style={{ padding: 0, width: 25, marginRight: 10 }}
-                                                            onTouchTap={() => { this.changeFavorite(tile.id) }}
-                                                        >{/* style={{ padding: 0, width: 25 }} */}
-                                                            {star}
-                                                        </IconButton>
-                                                        {/* <Link to={'/shop/itemdetail/' + tile.id} >
-                                                            <IconButton
-                                                                style={{ padding: 0, width: 25, marginRight: 10 }}
+                                                        <div style={styles.divContent}>
+                                                            <div style={{
+                                                                textAlign: 'left', width: '100%',
+                                                                marginLeft: 10, marginTop: 10,
+                                                                fontSize: 13,
+                                                                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                                                            }}
                                                             >
-                                                                <Description
-                                                                    color="black"
-                                                                    style={styles.Icon}
-                                                                    onTouchTap={() => { this.handleOpen(tile) }}
+                                                                {item.sku_name}
+                                                            </div>
+                                                            <div style={{
+                                                                color: lightBlack,
+                                                                fontSize: '11px',
+                                                                textAlign: 'left', width: '100%',
+                                                                marginLeft: 10, marginTop: 10,
+                                                                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                                                            }}
+                                                            >
+                                                                {item.sku_price.toLocaleString()} บาท / {item.sku_unit}
+                                                                &nbsp;
+                                                                ( {item.min_weight} - {item.max_weight} {item.sku_unit}/ชิ้น )
+                                                            </div>
+                                                            {showService}
+                                                        </div>
+                                                        <div style={styles.divAmount}>
+                                                            <div style={{ marginTop: -10 }} >
+                                                                <IconButton
+                                                                    style={{ float: 'right', marginRight: 0, marginTop: 5 }}
+                                                                >
+                                                                    <Add
+                                                                        color="green"
+                                                                        style={{ ...styles.Icon }}
+                                                                        onTouchTap={this.handleOpen}
+                                                                        viewBox="0 0 24 24"
+                                                                    />
+                                                                </IconButton>
+                                                                <TextField
+                                                                    defaultValue={item.amount.toLocaleString()}
+                                                                    floatingLabelText="จำนวน"
+                                                                    style={{ width: 40, float: 'right', marginTop: -20, marginRight: -5 }}
+                                                                    inputStyle={{
+                                                                        textAlign: 'center'
+                                                                    }}
                                                                 />
-                                                            </IconButton>
-                                                        </Link> */}
-                                                    </div>
+                                                                <IconButton
+                                                                    style={{ float: 'right', marginRight: -5, marginTop: 5 }}
+                                                                >
+                                                                    <Remove
+                                                                        color="red"
+                                                                        style={styles.Icon}
+                                                                        onTouchTap={this.handleOpen}
+                                                                    />
+                                                                </IconButton>
+                                                                <div style={styles.balance}>
+                                                                    {(item.amount * item.sku_price).toLocaleString()} บาท
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </ListItem>
+                                                    <Divider style={{ width: '100%' }} />
                                                 </div>
-                                                {iconChangeAmount}
-                                            </Paper>
-                                        );
-                                    })}
-                                </GridList>
+                                            );
+                                        })}
+                                    </List>
+                                </MobileTearSheet>
+
                             </div>
                         </div>
                     </Scrollbars>
                 </div>
-            </div>
+                <div
+                    style={{
+                        positiion: 'fixed',
+                        bottom: -200, zIndex: 900,
+                        //borderStyle: 'solid', borderColor: '#d9d9d9',
+                        //borderWidth: '1px 0px 0px 0px',
+                        paddingTop: 3,
+                        textAlign: 'center',
+                    }}
+                >
+                    <RaisedButton
+                        label="ยืนยันการสั่งซื้อ"
+                        style={{ width: '99%' }}
+                        primary={true}
+                        labelStyle={{ fontSize: '17px', color: 'white' }}
+                        icon={<Save color={"white"} style={{ marginTop: -5 }} />}
+                    //backgroundColor="#a4c639"
+                    />
+                </div>
+                <DialogOrderDescription
+                    dialogOpen={this.state.dialogOpen}
+                    handleClose={this.handleCloseDialog}
+                />
+            </div >
         );
     }
 }
 
-OrderList.defaultProps = {
-    widthCol_1: 300,
-    widthCol_2: 600,
-    widthCol_3: 1000,
-    widthCol_4: 1300,
-};
-
 function mapStateToProps(state) {
     return {
-        width: state.navLeftMenu.width,
-        height: state.navLeftMenu.height,
-        searchText: state.search.text,
-        searchFavorite: state.search.favorite,
-        tilesData: state.shop.tilesData,
         invoiceOrder: state.shop.invoiceOrder,
         docked: state.navLeftMenu.docked,
+        width: state.navLeftMenu.width,
+        height: state.navLeftMenu.height,
     }
 }
 
-export default connect(mapStateToProps, actions)(OrderList);
+export default connect(mapStateToProps)(OrderList);

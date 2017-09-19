@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import List from 'material-ui/List/List';
 
 import Avatar from './Avatar';
-import SignOUt from './SignOut';
+import SignOUt from './auth/SignOut';
 import SaleMenu from './sale/SaleMenu';
 import ShopMenu from './shop/ShopMenu';
 

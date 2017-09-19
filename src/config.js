@@ -1,0 +1,1 @@
+export const API_URL = 'http://192.168.4.14/HORECA_API/public/api';
