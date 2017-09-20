@@ -35,19 +35,15 @@ const styles = {
     },
 };
 
-class Order extends React.Component {
+class Catalog extends React.Component {
     state = {
-        value: 'CatalogList',
-        numberOfPieces: "",
-        on: 1,
         transitionEnd: true,
-        transitionName: 'tabOne', // This is a CSS name
+        numberOfPieces: "",
     }
 
     constructor(props) {
         super(props);
     }
-
 
     updateStyle(docked, width, height) {
         if (docked) {
@@ -66,11 +62,14 @@ class Order extends React.Component {
     }
 
     componentWillMount() {
-        this.props.showOrderBalance();
-        //this.props.notShowOrderBalance();
-
+        this.props.showCartBalance();
         this.updateStyle(this.props.docked, this.props.width, this.props.height);
         this.updateShowNumberOfPieces(this.props.allOrder.length);
+        this.setState({
+            value: this.props.showTab.value,
+            on: this.props.showTab.on,
+            transitionName: this.props.showTab.transitionName,
+        });
     }
 
     componentWillReceiveProps(nextProps, nextState) {
@@ -91,12 +90,14 @@ class Order extends React.Component {
 
     toggle = (view) => {
         if (view == 'CatalogList' && this.state.on != 1 /*&& this.state.on*/) {
+            this.props.showMenuTabCatalog();
             this.setState({
                 on: 1,
                 transitionEnd: false,
                 transitionName: 'tabTwo'
             });
         } else if (view == 'FavoriteList' && this.state.on != 2 /*&& !this.state.on*/) {
+            this.props.showMenuTabFavorite();
             if (this.state.on == 1) {
                 this.setState({
                     on: 2,
@@ -111,13 +112,13 @@ class Order extends React.Component {
                 });
             }
         } else if (view == 'OrderList' && this.state.on != 3 /*&& !this.state.on*/) {
+            this.props.showMenuTabCatalog();
             this.setState({
                 on: 3,
                 transitionEnd: false,
                 transitionName: 'tabOne'
             });
         }
-
     }
 
     handleTransitionEnd = () => {
@@ -194,7 +195,14 @@ function mapStateToProps(state) {
         open: state.navLeftMenu.open,
         docked: state.navLeftMenu.docked,
         allOrder: state.shop.allOrder,
+        showTab: state.shop.showTab,
     }
 }
 
-export default connect(mapStateToProps, actions)(Order);
+Catalog.defaultProps = {
+    value: 'CatalogList',
+    on: 1,
+    transitionName: 'tabOne',
+};
+
+export default connect(mapStateToProps, actions)(Catalog);

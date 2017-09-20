@@ -2,6 +2,7 @@ import {
     UPDATE_SHOW_ORDER, CHANGE_FAVORITE_ORDER,
     ADD_TO_ORDER, SELECT_ORDER, CLEAR_ORDER,
     FETCH_SKU, SHOW_ORDER_BALANCE, NOT_SHOW_ORDER_BALANCE,
+    SHOW_ITEM_DETAIL, SHOW_ORDER_MENU_TAB,
 } from './types';
 import { API_URL } from '../config'
 import axios from 'axios';
@@ -44,14 +45,17 @@ export const fetchSKU = () => {
 
 export const changeFavorite = (id, sku_code, favorite) => {
     return function (dispatch) {
-        dispatch(statusLoading());
+        dispatch({
+                 type: CHANGE_FAVORITE_ORDER,
+                 payload: id
+             });
+        //dispatch(statusLoading());
         axios.post(`/changeFavorite`,
             { sku_code, favorite: Number(!Number(favorite)) },
             { headers: { 'Authorization': "Bearer " + localStorage.getItem('token') } }
         ).then(res => {
             localStorage.setItem('token', res.data.token);
-            dispatch(fetchSKU());
-            //dispatch({ type: CHANGE_FAVORITE_ORDER, payload: id });
+            //dispatch(fetchSKU());
         }).catch(function (err) {
             alert(err.response.data);
             dispatch(signoutUser());
@@ -61,6 +65,35 @@ export const changeFavorite = (id, sku_code, favorite) => {
     //     type: CHANGE_FAVORITE_ORDER,
     //     payload: id
     // };
+};
+
+export const showMenuTabCatalog = () => {
+    return {
+        type: SHOW_ORDER_MENU_TAB,
+        payload: {
+            on: 1,
+            value: 'CatalogList',
+            transitionName: 'tabOne',
+        },
+    }
+}
+
+export const showMenuTabFavorite = () => {
+    return {
+        type: SHOW_ORDER_MENU_TAB,
+        payload: {
+            on: 2,
+            value: 'FavoriteList',
+            transitionName: 'tabOne',
+        },
+    }
+}
+
+export const showItemDetail = (sku) => {
+    return {
+        type: SHOW_ITEM_DETAIL,
+        payload: sku,
+    };
 };
 
 export const addToOrder = (order) => {
@@ -77,17 +110,15 @@ export const selectOrder = (order) => {
     };
 };
 
-export const showOrderBalance = () => {
+export const showCartBalance = () => {
     return {
         type: SHOW_ORDER_BALANCE,
-        payload: true
     };
 };
 
-export const notShowOrderBalance = () => {
+export const notShowCartBalance = () => {
     return {
         type: NOT_SHOW_ORDER_BALANCE,
-        payload: false
     };
 };
 

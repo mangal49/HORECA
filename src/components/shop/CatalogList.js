@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import Loading from '../Loading';
 
@@ -19,7 +20,6 @@ import Paper from 'material-ui/Paper';
 
 import Add from 'material-ui/svg-icons/content/add-circle';
 import Remove from 'material-ui/svg-icons/content/remove-circle';
-
 
 import SearchBar from '../SearchBar';
 
@@ -99,7 +99,9 @@ class CatalogList extends React.Component {
         showCol: 4,
         showSKU: [],
     }
-
+    static contextTypes = {
+        router: PropTypes.object
+    }
     updateStyle(docked, width, height) {
         if (docked) {
             styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: width - 255 };
@@ -174,12 +176,12 @@ class CatalogList extends React.Component {
         //     paper.style.backgroundColor = 'white';
         // }
     }
-    handleOpen = (SelectedTile) => {
-        //save แต่ไม่มีการเรียกใช้ mapStateToProps ก็ได้
-        //ในตัวอย่างนี้เราจะใช้ Props ที่หน้า itemDetai
-        //save in to Redux
-        this.props.UpdateFindItem(SelectedTile);
-    };
+
+    showItemDetail = (sku) => {
+        this.props.showItemDetail(sku);
+        this.context.router.push('/itemDetail');
+    }
+
     render() {
         if (this.props.displayLoading) {
             return (
@@ -208,7 +210,7 @@ class CatalogList extends React.Component {
                                         let paperBackground = '';
                                         let iconChangeAmount = '';
                                         if (checkInvoice > -1) {
-                                            paperBackground = '#CDDC39';
+                                            paperBackground = '#80DEEA';
                                             {/* iconChangeAmount =
                                                 <div>
                                                     <IconButton style={{ ...styles.IconRemove, left: 5, }} >
@@ -235,23 +237,22 @@ class CatalogList extends React.Component {
                                         }
                                         iconChangeAmount =
                                             <div>
-                                                <Link to={'/itemDetail/' + sku.id} >
-                                                    <IconButton
+                                                <IconButton
+                                                    style={{
+                                                        position: 'absolute', padding: 0,
+                                                        top: 0, width: 25, height: 30, right: 0,
+                                                        background: 'black',
+                                                    }}
+                                                >
+                                                    <Description
+                                                        color="white" hoverColor="gold"
                                                         style={{
-                                                            position: 'absolute', padding: 0,
-                                                            top: 0, width: 25, height: 30, right: 0,
-                                                            background: 'black',
+                                                            cursor: 'pointer', fontSize: 5,
                                                         }}
-                                                    >
-                                                        <Description
-                                                            color="white" hoverColor="gold"
-                                                            style={{
-                                                                cursor: 'pointer', fontSize: 5,
-                                                            }}
-                                                            onTouchTap={() => { this.handleOpen(sku) }}
-                                                        />
-                                                    </IconButton>
-                                                </Link>
+                                                        onTouchTap={() => { this.showItemDetail(sku) }}
+                                                    //onTouchTap={() => { this.handleOpen(sku) }}
+                                                    />
+                                                </IconButton>
                                             </div>;
                                         let star = null;
                                         if (Number(sku.favorite)) star = <Star color={"gold"} style={styles.Icon} />
@@ -269,12 +270,12 @@ class CatalogList extends React.Component {
                                                 >
                                                     <img src={sku.img} />
                                                 </GridTile>
-                                                {/* <hr style={styles.line} /> */}
-                                                <div style={{ marginTop: '-5px' }} >
+                                                <hr style={styles.line} />
+                                                <div style={{ marginTop: '-1px' }} >
                                                     <div style={styles.divShowTitle} >
                                                         <div style={{
-                                                            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                                                            fontSize: '13px',
+                                                            whiteSpace: 'nowrap', overflow: 'hidden',
+                                                            textOverflow: 'ellipsis', fontSize: '13px',
                                                         }}
                                                         >
                                                             <strong>{sku.sku_name}</strong>
@@ -282,7 +283,7 @@ class CatalogList extends React.Component {
                                                         <div style={{
                                                             fontSize: '12px', color: 'black',
                                                             whiteSpace: 'nowrap', overflow: 'hidden',
-                                                            textOverflow: 'ellipsis', marginTop: '2px',
+                                                            textOverflow: 'ellipsis', marginTop: '0px',
                                                             marginLeft: 5,
                                                         }}
                                                         >
@@ -304,9 +305,11 @@ class CatalogList extends React.Component {
                                                             display: 'inline', marginRight: '-10px',
                                                         }}
                                                     >
-
                                                         <IconButton
-                                                            style={{ padding: 0, width: 25, marginRight: 7 }}
+                                                            style={{
+                                                                padding: 0, width: 25,
+                                                                marginRight: 13, marginTop: -3
+                                                            }}
                                                             onTouchTap={() => { this.changeFavorite(sku) }}
                                                         >{/* style={{ padding: 0, width: 25 }} */}
                                                             {star}

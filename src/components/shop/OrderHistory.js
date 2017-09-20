@@ -49,7 +49,7 @@ class Order extends React.Component {
     }
 
     componentWillMount() {
-        //this.props.clearOrder();
+        this.props.notShowCartBalance();
         this.updateStyle(this.props.docked, this.props.width, this.props.height);
     }
 

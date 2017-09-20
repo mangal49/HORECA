@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import { Link } from 'react-router';
@@ -6,9 +7,6 @@ import { Link } from 'react-router';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-
-
-import { Tabs, Tab } from 'material-ui/Tabs';
 
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
@@ -18,8 +16,6 @@ import Star from 'material-ui/svg-icons/toggle/star';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import Loading from '../Loading';
 import { Scrollbars } from 'react-custom-scrollbars';
-import ReactCSSTransitionGroup from "react-addons-css-transition-group";
-
 
 import {
     blue300,
@@ -73,18 +69,10 @@ const styles = {
     }
 };
 
-
-
 class ItemDetail extends React.Component {
-
-    state = {
-        showCol: 4,
-        showTileData: [],
-        open: false,
-        loading: true
+    static contextTypes = {
+        router: PropTypes.object
     }
-
-
     updateStyle(docked, width, height) {
         if (docked) {
             styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: width - 255 };
@@ -98,31 +86,25 @@ class ItemDetail extends React.Component {
         }
     }
     componentWillMount() {
-        this.props.setRole('SHOP');
+        if (this.props.itemDetail.id == null) {
+            this.context.router.push('/catalog');
+        }
         this.updateStyle(this.props.docked, this.props.width, this.props.height);
-        this.setState({
-            showTileData: this.props.tilesData,
-            item: this.props.findItem,
-        });
-
-
     }
+
     componentDidMount() {
-        //setTimeout(() => { this.setState({ loading: false }); }, 11500);
-
-
+        this.props.notShowCartBalance();
     }
     componentWillReceiveProps(nextProps, nextState) {
         this.updateStyle(nextProps.docked, nextProps.width, nextProps.height);
     }
-    changeFavorite = (id) => {
-        this.props.changeFavorite(id);
+    changeFavorite = (id, sku_code, favorite) => {
+        this.props.changeFavorite(id, sku_code, favorite);
     }
+
     render() {
-
-
         let star = null;
-        if (this.state.item.favorite == true) {
+        if (this.props.itemDetail.favorite == true) {
             star = <Star color={"gold"} style={styles.Icon} />
         } else {
             star = <StarBorder color="black" style={styles.Icon} />
@@ -132,7 +114,6 @@ class ItemDetail extends React.Component {
                 <div style={styles.tabs}>
                     <AppBar style={{ height: "48px" }}
                         iconElementLeft={<Link to={'/catalog'} > <FlatButton label="Back" labelStyle={styles.labelColor} /> </Link>}
-
                     >
 
                     </AppBar>
@@ -144,46 +125,39 @@ class ItemDetail extends React.Component {
 
                             <Card style={{ position: 'relative', boxShadow: 'none' }}>
 
-                                <CardMedia style={{ textAlign: 'center' }}
-                                    overlay={<CardTitle title={this.state.item.sku_name} subtitle={this.state.item.sku_price.toLocaleString() + "/" + this.state.item.sku_unit} />}
+                                <CardMedia style={{ textAlign: 'center', }}
+                                    overlay={<CardTitle title={this.props.itemDetail.sku_name} subtitle={(this.props.itemDetail.sku_price * 1).toLocaleString() + " Bath / " + this.props.itemDetail.sku_unit} />}
 
                                 >
-
-                                    <img src={'../' + this.state.item.img} style={{ minWidth: '0px', width: 'none' }} />
-
+                                    <img src={this.props.itemDetail.img}
+                                        style={{
+                                            minWidth: '0px', width: 'none',
+                                            maxWidth: '450px', maxHeight: '400px',
+                                            paddingBottom: 50,
+                                        }}
+                                    />
                                     <div
                                         style={{
                                             textAlign: 'right', marginRight: '-10px',
                                         }}
                                     >
-                                        <IconButton
+                                        {/* <IconButton
                                             style={{ padding: 0, width: 25, marginRight: 25 }}
-                                            onTouchTap={() => { this.changeFavorite(this.state.item.id) }}
+                                            onTouchTap={() => { this.changeFavorite(this.props.itemDetail.id, this.props.itemDetail.sku_code, this.props.itemDetail.favorite) }}
                                         >
                                             {star}
-                                        </IconButton>
+                                        </IconButton> */}
                                     </div>
                                 </CardMedia>
-
-
-                                <CardTitle title="Card title" subtitle="Card subtitle" />
-
-                                <CardText>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                         Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-                         Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-                         Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-                    </CardText>
+                                <CardTitle title="Description" />
+                                <CardText>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;{this.props.itemDetail.description}
+                                </CardText>
                             </Card>
-
                         </div>
-
                     </Scrollbars>
-
                 </div>
             </div>
-
-
-
         );
     }
 }
@@ -191,13 +165,11 @@ class ItemDetail extends React.Component {
 //หากมีการเรียกใช้ Props จาก Redux ให้ mapStateToProps ด้วย
 function mapStateToProps(state) {
     return {
-        width: state.navLeftMenu.width,
         docked: state.navLeftMenu.docked,
-        role: state.auth.role,
-        tilesData: state.shop.tilesData,
-        allOrder: state.shop.allOrder,
-        findItem: state.itemDetail.findItem,
-        height: state.navLeftMenu.height
+        width: state.navLeftMenu.width,
+        height: state.navLeftMenu.height,
+
+        itemDetail: state.shop.showItemDetail,
     }
 }
 

@@ -26,54 +26,39 @@ import { grey400, darkBlack, lightBlack } from 'material-ui/styles/colors';
 import DialogOrderDescription from './DialogOrderDescription'
 
 const styles = {
-    Icon: {
-        cursor: 'pointer',
-    },
-    divContent: {
-        float: 'left',
-        width: '40%',
-        marginTop: -20,
-        marginLeft: -20,
-    },
-    divAmount: {
-        float: 'right',
-        width: '50%',
-        marginRight: '-25px'
-    },
-    divLine: {
-        float: 'right',
-        height: 80,
-        width: 2,
-        marginTop: -10,
-        borderStyle: 'solid', borderColor: '#d9d9d9',
-        borderWidth: '0px 0px 0px 1px',
-        marginRight: -10
-    },
-    avatar: {
-        marginLeft: 20
-    },
     Scrollbars: {
         height: 0,
     },
-    divList: {
+    divContent: {
         position: 'relative',//relative,absolute
         width: '100%',
         textAlign: 'center',
         zIndex: 700,
         overflowX: 'hidden',
     },
-    div: {
-        position: 'relative',//relative,absolute
-        width: '100%',
-        textAlign: 'center',
-        zIndex: 600,
+    Icon: {
+        cursor: 'pointer',
     },
-    balance: {
-        color: darkBlack,
-        float: 'right',
-        marginTop: "50px",
+    avatar: {
+        marginLeft: 20,
+    },
+    divSKU: {
+        float: 'left',
         width: '50%',
+        marginTop: -20,
+        marginLeft: 25,
+    },
+    divAmount: {
+        float: 'right',
+        width: '40%',
+        marginRight: 10
+    },
+    divBalance: {
+        color: lightBlack,
         fontSize: '14px',
+        right: 32 + 10,
+        bottom: 10,
+        position: 'absolute',
         whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
     }
 };
@@ -91,30 +76,21 @@ class OrderList extends React.Component {
     };
     updateStyle(docked, width, height) {
         if (docked) {
-            styles.divContent = { ...styles.divContent, marginLeft: 25, width: '50%', };
-            styles.divAmount = { ...styles.divAmount, marginRight: 10, width: '40%', };
-            styles.divLine = { ...styles.divLine, marginRight: 20, };
+            let footerHeight = 38 - 55;
+            styles.Scrollbars = { ...styles.Scrollbars, height: height - 163 - footerHeight };
             styles.avatar = { ...styles.avatar, marginLeft: 20, };
 
-            let footerHeight = 38 - 55;
-            styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: width - 255 };
-            styles.Scrollbars = { ...styles.Scrollbars, height: height - 163 - footerHeight };
-
-            styles.balance = { ...styles.balance, width: '50%', marginRight: '-41%', marginTop: "50px", };
+            styles.divSKU = { ...styles.divSKU, marginLeft: 25, /*width: '50%',*/ };
+            styles.divAmount = { ...styles.divAmount, marginRight: 10, width: '40%', };
+            styles.divBalance = { ...styles.divBalance, right: 32 + 10 };
         } else {
-            styles.divContent = { ...styles.divContent, marginLeft: -10, width: '60%', };
-            styles.divAmount = { ...styles.divAmount, marginRight: -20, width: '48%', };
-            // styles.divContent = { ...styles.divContent, marginLeft: -0, width: '52%', };
-            // styles.divAmount = { ...styles.divAmount, marginRight: -0, width: '48%', };
-            styles.divLine = { ...styles.divLine, marginRight: 0, };
+            let footerHeight = 44 - 55;
+            styles.Scrollbars = { ...styles.Scrollbars, height: height - 157 - footerHeight };
             styles.avatar = { ...styles.avatar, marginLeft: -15, };
 
-            let footerHeight = 44 - 55;
-            styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: '100%' };
-            styles.Scrollbars = { ...styles.Scrollbars, height: height - 157 - footerHeight };
-
-            styles.balance = { ...styles.balance, width: '50%', marginRight: '-71%' };
-            //styles.balance = { ...styles.balance, width: '100%', marginRight: '-30px', marginTop: 0, };
+            styles.divSKU = { ...styles.divSKU, marginLeft: -10, /*width: '50%',*/ };
+            styles.divAmount = { ...styles.divAmount, marginRight: -20, width: '48%', };
+            styles.divBalance = { ...styles.divBalance, right: 32 - 20 };
         }
     }
     componentWillMount() {
@@ -125,6 +101,7 @@ class OrderList extends React.Component {
     }
     componentDidMount() {
         // setTimeout(() => { this.setState({ loading: false }); }, 500);
+        // alert(this.refs.divBalance.offsetWidth);
     }
     componentWillUnmount() {
         this.props.handleTransitionEnd();
@@ -137,140 +114,130 @@ class OrderList extends React.Component {
     };
 
     render() {
-        let balance = 0;
         return (
             <div>
                 <div style={{ backgroundColor: '#FFF' /*'#F5F5F5'*/ }}>
                     <Scrollbars
                         style={styles.Scrollbars}
                     >
-                        <div style={styles.divList}>
-                            <div style={styles.div} id='detail' ref='detail'>
-
-                                <MobileTearSheet>
-                                    <List
-                                        style={{ textAlign: 'center', }}
-                                    >
-                                        {this.props.allOrder.map((item, index) => {
-                                            balance += (item.amount * item.sku_price);
-                                            let showService = item.service_price > 0 && <div style={{
-                                                color: lightBlack,
-                                                fontSize: '11px',
-                                                textAlign: 'left', width: '100%',
-                                                marginLeft: 10, marginTop: 8,
-                                                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                                            }}
-                                            >
-                                                {/* <Toggle
-                                                    name="serviceCharge"
-                                                    value="serviceCharge"
-                                                    label={`Slice ${item.service_price} บาท / ${item.sku_unit}`}
-                                                    toggled={this.state.serviceCharge}
-                                                    onToggle={this.handleToggle}
-                                                    style={{ width: '30%', color: lightBlack, fontSize: '12px' }}
-                                                /> */}
-                                                Slice Shabu 10Kg. , Steak 5Kg.
-                                            </div>
-                                            return (
-                                                <div key={index}>
-                                                    <ListItem
-                                                        leftAvatar={
-                                                            <div>
-                                                                <Avatar src={item.img} size={60} style={styles.avatar} />
-                                                                <IconButton
+                        <div style={styles.divContent}>
+                            <MobileTearSheet>
+                                <List
+                                    style={{ textAlign: 'center', }}
+                                >
+                                    {this.props.allOrder.map((item, index) => {
+                                        let showService = item.service_price > 0 && <div style={{
+                                            color: lightBlack,
+                                            fontSize: '11px',
+                                            textAlign: 'left', width: '100%',
+                                            marginLeft: 10, marginTop: 8,
+                                            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                                        }}
+                                        >
+                                            {/* <Toggle
+                                                name="serviceCharge"
+                                                value="serviceCharge"
+                                                label={`Slice ${item.service_price} บาท / ${item.sku_unit}`}
+                                                toggled={this.state.serviceCharge}
+                                                onToggle={this.handleToggle}
+                                                style={{ width: '30%', color: lightBlack, fontSize: '12px' }}
+                                            /> */}
+                                            Slice Shabu 10Kg. , Steak 5Kg.
+                                        </div>
+                                        return (
+                                            <div key={index}>
+                                                <ListItem
+                                                    leftAvatar={
+                                                        <div>
+                                                            <Avatar src={item.img} size={60} style={styles.avatar} />
+                                                            <IconButton
+                                                                style={{
+                                                                    position: 'absolute',
+                                                                    padding: 0,
+                                                                    bottom: 0,
+                                                                    width: 22,
+                                                                    height: 27,
+                                                                    background: 'white',
+                                                                    right: 0,
+                                                                }}
+                                                            >
+                                                                <NoteAdd
+                                                                    onTouchTap={this.handleOpenDialog}
+                                                                    color={'black'}
+                                                                    hoverColor="gold"
                                                                     style={{
-                                                                        position: 'absolute',
-                                                                        padding: 0,
-                                                                        bottom: 0,
-                                                                        width: 22,
-                                                                        height: 27,
-                                                                        background: 'white',
-                                                                        right: 0,
+                                                                        cursor: 'pointer',
+                                                                        fontSize: 5,
                                                                     }}
-                                                                >
-                                                                    <NoteAdd
-                                                                        onTouchTap={this.handleOpenDialog}
-                                                                        color={'black'}
-                                                                        hoverColor="gold"
-                                                                        style={{
-                                                                            cursor: 'pointer',
-                                                                            fontSize: 5,
-                                                                        }}
-                                                                        size={10}
-                                                                    />
-                                                                </IconButton>
-                                                            </div>
-                                                        }
-                                                        style={{ height: 50 }}
-                                                        disabled={true}
-                                                    >
-                                                        <div style={styles.divContent}>
-                                                            <div style={{
-                                                                textAlign: 'left', width: '100%',
-                                                                marginLeft: 10, marginTop: 10,
-                                                                fontSize: 13,
-                                                                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                                                            }}
-                                                            >
-                                                                {item.sku_name}
-                                                            </div>
-                                                            <div style={{
-                                                                color: lightBlack,
-                                                                fontSize: '11px',
-                                                                textAlign: 'left', width: '100%',
-                                                                marginLeft: 10, marginTop: 10,
-                                                                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                                                            }}
-                                                            >
-                                                                {item.sku_price.toLocaleString()} บาท / {item.sku_unit}
-                                                                &nbsp;
-                                                                ( {item.min_weight} - {item.max_weight} {item.sku_unit}/ชิ้น )
-                                                            </div>
-                                                            {showService}
-                                                        </div>
-                                                        <div style={styles.divAmount}>
-                                                            <div style={{ marginTop: -10 }} >
-                                                                <IconButton
-                                                                    style={{ float: 'right', marginRight: 0, marginTop: 5 }}
-                                                                >
-                                                                    <Add
-                                                                        color="green"
-                                                                        style={{ ...styles.Icon }}
-                                                                        onTouchTap={this.handleOpen}
-                                                                        viewBox="0 0 24 24"
-                                                                    />
-                                                                </IconButton>
-                                                                <TextField
-                                                                    defaultValue={item.amount.toLocaleString()}
-                                                                    floatingLabelText="จำนวน"
-                                                                    style={{ width: 40, float: 'right', marginTop: -20, marginRight: -5 }}
-                                                                    inputStyle={{
-                                                                        textAlign: 'center'
-                                                                    }}
+                                                                    size={10}
                                                                 />
-                                                                <IconButton
-                                                                    style={{ float: 'right', marginRight: -5, marginTop: 5 }}
-                                                                >
-                                                                    <Remove
-                                                                        color="red"
-                                                                        style={styles.Icon}
-                                                                        onTouchTap={this.handleOpen}
-                                                                    />
-                                                                </IconButton>
-                                                                <div style={styles.balance}>
-                                                                    {(item.amount * item.sku_price).toLocaleString()} บาท
-                                                                </div>
-                                                            </div>
+                                                            </IconButton>
                                                         </div>
-                                                    </ListItem>
-                                                    <Divider style={{ width: '100%' }} />
-                                                </div>
-                                            );
-                                        })}
-                                    </List>
-                                </MobileTearSheet>
-
-                            </div>
+                                                    }
+                                                    style={{ height: 50 }}
+                                                    disabled={true}
+                                                >
+                                                    <div style={styles.divSKU}>
+                                                        <div style={{
+                                                            textAlign: 'left', width: '100%',
+                                                            marginLeft: 10, marginTop: 10, fontSize: 13,
+                                                            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                                                        }}
+                                                        >
+                                                            {item.sku_name}
+                                                        </div>
+                                                        <div style={{
+                                                            color: lightBlack, fontSize: '12px',
+                                                            textAlign: 'left', width: '100%',
+                                                            marginLeft: 10, marginTop: 10,
+                                                            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                                                        }}
+                                                        >
+                                                            {item.sku_price.toLocaleString()} บาท / {item.sku_unit}
+                                                        </div>
+                                                        {showService}
+                                                    </div>
+                                                    <div style={styles.divAmount}>
+                                                        <div style={{ marginTop: -10 }} >
+                                                            <IconButton
+                                                                style={{ float: 'right', marginRight: 0, marginTop: 5 }}
+                                                            >
+                                                                <Add
+                                                                    style={{ ...styles.Icon }}
+                                                                    color="green"
+                                                                    onTouchTap={this.handleOpen}
+                                                                    viewBox="0 0 24 24"
+                                                                />
+                                                            </IconButton>
+                                                            <TextField
+                                                                defaultValue={item.order_amount.toLocaleString()}
+                                                                floatingLabelText="จำนวน"
+                                                                style={{ width: 40, float: 'right', marginTop: -20, marginRight: -5 }}
+                                                                inputStyle={{
+                                                                    textAlign: 'center'
+                                                                }}
+                                                            />
+                                                            <IconButton
+                                                                style={{ float: 'right', marginRight: -5, marginTop: 5 }}
+                                                            >
+                                                                <Remove
+                                                                    style={styles.Icon}
+                                                                    color="red"
+                                                                    onTouchTap={this.handleOpen}
+                                                                />
+                                                            </IconButton>
+                                                        </div>
+                                                        <div ref="divBalance" style={styles.divBalance}>
+                                                            {(item.order_amount * item.sku_price).toLocaleString()} บาท
+                                                        </div>
+                                                    </div>
+                                                </ListItem>
+                                                <Divider style={{ width: '100%' }} />
+                                            </div>
+                                        );
+                                    })}
+                                </List>
+                            </MobileTearSheet>
                         </div>
                     </Scrollbars>
                 </div>

@@ -19,7 +19,7 @@ export default (
             <IndexRoute component={CheckAuth(Catalog)} />
             <Route path='/catalog' component={CheckAuth(Catalog)} exact />
             <Route path='/orderHistory' component={CheckAuth(OrderHistory)} exact />
-            <Route path='/itemDetail/:sku_code' component={CheckAuth(ItemDetail)} exact />
+            <Route path='/itemDetail' component={CheckAuth(ItemDetail)} exact />
         </Route>
     </Router>
 );
