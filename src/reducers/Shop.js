@@ -3,7 +3,7 @@ import {
     ADD_TO_ORDER, SELECT_ORDER, CLEAR_ORDER,
     FIND_ITEM_DETAIL, FETCH_SKU,
     SHOW_ORDER_BALANCE, NOT_SHOW_ORDER_BALANCE,
-    SHOW_ITEM_DETAIL, SHOW_ORDER_MENU_TAB,
+    SHOW_ITEM_DETAIL, SHOW_ORDER_MENU_TAB, UPDATE_ORDER
 } from '../actions/types';
 //import { shopData as initialState } from './store/Shop';
 
@@ -20,13 +20,15 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
+    let index = null;
+    let orderUpdate = null;
     switch (action.type) {
         case FETCH_SKU:
             return { ...state, allSKU: action.payload };
         // case UPDATE_SHOW_ORDER:
         //     return { ...state, showTileData: action.payload };
         case CHANGE_FAVORITE_ORDER:
-            let orderUpdate = state.allSKU.find((rs) => { return rs.id == action.payload });
+            orderUpdate = state.allSKU.find((rs) => { return rs.id == action.payload });
             orderUpdate.favorite = Number(!Number(orderUpdate.favorite));
             let indexDelete = state.allSKU.findIndex((rs) => { return rs.id == action.payload });
             let allSKU = [
@@ -39,13 +41,13 @@ export default (state = initialState, action) => {
             });
             return { ...state, allSKU };
         case ADD_TO_ORDER:
-            let order = action.payload;
-            order.order_amount = 1;
-            let index = state.allOrder.findIndex((rs) => { return rs.id == order.id });
+            let sku = action.payload;
+            sku.order_amount = 1;
+            index = state.allOrder.findIndex((rs) => { return rs.id == sku.id });
             if (index == -1) {
                 return {
                     ...state,
-                    allOrder: [...state.allOrder, order]
+                    allOrder: [...state.allOrder, sku]
                 }
             } else {
                 return {
@@ -56,6 +58,25 @@ export default (state = initialState, action) => {
                     ]
                 }
             }
+
+        case UPDATE_ORDER:
+            index = state.allOrder.findIndex((rs) => { return rs.id == action.payload.sku.id });
+            orderUpdate = state.allOrder.find((rs) => { return rs.id == action.payload.sku.id });
+            if (action.payload.type == "UPDATE") {
+                orderUpdate.order_amount = Number(orderUpdate.order_amount) + Number(action.payload.qty);
+            } else if (action.payload.type == "REPLACE") {
+                if (action.payload.qty == "") {
+                    action.payload.qty = 1
+                }
+                orderUpdate.order_amount = Number(action.payload.qty);
+            }
+            let reGenOrder = [];
+            for (let i = 0; i <= state.allOrder.length - 1; i++) {
+                if (i == index && orderUpdate.order_amount > 0) reGenOrder.push(orderUpdate);
+                else if (i != index) reGenOrder.push(state.allOrder[i]);
+            }
+            return { ...state, allOrder: reGenOrder };
+
         case SELECT_ORDER:
             return { ...state, orderObj: action.payload };
         case CLEAR_ORDER:

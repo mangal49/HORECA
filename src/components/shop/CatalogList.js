@@ -102,6 +102,9 @@ class CatalogList extends React.Component {
     static contextTypes = {
         router: PropTypes.object
     }
+    constructor(props) {
+        super(props);
+    }
     updateStyle(docked, width, height) {
         if (docked) {
             styles.tabs = { ...styles.tabs, 'paddingLeft': 0, width: width - 255 };
@@ -163,8 +166,8 @@ class CatalogList extends React.Component {
         });
         this.setState({ showSKU: rs2 });
     }
-    selectOrder = (e, id, obj) => {
-        this.props.addToOrder(obj);
+    selectOrder = (sku) => {
+        this.props.addToOrder(sku);
         //e.currentTarget.style.backgroundColor;
         //this.refs[key]
         // var img = e.target;
@@ -266,7 +269,7 @@ class CatalogList extends React.Component {
                                                 <GridTile
                                                     titleStyle={styles.titleStyle}
                                                     style={{ cursor: 'pointer', position: 'relative' }}
-                                                    onTouchTap={(e) => { this.selectOrder(e, sku.id, sku) }}
+                                                    onTouchTap={(e) => { this.selectOrder(sku) }}
                                                 >
                                                     <img src={sku.img} />
                                                 </GridTile>

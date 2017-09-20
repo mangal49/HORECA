@@ -9,6 +9,7 @@ export const SEARCH_FAVORITE = 'SEARCH_FAVORITE';
 export const UPDATE_SHOW_ORDER = 'UPDATE_SHOW_ORDER';
 export const CHANGE_FAVORITE_ORDER = 'CHANGE_FAVORITE_ORDER';
 export const ADD_TO_ORDER = 'ADD_TO_ORDER';
+export const UPDATE_ORDER = 'UPDATE_ORDER';
 export const SELECT_ORDER = 'SELECT_ORDER';
 export const CLEAR_ORDER = 'CLEAR_ORDER';
 export const FETCH_SKU = 'FETCH_SKU';

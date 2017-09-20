@@ -68,6 +68,9 @@ class OrderList extends React.Component {
         serviceCharge: false,
         dialogOpen: false,
     }
+    constructor(props) {
+        super(props);
+    }
     handleOpenDialog = () => {
         this.setState({ dialogOpen: true });
     };
@@ -89,7 +92,7 @@ class OrderList extends React.Component {
             styles.avatar = { ...styles.avatar, marginLeft: -15, };
 
             styles.divSKU = { ...styles.divSKU, marginLeft: -10, /*width: '50%',*/ };
-            styles.divAmount = { ...styles.divAmount, marginRight: -20, width: '48%', };
+            styles.divAmount = { ...styles.divAmount, marginRight: -20, width: '50%', };
             styles.divBalance = { ...styles.divBalance, right: 32 - 20 };
         }
     }
@@ -106,12 +109,34 @@ class OrderList extends React.Component {
     componentWillUnmount() {
         this.props.handleTransitionEnd();
     }
-
-    handleToggle = (event, toggled) => {
-        this.setState({
-            [event.target.name]: toggled,
-        });
-    };
+    updateOrder(e, sku) {
+        // const re = /[0-9:]+/g;
+        // if (!re.test(e.key) && (e.keyCode !== 8 && e.keyCode !== 46)) {
+        //     e.preventDefault();
+        // } else {
+        //     alert(e.target.value);
+        //     this.props.updateOrder(sku, "REPLACE", e.target.value);
+        // }
+        if (Number(e.target.value) > Number(sku.qty_available)) {
+            alert("สินค้ามีจำนวน " + sku.qty_available.toLocaleString() + " " + sku.sku_unit);
+            this.props.updateOrder(sku, "REPLACE", sku.qty_available);
+        } else {
+            this.props.updateOrder(sku, "REPLACE", e.target.value);
+        }
+    }
+    addOrder = (sku) => {
+        if ((Number(sku.order_amount) + 1) > Number(sku.qty_available)) {
+            alert("สินค้ามีจำนวน " + sku.qty_available.toLocaleString() + " " + sku.sku_unit);
+        } else {
+            this.props.updateOrder(sku, "UPDATE", 1);
+        }
+    }
+    removeOrder = (sku) => {
+        this.props.updateOrder(sku, "UPDATE", -1);
+    }
+    handleFocus = (e) => {
+        e.target.select();
+    }
 
     render() {
         return (
@@ -134,14 +159,6 @@ class OrderList extends React.Component {
                                             whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
                                         }}
                                         >
-                                            {/* <Toggle
-                                                name="serviceCharge"
-                                                value="serviceCharge"
-                                                label={`Slice ${item.service_price} บาท / ${item.sku_unit}`}
-                                                toggled={this.state.serviceCharge}
-                                                onToggle={this.handleToggle}
-                                                style={{ width: '30%', color: lightBlack, fontSize: '12px' }}
-                                            /> */}
                                             Slice Shabu 10Kg. , Steak 5Kg.
                                         </div>
                                         return (
@@ -201,6 +218,7 @@ class OrderList extends React.Component {
                                                         <div style={{ marginTop: -10 }} >
                                                             <IconButton
                                                                 style={{ float: 'right', marginRight: 0, marginTop: 5 }}
+                                                                onTouchTap={(e) => { this.addOrder(item) }}
                                                             >
                                                                 <Add
                                                                     style={{ ...styles.Icon }}
@@ -210,15 +228,20 @@ class OrderList extends React.Component {
                                                                 />
                                                             </IconButton>
                                                             <TextField
-                                                                defaultValue={item.order_amount.toLocaleString()}
-                                                                floatingLabelText="จำนวน"
+                                                                value={item.order_amount.toLocaleString()}
+                                                                floatingLabelText={"จำนวน(" + item.sku_unit + ")"}
+                                                                floatingLabelStyle={{ fontSize: 12 }}
                                                                 style={{ width: 40, float: 'right', marginTop: -20, marginRight: -5 }}
                                                                 inputStyle={{
                                                                     textAlign: 'center'
                                                                 }}
+                                                                type={"number"}
+                                                                onChange={(e) => this.updateOrder(e, item)}
+                                                                onFocus={(e) => this.handleFocus(e)}
                                                             />
                                                             <IconButton
                                                                 style={{ float: 'right', marginRight: -5, marginTop: 5 }}
+                                                                onTouchTap={(e) => { this.removeOrder(item) }}
                                                             >
                                                                 <Remove
                                                                     style={styles.Icon}
@@ -278,4 +301,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(OrderList);
+export default connect(mapStateToProps, actions)(OrderList);
