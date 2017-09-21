@@ -38,6 +38,7 @@ const styles = {
     },
     showText: {
         textAlign: 'center',
+        fontSize:20,
     },
     showSum: {
         marginRight: 40,
@@ -99,6 +100,14 @@ class AppBarMenu extends React.Component {
                 {balance > 0 && ` ${balance.toLocaleString()}`}
             </span>
         }
+        let showCustName = null;
+        if(this.props.ship_to_name && !this.props.drawerDocked){
+            showCustName = <span style={{fontSize:14}}> ({this.props.ship_to_name})</span>
+        }
+        let showTitle = <span style={styles.showText}>
+                                Horeca
+                                {showCustName}
+                        </span>;
         return (
             <div>
                 <div style={{ display: showAppBar }}>
@@ -107,7 +116,7 @@ class AppBarMenu extends React.Component {
                         title={
 
                             <div style={styles.titleStyle}>
-                                <span style={styles.showText}>Horeca</span>
+                                {showTitle}
                                 {showBalance}
                             </div>
                         }
@@ -133,6 +142,7 @@ function mapStateToProps(state) {
         allOrder: state.shop.allOrder,
 
         showCart: state.shop.showCartBalance,
+        ship_to_name: state.auth.user_data.default_customer.ship_to_name,
     }
 }
 

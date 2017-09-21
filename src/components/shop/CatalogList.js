@@ -23,9 +23,6 @@ import Remove from 'material-ui/svg-icons/content/remove-circle';
 
 import SearchBar from '../SearchBar';
 
-//import ReactCSSTransitionGroup from "react-addons-css-transition-group";
-
-
 const styles = {
     root: {
         display: 'flex',

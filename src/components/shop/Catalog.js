@@ -4,6 +4,8 @@ import * as actions from '../../actions';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 
+import CustomerList from './CustomerList';
+
 // import {
 //     blue300,
 //     indigo900,
@@ -75,6 +77,13 @@ class Catalog extends React.Component {
     componentWillReceiveProps(nextProps, nextState) {
         this.updateStyle(nextProps.docked, nextProps.width, nextProps.height);
         this.updateShowNumberOfPieces(nextProps.allOrder.length);
+
+        
+        this.setState({
+            value: nextProps.showTab.value,
+            on: nextProps.showTab.on,
+            transitionName: nextProps.showTab.transitionName,
+        });
     }
 
     shouldComponentUpdate = (nextProps, nextState) => {
@@ -112,7 +121,7 @@ class Catalog extends React.Component {
                 });
             }
         } else if (view == 'OrderList' && this.state.on != 3 /*&& !this.state.on*/) {
-            this.props.showMenuTabCatalog();
+            this.props.showMenuTabOrder();
             this.setState({
                 on: 3,
                 transitionEnd: false,
@@ -149,42 +158,47 @@ class Catalog extends React.Component {
         }
     }
     render() {
-        return (
-            <div style={styles.container}>
-                <div style={styles.tabs}>
-                    <Tabs
-                        value={this.state.value}
-                        onChange={this.handleChange}
-                        //inkBarStyle={{ backgroundColor: '#BDBDBD', }}
-                        tabItemContainerStyle={{
-                            //backgroundColor: '#FFF',
-                        }}
-                    >
-                        <Tab label="สินค้า" value="CatalogList"
-                            onClick={() => { this.toggle('CatalogList') }}
-                            style={styles.tab}
-                        />
-                        <Tab label="รายการโปรด" value="FavoriteList"
-                            onClick={() => { this.toggle('FavoriteList') }}
-                            style={styles.tab}
-                        />
-                        <Tab label={`สั่งซื้อ${this.state.numberOfPieces}`} value="OrderList"
-                            onClick={() => { this.toggle('OrderList') }}
-                            style={styles.tab}
-                        />
-                    </Tabs>
-                    <ReactCSSTransitionGroup
-                        transitionName={this.state.transitionName}
-                        transitionEnterTimeout={500}
-                        transitionLeaveTimeout={500}
-                    >
-                        {this.render_Tab1()}
-                        {this.render_Tab2()}
-                        {this.render_Tab3()}
-                    </ReactCSSTransitionGroup>
-                </div>
-            </div >
-        );
+        let display = null;
+        if(this.props.defaultCustomer.cust_code){
+            display = <div style={styles.container}>
+                        <div style={styles.tabs}>
+                            <Tabs
+                                value={this.state.value}
+                                onChange={this.handleChange}
+                                //inkBarStyle={{ backgroundColor: '#BDBDBD', }}
+                                tabItemContainerStyle={{
+                                    //backgroundColor: '#FFF',
+                                }}
+                            >
+                                <Tab label="สินค้า" value="CatalogList"
+                                    onClick={() => { this.toggle('CatalogList') }}
+                                    style={styles.tab}
+                                />
+                                <Tab label="รายการโปรด" value="FavoriteList"
+                                    onClick={() => { this.toggle('FavoriteList') }}
+                                    style={styles.tab}
+                                />
+                                <Tab label={`สั่งซื้อ${this.state.numberOfPieces}`} value="OrderList"
+                                    onClick={() => { this.toggle('OrderList') }}
+                                    style={styles.tab}
+                                />
+                            </Tabs>
+                            <ReactCSSTransitionGroup
+                                transitionName={this.state.transitionName}
+                                transitionEnterTimeout={500}
+                                transitionLeaveTimeout={500}
+                            >
+                                {this.render_Tab1()}
+                                {this.render_Tab2()}
+                                {this.render_Tab3()}
+                            </ReactCSSTransitionGroup>
+                        </div>
+                    </div >
+        }else if(this.props.listCustomer.length > 0){
+            display = <CustomerList/>
+        }
+
+        return display;
     }
 }
 function mapStateToProps(state) {
@@ -196,6 +210,10 @@ function mapStateToProps(state) {
         docked: state.navLeftMenu.docked,
         allOrder: state.shop.allOrder,
         showTab: state.shop.showTab,
+        displayLoading: state.common.displayLoading,
+        
+        defaultCustomer: state.auth.user_data.default_customer,
+        listCustomer: state.auth.user_data.list_customer,
     }
 }
 

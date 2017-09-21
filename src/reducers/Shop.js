@@ -7,19 +7,11 @@ import {
 } from '../actions/types';
 //import { shopData as initialState } from './store/Shop';
 
-const initialState = {
-    allOrder: [],
-    allSKU: [],
-    showCartBalance: 0,
-    showItemDetail: {},
-    showTab: {
-        on: 1,
-        value: 'CatalogList',
-        transitionName: 'tabOne',
-    }
-};
+import {
+    initialStateShop,
+} from './store'
 
-export default (state = initialState, action) => {
+export default (state = initialStateShop, action) => {
     let index = null;
     let orderUpdate = null;
     switch (action.type) {

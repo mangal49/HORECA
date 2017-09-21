@@ -114,7 +114,7 @@ class DrawerMenu extends React.Component {
                 style={{ zIndex: 1000 }}
             >
                 <List style={{ paddingTop: "0px" }}>
-                    <Avatar />
+                    <Avatar handleClose={this.handleClose} />
                     {menu}
                     <hr style={styleHr} />
                     <SignOUt

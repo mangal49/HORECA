@@ -57,7 +57,7 @@ const styles = {
         color: lightBlack,
         fontSize: '14px',
         right: 32 + 10,
-        bottom: 10,
+        bottom: 8,
         position: 'absolute',
         whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
     }
@@ -118,7 +118,7 @@ class OrderList extends React.Component {
         //     this.props.updateOrder(sku, "REPLACE", e.target.value);
         // }
         if (Number(e.target.value) > Number(sku.qty_available)) {
-            alert("สินค้ามีจำนวน " + sku.qty_available.toLocaleString() + " " + sku.sku_unit);
+            alert("Available in stock " + sku.qty_available.toLocaleString() + " " + sku.sku_unit);
             this.props.updateOrder(sku, "REPLACE", sku.qty_available);
         } else {
             this.props.updateOrder(sku, "REPLACE", e.target.value);
@@ -126,7 +126,7 @@ class OrderList extends React.Component {
     }
     addOrder = (sku) => {
         if ((Number(sku.order_amount) + 1) > Number(sku.qty_available)) {
-            alert("สินค้ามีจำนวน " + sku.qty_available.toLocaleString() + " " + sku.sku_unit);
+            alert("Available in stock " + sku.qty_available.toLocaleString() + " " + sku.sku_unit);
         } else {
             this.props.updateOrder(sku, "UPDATE", 1);
         }
@@ -191,7 +191,7 @@ class OrderList extends React.Component {
                                                             </IconButton>
                                                         </div>
                                                     }
-                                                    style={{ height: 50 }}
+                                                    style={{ height: 45 }}
                                                     disabled={true}
                                                 >
                                                     <div style={styles.divSKU}>
@@ -206,7 +206,7 @@ class OrderList extends React.Component {
                                                         <div style={{
                                                             color: lightBlack, fontSize: '12px',
                                                             textAlign: 'left', width: '100%',
-                                                            marginLeft: 10, marginTop: 10,
+                                                            marginLeft: 10, marginTop: 7,
                                                             whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
                                                         }}
                                                         >
@@ -229,8 +229,8 @@ class OrderList extends React.Component {
                                                             </IconButton>
                                                             <TextField
                                                                 value={item.order_amount.toLocaleString()}
-                                                                floatingLabelText={"จำนวน(" + item.sku_unit + ")"}
-                                                                floatingLabelStyle={{ fontSize: 12 }}
+                                                                floatingLabelText={"Qty (" + item.sku_unit + ")"}
+                                                                floatingLabelStyle={{ fontSize: 12, width: 100, marginLeft: -20, }}
                                                                 style={{ width: 40, float: 'right', marginTop: -20, marginRight: -5 }}
                                                                 inputStyle={{
                                                                     textAlign: 'center'

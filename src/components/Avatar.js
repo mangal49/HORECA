@@ -1,8 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../actions';
+
 import Avatar from 'material-ui/Avatar';
 import ListItem from 'material-ui/List/ListItem';
-
 import Chip from 'material-ui/Chip';
+
+
+import IconButton from 'material-ui/IconButton';
+import Edit from 'material-ui/svg-icons/editor/border-color';
 
 // import {
 //     blue300,
@@ -17,7 +23,7 @@ const styles = {
     Avatar: {
         marginTop: '-5px',
         zIndex: 1000,
-
+        backgroundColor: "#FFFFFF",
     },
     chip: {
         textAlign: 'center',
@@ -42,7 +48,37 @@ const styles = {
 };
 
 class AvatarShow extends React.Component {
+    componentWillMount() {
+        this.props.fetchUserData();
+    }
+    componentWillUnmount() {
+        //document.body.innerHTML = '';
+    }
+    clearDefaultCust(){
+        this.props.clearDefaultCustomer();
+        this.props.handleClose();
+    }
+
     render() {
+        let showChangeCust = null
+        if(this.props.user_data.default_customer.ship_to_name && this.props.user_data.list_customer.length>1){
+            showChangeCust =    <IconButton
+                                    style={{  
+                                            marginRight: 0, marginTop: 3,padding:0 ,
+                                            position: 'absolute',
+                                            right:5,bottom:15,
+                                        }}
+                                    onTouchTap={(e) => { this.clearDefaultCust() }}
+                                >
+                                    <Edit
+                                        style={{ cursor: 'pointer',fontSize:100, }}
+                                        viewBox={'50 50 50 50'}
+                                        color="gold"
+                                        hoverColor="green"
+                                        viewBox="0 0 24 24"
+                                    />
+                                </IconButton>
+        }
         return (
             /*<ListItem
                 disabled={true}
@@ -61,22 +97,30 @@ class AvatarShow extends React.Component {
                     style={{ textAlign: 'center', height: '71px', backgroundColor: "#eeeeee" }}
                 >
                     <div>
-                        <Avatar src="../images/mk_logo.png"
+                        <Avatar 
+                            src={this.props.user_data.default_customer.cust_img}
                             size={45}
                             style={styles.Avatar}
                         />
                         <div>
-                            MK Restaurant
+                            {this.props.user_data.default_customer.ship_to_name}
+                            {showChangeCust}
                             <br />
-                            <span style={styles.UserText} >Taylor Swift </span>
+                            <span style={styles.UserText} >{this.props.user_data.full_name}</span>
                         </div>
                     </div>
                 </ListItem>
-
                 <hr style={styles.styleHrAvatar} />
             </div>
         );
     }
 }
 
-export default AvatarShow;
+function mapStateToProps(state) {
+    return {
+        role: state.auth.role,
+        user_data: state.auth.user_data,
+    }
+}
+
+export default connect(mapStateToProps, actions)(AvatarShow);

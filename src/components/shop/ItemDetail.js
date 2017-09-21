@@ -34,17 +34,10 @@ const styles = {
         position: 'relative',
         top: '56px',
     },
-    content: {
-        position: 'relative',
-        top: 0,
-    },
     tabs: {
         position: 'fixed',
         width: '100%',
         zIndex: 900,
-    },
-    tab: {
-        fontSize: '17px',
     },
     Scrollbars: {
         height: 0,

@@ -14,7 +14,7 @@ axios.defaults.baseURL = API_URL;
 //axios.defaults.headers.common['Content-Type'] = "application/json";
 //axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
 
-const headers = { 'Authorization': "Bearer " + localStorage.getItem('token') };
+//const headers = { 'Authorization': "Bearer " + localStorage.getItem('token') };
 
 export const fetchSKU = () => {
     //แบบ redux- thunk
@@ -26,7 +26,7 @@ export const fetchSKU = () => {
         //     // }
         // });
         dispatch(statusLoading());
-        axios.post(`/getSKU`, {}, { headers }).then(res => {
+        axios.post(`/getSKU`, {}, { headers: { 'Authorization': "Bearer " + localStorage.getItem('token') } }).then(res => {
             localStorage.setItem('token', res.data.token);
             dispatch({ type: FETCH_SKU, payload: res.data.allSKU });
             dispatch(statusLoaded());
@@ -53,7 +53,7 @@ export const changeFavorite = (id, sku_code, favorite) => {
         });
         axios.post(`/changeFavorite`,
             { sku_code, favorite: Number(!Number(favorite)) },
-            { headers }
+            { headers: { 'Authorization': "Bearer " + localStorage.getItem('token') } }
         ).then(res => {
             localStorage.setItem('token', res.data.token);
         }).catch(function (err) {
@@ -80,6 +80,16 @@ export const showMenuTabFavorite = () => {
         payload: {
             on: 2,
             value: 'FavoriteList',
+            transitionName: 'tabOne',
+        },
+    }
+}
+export const showMenuTabOrder = () => {
+    return {
+        type: SHOW_ORDER_MENU_TAB,
+        payload: {
+            on: 3,
+            value: 'OrderList',
             transitionName: 'tabOne',
         },
     }

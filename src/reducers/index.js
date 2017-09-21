@@ -1,3 +1,6 @@
+import {
+  UNAUTH_USER,
+} from '../actions/types';
 import { combineReducers } from 'redux';
 import navLeftMenuReducer from './NavLeftMenu';
 import authReducer from './Auth';
@@ -6,7 +9,7 @@ import shopReducer from './Shop';
 import commonReducer from './Common';
 import { reducer as formReducer } from 'redux-form'
 
-const rootReducer = combineReducers({
+const appReducer  = combineReducers({
   auth: authReducer,
   navLeftMenu: navLeftMenuReducer,
   form: formReducer,     // <---- Mounted at 'form'
@@ -15,4 +18,11 @@ const rootReducer = combineReducers({
   common: commonReducer,
 });
 
-export default rootReducer;
+const rootReducer = (state, action) => {
+  if (action.type === UNAUTH_USER) {
+    state = undefined
+  }
+  return appReducer(state, action)
+}
+
+export default rootReducer ;
